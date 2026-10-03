@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Sales Management System - Login</title>
+
+    <link rel="stylesheet" href="../css/login.css">
+</head>
+
+<body>
+
+    <main class="login-page">
+
+        <!-- =================================
+             LEFT BRAND SECTION
+        ================================== -->
+
+        <section class="brand-section">
+
+            <div class="brand-header">
+
+                <div class="brand-logo">
+                    <span><img src="../images/logo1.jpg" alt="" style="width:40px; height:40px; border-radius:40px"></span>
+                </div>
+
+                <div class="brand-title"><h2>MAI KIFI COMM</h2>
+                  <h2>Sales Management</h2>
+                    <h2>System</h2>
+                </div>
+
+            </div>
+
+
+            <div class="brand-content">
+
+                <h1>
+                    Sell. Manage.<br>
+                    Grow.
+                </h1>
+
+                <div class="green-line"></div>
+
+                <p>
+                    A centralized platform for managing
+                    sales, monitoring performance, tracking
+                    revenue, and improving business operations.
+                </p>
+
+            </div>
+
+
+            <!-- Decorative buildings -->
+            <div class="skyline">
+
+                <div class="building building-1"></div>
+                <div class="building building-2"></div>
+                <div class="building building-3"></div>
+                <div class="building building-4"></div>
+                <div class="building building-5"></div>
+                <div class="building building-6"></div>
+                <div class="building building-7"></div>
+                <div class="building building-8"></div>
+
+            </div>
+
+
+            <!-- Decorative dots -->
+            <div class="dots">
+
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================
+             RIGHT LOGIN SECTION
+        ================================== -->
+
+        <section class="form-section">
+
+            <div class="login-card">
+
+
+                <!-- Security Icon -->
+
+                <div class="security-icon">
+
+                    <div class="shield">
+                    🔒
+                    </div>
+
+                </div>
+
+
+                <h1>Welcome Back</h1>
+
+                <p class="subtitle">
+                    Sign in to access your sales dashboard
+                </p>
+
+
+                <!-- Error Message -->
+
+                <div
+                    class="form-message"
+                    id="formMessage"
+                ></div>
+
+
+                <!-- =================================
+                     LOGIN FORM
+                ================================== -->
+
+                <form
+                    id="loginForm"
+                    novalidate
+                >
+
+
+                    <!-- Username / Email -->
+
+                    <div class="form-group">
+
+                        <label for="username">
+                            Username or Email
+                        </label>
+
+                        <div
+                            class="input-container"
+                            id="usernameContainer"
+                        >
+
+                            <span class="input-icon">
+                                ✉
+                            </span>
+
+                            <input
+                                type="text"
+                                id="username"
+                                name="username"
+                                placeholder="Enter your username or email"
+                                autocomplete="username"
+                            >
+
+                        </div>
+
+                        <small
+                            class="input-error"
+                            id="usernameError"
+                        ></small>
+
+                    </div>
+
+
+
+                    <!-- Password -->
+
+                    <div class="form-group">
+
+                        <label for="password">
+                            Password
+                        </label>
+
+                        <div
+                            class="input-container"
+                            id="passwordContainer"
+                        >
+
+                            <span class="input-icon">
+                                🔒
+                            </span>
+
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                placeholder="Enter your password"
+                                autocomplete="current-password"
+                            >
+
+                            <button
+                                type="button"
+                                class="password-toggle"
+                                id="togglePassword"
+                                aria-label="Show password"
+                            >
+                                ◉
+                            </button>
+
+                        </div>
+
+                        <small
+                            class="input-error"
+                            id="passwordError"
+                        ></small>
+
+                    </div>
+
+
+
+                    <!-- Remember / Forgot -->
+
+                    <div class="form-options">
+
+                        <label class="remember">
+
+                            <input
+                                type="checkbox"
+                                id="rememberMe"
+                            >
+
+                            <span class="checkmark">
+                                ✓
+                            </span>
+
+                            <span>
+                                Remember me
+                            </span>
+
+                        </label>
+
+
+                        <a
+                            href="#"
+                            class="forgot-password"
+                            id="forgotPassword"
+                        >
+                            Forgot password?
+                        </a>
+
+                    </div>
+
+
+
+                    <!-- Login Button -->
+
+                    <button
+                        type="submit"
+                        class="sign-in-btn"
+                        id="loginButton"
+                    >
+
+                        <span class="login-arrow">
+                            ⇥
+                        </span>
+
+                        <span id="loginButtonText">
+                            Sign In
+                        </span>
+
+                    </button>
+
+
+                </form>
+
+
+
+                <!-- =================================
+                     ACCESS INFORMATION
+                ================================== -->
+
+                <div class="divider">
+
+                    <span></span>
+
+                    <p>ACCESS</p>
+
+                    <span></span>
+
+                </div>
+
+
+                <div class="access-info">
+
+                    <div class="access-item">
+
+                        <span class="access-icon">
+                            ★
+                        </span>
+
+                        <div>
+                            <strong>Director</strong>
+
+                            <small>
+                                Full system access
+                            </small>
+                        </div>
+
+                    </div>
+
+
+                    <div class="access-item">
+
+                        <span class="access-icon">
+                            ◉
+                        </span>
+
+                        <div>
+                            <strong>Manager</strong>
+
+                            <small>
+                                Sales and management access
+                            </small>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- Footer -->
+
+                <div class="card-footer">
+
+                    <p>
+                        © 2026 Mai Kifi Comm Sales Management System.
+                    </p>
+
+                    <p>
+                        All rights reserved.
+                    </p>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script src="../js/login.js"></script>
+
+</body>
+</html>

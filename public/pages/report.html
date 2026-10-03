@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Reports Management</title>
+
+    <link rel="stylesheet" href="../css/report.css">
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+
+        <div class="sidebar-header">
+            <div class="logo">
+                <span class="logo-icon"><img src="../images/logo1.jpg" alt="" style="width:40px; height:40px; border-radius:50%"></span>
+
+                <div>
+                    <h2>MAI-KIFI-COMM</h2>
+                    <p>Sales Management System</p>
+                </div>
+            </div>
+        </div>
+
+
+        <nav class="sidebar-nav">
+
+            <a href="manager-dashboard.html">
+                <span>▣</span>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="sales.html">
+                <span>▤</span>
+                <span>Sales</span>
+            </a>
+
+            <a href="product.html">
+                <span>▦</span>
+                <span>Products</span>
+            </a>
+
+            <a href="customer.html">
+                <span>♙</span>
+                <span>Customers</span>
+            </a>
+
+            <a href="report.html" class="active">
+                <span>▥</span>
+                <span>Reports</span>
+            </a>
+
+            <a href="profile.html">
+                <span>◉</span>
+                <span>Profile</span>
+            </a>
+
+            <a href="settings.html">
+                <span>⚙</span>
+                <span>Settings</span>
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="support-box">
+                <strong>Need Help?</strong>
+                <p>Contact system support.</p>
+                <button type="button">Contact Support</button>
+            </div>
+
+
+            <a href="../index.html" class="logout-link" id="logoutButton">
+                <span>↪</span>
+                Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MOBILE OVERLAY -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <!-- TOPBAR -->
+        <header class="topbar">
+
+            <div class="topbar-left">
+
+                <button
+                    type="button"
+                    class="menu-button"
+                    id="menuButton">
+                    ☰
+                </button>
+
+                <div>
+                    <h1>Reports Management</h1>
+                    <p>
+                        Analyze sales, revenue and transaction performance.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="topbar-right">
+
+                <button
+                    type="button"
+                    class="notification-button"
+                    id="notificationButton">
+
+                    🔔
+
+                    <span class="notification-badge">3</span>
+
+                </button>
+
+
+                <div class="profile-mini">
+
+            		<div class="profile-avatar">
+    <img
+        src="../images/logo1.jpg"
+        alt="MAI-KIFI-COMM"
+    >
+</div>
+
+                    <div>
+                        <strong>Ahmed Musa</strong>
+                        <span>Manager</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- PAGE CONTENT -->
+        <section class="page-content">
+
+
+            <!-- PAGE HEADER -->
+            <div class="page-header">
+
+                <div>
+                    <h2>Sales Reports</h2>
+                    <p>
+                        Generate and review sales performance reports.
+                    </p>
+                </div>
+
+
+                <div class="header-actions">
+
+                    <button
+                        type="button"
+                        class="secondary-button"
+                        id="printReportButton">
+
+                        🖨 Print Report
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="primary-button"
+                        id="generateReportButton">
+
+                        Generate Report
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- DATE FILTER -->
+            <div class="report-filter-card">
+
+                <div class="filter-group">
+
+                    <label for="dateFrom">
+                        Date From
+                    </label>
+
+                    <input
+                        type="date"
+                        id="dateFrom">
+
+                </div>
+
+
+                <div class="filter-group">
+
+                    <label for="dateTo">
+                        Date To
+                    </label>
+
+                    <input
+                        type="date"
+                        id="dateTo">
+
+                </div>
+
+
+                <div class="filter-group">
+
+                    <label for="reportStatus">
+                        Status
+                    </label>
+
+             <select id="reportStatus">
+    <option value="all">All Status</option>
+    <option value="paid">Paid</option>
+    <option value="pending">Pending</option>
+</select>
+                </div>
+
+
+                <div class="filter-group">
+
+                    <label for="paymentFilter">
+                        Payment Method
+                    </label>
+
+                    <select id="paymentFilter">
+
+                        <option value="all">
+                            All Methods
+                        </option>
+
+                        <option value="cash">
+                            Cash
+                        </option>
+
+                        <option value="transfer">
+                            Transfer
+                        </option>
+
+                        <option value="pos">
+                            POS
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="filter-group search-group">
+
+                    <label for="reportSearch">
+                        Search
+                    </label>
+
+                    <input
+                        type="search"
+                        id="reportSearch"
+                        placeholder="Transaction or customer...">
+
+                </div>
+
+            </div>
+
+
+            <!-- SUMMARY CARDS -->
+            <div class="report-stats">
+
+
+                <div class="report-stat-card">
+
+                    <div class="stat-icon">
+                        ₦
+                    </div>
+
+                    <div>
+                        <span>Total Revenue</span>
+                        <strong id="totalRevenue">
+                            ₦685,000
+                        </strong>
+                    </div>
+
+                </div>
+
+
+                <div class="report-stat-card">
+
+                    <div class="stat-icon">
+                        #
+                    </div>
+
+                    <div>
+                        <span>Total Sales</span>
+                        <strong id="totalSales">
+                            42
+                        </strong>
+                    </div>
+
+                </div>
+
+
+                <div class="report-stat-card">
+
+                    <div class="stat-icon">
+                        ▣
+                    </div>
+
+                    <div>
+                        <span>Products Sold</span>
+                        <strong id="productsSold">
+                            128
+                        </strong>
+                    </div>
+
+                </div>
+
+
+                <div class="report-stat-card">
+
+                    <div class="stat-icon">
+                        ♙
+                    </div>
+
+                    <div>
+                        <span>Customers</span>
+                        <strong id="totalCustomers">
+                            36
+                        </strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- SALES OVERVIEW -->
+            <div class="report-card">
+
+                <div class="card-header">
+
+                    <div>
+                        <h3>Sales Overview</h3>
+                        <p>
+                            Sales performance for the selected period.
+                        </p>
+                    </div>
+
+
+                    <select id="chartPeriod">
+
+                        <option value="weekly">
+                            Weekly
+                        </option>
+
+                        <option value="monthly">
+                            Monthly
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="chart-container" id="salesChart">
+
+                    <div class="chart-y-axis">
+
+                        <span>₦800K</span>
+                        <span>₦600K</span>
+                        <span>₦400K</span>
+                        <span>₦200K</span>
+                        <span>₦0</span>
+
+                    </div>
+
+
+                    <div class="chart-area">
+
+                        <div class="chart-grid"></div>
+
+                        <div class="bars">
+
+                            <div class="bar-item">
+                                <div
+                                    class="bar"
+                                    style="height:58%;">
+                                </div>
+                                <span>Mon</span>
+                            </div>
+
+                            <div class="bar-item">
+                                <div
+                                    class="bar"
+                                    style="height:72%;">
+                                </div>
+                                <span>Tue</span>
+                            </div>
+
+                            <div class="bar-item">
+                                <div
+                                    class="bar"
+                                    style="height:64%;">
+                                </div>
+                                <span>Wed</span>
+                            </div>
+
+                            <div class="bar-item">
+                                <div
+                                    class="bar"
+                                    style="height:82%;">
+                                </div>
+                                <span>Thu</span>
+                            </div>
+
+                            <div class="bar-item">
+                                <div
+                                    class="bar"
+                                    style="height:70%;">
+                                </div>
+                                <span>Fri</span>
+                            </div>
+
+                            <div class="bar-item">
+                                <div
+                                    class="bar"
+                                    style="height:88%;">
+                                </div>
+                                <span>Sat</span>
+                            </div>
+
+                            <div class="bar-item">
+                                <div
+                                    class="bar"
+                                    style="height:76%;">
+                                </div>
+                                <span>Sun</span>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- TRANSACTION REPORT -->
+            <div class="report-card">
+
+                <div class="card-header">
+
+                    <div>
+                        <h3>Transaction Report</h3>
+                        <p>
+                            Detailed sales transactions for the selected period.
+                        </p>
+                    </div>
+
+                    <span class="record-count" id="recordCount">
+                        4 Transactions
+                    </span>
+
+                </div>
+
+
+                <div class="table-wrapper">
+
+                    <table id="reportTable">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>Transaction ID</th>
+                                <th>Customer</th>
+                                <th>Salesperson</th>
+                                <th>Amount</th>
+                                <th>Payment</th>
+                                <th>Date</th>
+                                <th>Status</th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            <tr
+                                data-status="completed"
+                                data-payment="cash">
+
+                                <td>#SAL-10482</td>
+
+                                <td>Alhaji Stores</td>
+
+                                <td>Ibrahim Mohammed</td>
+
+                                <td>₦185,000</td>
+
+                                <td>Cash</td>
+
+                                <td>Sep 14, 2026</td>
+
+                                <td>
+                                    <span class="status completed">
+                                        Completed
+                                    </span>
+                                </td>
+
+                            </tr>
+
+
+                            <tr
+                                data-status="completed"
+                                data-payment="transfer">
+
+                                <td>#SAL-10481</td>
+
+                                <td>Northern Supplies</td>
+
+                                <td>Zainab Bello</td>
+
+                                <td>₦320,500</td>
+
+                                <td>Transfer</td>
+
+                                <td>Sep 14, 2026</td>
+
+                                <td>
+                                    <span class="status completed">
+                                        Completed
+                                    </span>
+                                </td>
+
+                            </tr>
+
+
+                            <tr
+                                data-status="pending"
+                                data-payment="pos">
+
+                                <td>#SAL-10480</td>
+
+                                <td>City Market Ltd.</td>
+
+                                <td>Musa Abdullahi</td>
+
+                                <td>₦95,000</td>
+
+                                <td>POS</td>
+
+                                <td>Sep 14, 2026</td>
+
+                                <td>
+                                    <span class="status pending">
+                                        Pending
+                                    </span>
+                                </td>
+
+                            </tr>
+
+
+                            <tr
+                                data-status="completed"
+                                data-payment="transfer">
+
+                                <td>#SAL-10479</td>
+
+                                <td>Sunrise Enterprises</td>
+
+                                <td>Ahmed Musa</td>
+
+                                <td>₦240,000</td>
+
+                                <td>Transfer</td>
+
+                                <td>Sep 13, 2026</td>
+
+                                <td>
+                                    <span class="status completed">
+                                        Completed
+                                    </span>
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+    </main>
+
+
+    <!-- NOTIFICATION PANEL -->
+    <div
+        class="notification-panel"
+        id="notificationPanel">
+
+        <div class="notification-header">
+
+            <h3>Notifications</h3>
+
+            <button
+                type="button"
+                id="closeNotifications">
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="notification-list">
+
+            <div class="notification-item">
+                <strong>New sale recorded</strong>
+                <p>Transaction #SAL-10482 was completed.</p>
+                <span>10 minutes ago</span>
+            </div>
+
+
+            <div class="notification-item">
+                <strong>Report ready</strong>
+                <p>Your sales report has been generated.</p>
+                <span>1 hour ago</span>
+            </div>
+
+
+            <div class="notification-item">
+                <strong>Low stock alert</strong>
+                <p>Flour 10kg is currently out of stock.</p>
+                <span>2 hours ago</span>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script src="../js/report.js"></script>
+
+</body>
+</html>

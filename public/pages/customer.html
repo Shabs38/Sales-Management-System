@@ -1,0 +1,1436 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Customers Management</title>
+
+    <link rel="stylesheet" href="../css/customer.css">
+</head>
+
+<body>
+
+    <!-- ================================
+         SIDEBAR
+    ================================= -->
+
+    <aside class="sidebar" id="sidebar">
+
+        <div class="sidebar-logo">
+           <img src="../images/logo1.jpg" alt="" style="width:40px; height:40px; border-radius:50%"> <h2>MAI-KIFI<span>-COMM</span></h2>
+            <p>Sales Management System</p>
+        </div>
+
+        <nav class="sidebar-nav">
+
+            <a href="manager-dashboard.html">
+                <span>📊</span>
+                Dashboard
+            </a>
+
+            <a href="sales.html">
+                <span>💰</span>
+                Sales
+            </a>
+
+            <a href="products.html">
+                <span>📦</span>
+                Products
+            </a>
+
+            <a href="customer.html" class="active">
+                <span>👥</span>
+                Customers
+            </a>
+
+            <a href="report.html">
+                <span>📈</span>
+                Reports
+            </a>
+
+            <a href="profile.html">
+                <span>👤</span>
+                Profile
+            </a>
+
+            <a href="settings.html">
+                <span>⚙️</span>
+                Settings
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <div class="support-box">
+                <span>💬</span>
+
+                <div>
+                    <strong>Need Help?</strong>
+                    <small>Contact Support</small>
+                </div>
+            </div>
+
+            <a href="../index.html"
+               class="logout-link"
+               id="logoutButton">
+
+                <span>🚪</span>
+                Logout
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MOBILE OVERLAY -->
+
+    <div
+        class="sidebar-overlay"
+        id="sidebarOverlay">
+    </div>
+
+
+    <!-- ================================
+         MAIN CONTENT
+    ================================= -->
+
+    <main class="main-content">
+
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <div class="topbar-left">
+
+                <button
+                    type="button"
+                    class="menu-button"
+                    id="menuButton">
+
+                    ☰
+
+                </button>
+
+                <div>
+
+                    <h1>
+                        Customers Management
+                    </h1>
+
+                    <p>
+                        Add, view, edit and manage customers.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="topbar-right">
+
+                <button
+                    type="button"
+                    class="notification-button"
+                    id="notificationButton">
+
+                    🔔
+
+                    <span class="notification-badge">
+                        3
+                    </span>
+
+                </button>
+
+
+                <div class="topbar-profile">
+
+                    <div class="profile-avatar">
+    <img
+        src="../images/logo1.jpg"
+        alt="MAI-KIFI-COMM"
+    >
+</div>
+
+                    <div class="profile-info">
+
+                        <strong>
+                            Ahmed Musa
+                        </strong>
+
+                        <span>
+                            Manager
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- ================================
+             CUSTOMERS CONTENT
+        ================================= -->
+
+        <section class="customers-content">
+
+
+            <!-- PAGE HEADER -->
+
+            <div class="page-header">
+
+                <div>
+
+                    <h2>
+                        Customers
+                    </h2>
+
+                    <p>
+                        Manage customer records and purchase information.
+                    </p>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="add-customer-button"
+                    id="addCustomerButton">
+
+                    <span>+</span>
+                    Add Customer
+
+                </button>
+
+            </div>
+
+
+            <!-- ================================
+                 CUSTOMER STATS
+            ================================= -->
+
+            <div class="customer-stats">
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        👥
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Total Customers
+                        </span>
+
+                        <strong>
+                            1,248
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        🆕
+                    </div>
+
+                    <div>
+
+                        <span>
+                            New This Month
+                        </span>
+
+                        <strong>
+                            86
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        🟢
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Active Customers
+                        </span>
+
+                        <strong>
+                            932
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        🔄
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Repeat Customers
+                        </span>
+
+                        <strong>
+                            684
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================================
+                 CUSTOMER TABLE
+            ================================= -->
+
+            <div class="customers-card">
+
+
+                <div class="card-header">
+
+                    <div>
+
+                        <h3>
+                            Customer List
+                        </h3>
+
+                        <p>
+                            Registered customers and their activity.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- FILTERS -->
+
+                <div class="customer-filters">
+
+
+                    <div class="search-box">
+
+                        <span>🔎</span>
+
+                        <input
+                            type="text"
+                            id="customerSearch"
+                            placeholder="Search customer or phone...">
+
+                    </div>
+
+
+                    <select id="customerStatusFilter">
+
+                        <option value="all">
+                            All Customers
+                        </option>
+
+                        <option value="active">
+                            Active
+                        </option>
+
+                        <option value="inactive">
+                            Inactive
+                        </option>
+
+                    </select>
+
+
+                    <select id="customerTypeFilter">
+
+                        <option value="all">
+                            All Types
+                        </option>
+
+                        <option value="regular">
+                            Regular
+                        </option>
+
+                        <option value="business">
+                            Business
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- TABLE -->
+
+                <div class="table-wrapper">
+
+                    <table id="customersTable">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Customer
+                                </th>
+
+                                <th>
+                                    Phone
+                                </th>
+
+                                <th>
+                                    Type
+                                </th>
+
+                                <th>
+                                    Total Purchases
+                                </th>
+
+                                <th>
+                                    Last Purchase
+                                </th>
+
+                                <th>
+                                    Status
+                                </th>
+
+                                <th>
+                                    Action
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+
+                            <!-- CUSTOMER 1 -->
+
+                            <tr
+                                data-status="active"
+                                data-type="business">
+
+                                <td>
+
+                                    <div class="customer-name">
+
+                                        <div class="customer-avatar">
+                                            AS
+                                        </div>
+
+                                        <div>
+
+                                            <strong>
+                                                Alhaji Stores
+                                            </strong>
+
+                                            <span>
+                                                Customer ID: CUS-00124
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+                                <td>
+                                    08031234567
+                                </td>
+
+                                <td>
+                                    Business
+                                </td>
+
+                                <td>
+                                    ₦2,450,000
+                                </td>
+
+                                <td>
+                                    Sep 14, 2026
+                                </td>
+
+                                <td>
+
+                                    <span class="customer-status active">
+                                        Active
+                                    </span>
+
+                                </td>
+
+                                <td>
+
+                                    <div class="action-buttons">
+
+                                        <button
+                                            type="button"
+                                            class="view-customer"
+                                            data-customer="Alhaji Stores">
+
+                                            View
+
+                                        </button>
+
+                                        <button
+                                            type="button"
+                                            class="edit-customer">
+
+                                            Edit
+
+                                        </button>
+
+                                        <button
+                                            type="button"
+                                            class="delete-customer">
+
+                                            Delete
+
+                                        </button>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+
+                            <!-- CUSTOMER 2 -->
+
+                            <tr
+                                data-status="active"
+                                data-type="business">
+
+                                <td>
+
+                                    <div class="customer-name">
+
+                                        <div class="customer-avatar">
+                                            NS
+                                        </div>
+
+                                        <div>
+
+                                            <strong>
+                                                Northern Supplies
+                                            </strong>
+
+                                            <span>
+                                                Customer ID: CUS-00125
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+                                <td>
+                                    08145678901
+                                </td>
+
+                                <td>
+                                    Business
+                                </td>
+
+                                <td>
+                                    ₦3,180,500
+                                </td>
+
+                                <td>
+                                    Sep 14, 2026
+                                </td>
+
+                                <td>
+
+                                    <span class="customer-status active">
+                                        Active
+                                    </span>
+
+                                </td>
+
+                                <td>
+
+                                    <div class="action-buttons">
+
+                                        <button
+                                            type="button"
+                                            class="view-customer"
+                                            data-customer="Northern Supplies">
+
+                                            View
+
+                                        </button>
+
+                                        <button
+                                            type="button"
+                                            class="edit-customer">
+
+                                            Edit
+
+                                        </button>
+
+                                        <button
+                                            type="button"
+                                            class="delete-customer">
+
+                                            Delete
+
+                                        </button>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+
+                            <!-- CUSTOMER 3 -->
+
+                            <tr
+                                data-status="active"
+                                data-type="regular">
+
+                                <td>
+
+                                    <div class="customer-name">
+
+                                        <div class="customer-avatar">
+                                            CM
+                                        </div>
+
+                                        <div>
+
+                                            <strong>
+                                                City Market Ltd.
+                                            </strong>
+
+                                            <span>
+                                                Customer ID: CUS-00126
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+                                <td>
+                                    08099887766
+                                </td>
+
+                                <td>
+                                    Regular
+                                </td>
+
+                                <td>
+                                    ₦950,000
+                                </td>
+
+                                <td>
+                                    Sep 14, 2026
+                                </td>
+
+                                <td>
+
+                                    <span class="customer-status active">
+                                        Active
+                                    </span>
+
+                                </td>
+
+                                <td>
+
+                                    <div class="action-buttons">
+
+                                        <button
+                                            type="button"
+                                            class="view-customer"
+                                            data-customer="City Market Ltd.">
+
+                                            View
+
+                                        </button>
+
+                                        <button
+                                            type="button"
+                                            class="edit-customer">
+
+                                            Edit
+
+                                        </button>
+
+                                        <button
+                                            type="button"
+                                            class="delete-customer">
+
+                                            Delete
+
+                                        </button>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+
+                            <!-- CUSTOMER 4 -->
+
+                            <tr
+                                data-status="inactive"
+                                data-type="regular">
+
+                                <td>
+
+                                    <div class="customer-name">
+
+                                        <div class="customer-avatar">
+                                            SE
+                                        </div>
+
+                                        <div>
+
+                                            <strong>
+                                                Sunrise Enterprises
+                                            </strong>
+
+                                            <span>
+                                                Customer ID: CUS-00127
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+                                <td>
+                                    07034567890
+                                </td>
+
+                                <td>
+                                    Regular
+                                </td>
+
+                                <td>
+                                    ₦540,000
+                                </td>
+
+                                <td>
+                                    Sep 05, 2026
+                                </td>
+
+                                <td>
+
+                                    <span class="customer-status inactive">
+                                        Inactive
+                                    </span>
+
+                                </td>
+
+                                <td>
+
+                                    <div class="action-buttons">
+
+                                        <button
+                                            type="button"
+                                            class="view-customer"
+                                            data-customer="Sunrise Enterprises">
+
+                                            View
+
+                                        </button>
+
+                                        <button
+                                            type="button"
+                                            class="edit-customer">
+
+                                            Edit
+
+                                        </button>
+
+                                        <button
+                                            type="button"
+                                            class="delete-customer">
+
+                                            Delete
+
+                                        </button>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ================================
+         NOTIFICATION PANEL
+    ================================= -->
+
+    <div
+        class="notification-panel"
+        id="notificationPanel">
+
+        <div class="notification-header">
+
+            <h3>
+                Notifications
+            </h3>
+
+            <button
+                type="button"
+                id="closeNotifications">
+
+                ×
+
+            </button>
+
+        </div>
+
+
+        <div class="notification-list">
+
+
+            <div class="notification-item">
+
+                <span class="notification-icon">
+                    💰
+                </span>
+
+                <div>
+
+                    <strong>
+                        New sale recorded
+                    </strong>
+
+                    <p>
+                        A new transaction has been recorded.
+                    </p>
+
+                    <small>
+                        10 minutes ago
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="notification-item">
+
+                <span class="notification-icon">
+                    👤
+                </span>
+
+                <div>
+
+                    <strong>
+                        New customer registered
+                    </strong>
+
+                    <p>
+                        A new customer has joined the system.
+                    </p>
+
+                    <small>
+                        1 hour ago
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="notification-item">
+
+                <span class="notification-icon">
+                    📦
+                </span>
+
+                <div>
+
+                    <strong>
+                        Low stock alert
+                    </strong>
+
+                    <p>
+                        Some products need restocking.
+                    </p>
+
+                    <small>
+                        2 hours ago
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================================
+         ADD CUSTOMER MODAL
+    ================================= -->
+
+    <div
+        class="customer-modal"
+        id="customerModal">
+
+        <div class="customer-modal-content">
+
+            <div class="modal-header">
+
+                <div>
+
+                    <h3>
+                        Add Customer
+                    </h3>
+
+                    <p>
+                        Create a new customer record.
+                    </p>
+
+                </div>
+
+                <button
+                    type="button"
+                    id="closeCustomerModal">
+
+                    ×
+
+                </button>
+
+            </div>
+
+
+            <form id="customerForm">
+
+
+                <div class="form-group">
+
+                    <label for="customerName">
+                        Full Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="customerName"
+                        placeholder="Enter customer name"
+                        required>
+
+                </div>
+
+
+                <div class="form-row">
+
+
+                    <div class="form-group">
+
+                        <label for="customerPhone">
+                            Phone Number
+                        </label>
+
+                        <input
+                            type="tel"
+                            id="customerPhone"
+                            placeholder="08012345678"
+                            required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="customerEmail">
+                            Email
+                        </label>
+
+                        <input
+                            type="email"
+                            id="customerEmail"
+                            placeholder="customer@example.com">
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="customerAddress">
+                        Address
+                    </label>
+
+                    <textarea
+                        id="customerAddress"
+                        rows="3"
+                        placeholder="Enter customer address"></textarea>
+
+                </div>
+
+
+                <div class="form-row">
+
+
+                    <div class="form-group">
+
+                        <label for="customerType">
+                            Customer Type
+                        </label>
+
+                        <select id="customerType" required>
+
+                            <option value="">
+                                Select Type
+                            </option>
+
+                            <option value="regular">
+                                Regular
+                            </option>
+
+                            <option value="business">
+                                Business
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="customerStatus">
+                            Status
+                        </label>
+
+                        <select id="customerStatus" required>
+
+                            <option value="active">
+                                Active
+                            </option>
+
+                            <option value="inactive">
+                                Inactive
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <div class="modal-actions">
+
+                    <button
+                        type="button"
+                        class="cancel-button"
+                        id="cancelCustomer">
+
+                        Cancel
+
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="save-button">
+
+                        Add Customer
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================================
+         EDIT CUSTOMER MODAL
+    ================================= -->
+
+    <div
+        class="customer-modal"
+        id="editCustomerModal">
+
+        <div class="customer-modal-content">
+
+            <div class="modal-header">
+
+                <div>
+
+                    <h3>
+                        Edit Customer
+                    </h3>
+
+                    <p>
+                        Update customer information.
+                    </p>
+
+                </div>
+
+                <button
+                    type="button"
+                    id="closeEditCustomerModal">
+
+                    ×
+
+                </button>
+
+            </div>
+
+
+            <form id="editCustomerForm">
+
+
+                <div class="form-group">
+
+                    <label for="editCustomerName">
+                        Full Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="editCustomerName"
+                        required>
+
+                </div>
+
+
+                <div class="form-row">
+
+
+                    <div class="form-group">
+
+                        <label for="editCustomerPhone">
+                            Phone Number
+                        </label>
+
+                        <input
+                            type="tel"
+                            id="editCustomerPhone"
+                            required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="editCustomerEmail">
+                            Email
+                        </label>
+
+                        <input
+                            type="email"
+                            id="editCustomerEmail">
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="editCustomerAddress">
+                        Address
+                    </label>
+
+                    <textarea
+                        id="editCustomerAddress"
+                        rows="3"></textarea>
+
+                </div>
+
+
+                <div class="form-row">
+
+
+                    <div class="form-group">
+
+                        <label for="editCustomerType">
+                            Customer Type
+                        </label>
+
+                        <select id="editCustomerType">
+
+                            <option value="regular">
+                                Regular
+                            </option>
+
+                            <option value="business">
+                                Business
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="editCustomerStatus">
+                            Status
+                        </label>
+
+                        <select id="editCustomerStatus">
+
+                            <option value="active">
+                                Active
+                            </option>
+
+                            <option value="inactive">
+                                Inactive
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <div class="modal-actions">
+
+                    <button
+                        type="button"
+                        class="cancel-button"
+                        id="cancelEditCustomer">
+
+                        Cancel
+
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="save-button">
+
+                        Save Changes
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================================
+         VIEW CUSTOMER MODAL
+    ================================= -->
+
+    <div
+        class="customer-modal"
+        id="viewCustomerModal">
+
+        <div class="customer-modal-content view-customer-content">
+
+            <div class="modal-header">
+
+                <div>
+
+                    <h3>
+                        Customer Details
+                    </h3>
+
+                    <p>
+                        Customer information and activity.
+                    </p>
+
+                </div>
+
+                <button
+                    type="button"
+                    id="closeViewCustomerModal">
+
+                    ×
+
+                </button>
+
+            </div>
+
+
+            <div class="customer-details">
+
+                <div class="detail-avatar" id="viewCustomerAvatar">
+                    AS
+                </div>
+
+                <h3 id="viewCustomerName">
+                    Alhaji Stores
+                </h3>
+
+                <p id="viewCustomerId">
+                    Customer ID: CUS-00124
+                </p>
+
+
+                <div class="details-grid">
+
+
+                    <div class="detail-item">
+
+                        <span>
+                            Phone
+                        </span>
+
+                        <strong id="viewCustomerPhone">
+                            -
+                        </strong>
+
+                    </div>
+
+
+                    <div class="detail-item">
+
+                        <span>
+                            Email
+                        </span>
+
+                        <strong id="viewCustomerEmail">
+                            -
+                        </strong>
+
+                    </div>
+
+
+                    <div class="detail-item">
+
+                        <span>
+                            Customer Type
+                        </span>
+
+                        <strong id="viewCustomerType">
+                            -
+                        </strong>
+
+                    </div>
+
+
+                    <div class="detail-item">
+
+                        <span>
+                            Status
+                        </span>
+
+                        <strong id="viewCustomerStatus">
+                            -
+                        </strong>
+
+                    </div>
+
+
+                    <div class="detail-item">
+
+                        <span>
+                            Total Purchases
+                        </span>
+
+                        <strong id="viewCustomerPurchases">
+                            -
+                        </strong>
+
+                    </div>
+
+
+                    <div class="detail-item">
+
+                        <span>
+                            Last Purchase
+                        </span>
+
+                        <strong id="viewCustomerLastPurchase">
+                            -
+                        </strong>
+
+                    </div>
+
+
+                    <div class="detail-item full-width">
+
+                        <span>
+                            Address
+                        </span>
+
+                        <strong id="viewCustomerAddress">
+                            -
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="modal-actions">
+
+                <button
+                    type="button"
+                    class="cancel-button"
+                    id="closeViewCustomer">
+
+                    Close
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- JAVASCRIPT -->
+
+    <script src="../js/customer.js"></script>
+
+</body>
+
+</html>                           

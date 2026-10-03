@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Manager Management | Sales Management System</title>
+
+    <link
+        rel="stylesheet"
+        href="../css/managers.css"
+    >
+
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar" id="sidebar">
+
+        <div class="sidebar-logo">
+
+            <div class="logo-icon">
+                <img
+                    src="../images/logo1.jpg"
+                    alt="Logo"
+                >
+            </div>
+
+            <div>
+                <h2>MAI KIFI COMM</h2>
+                <h2>Sales Management</h2>
+                <span>System</span>
+            </div>
+
+        </div>
+
+
+        <nav class="navigation">
+
+            <p class="nav-title">
+                MAIN MENU
+            </p>
+
+            <a
+                href="director-dashboard.html"
+                class="nav-link"
+            >
+                <span class="nav-icon">⌂</span>
+                <span>Dashboard</span>
+            </a>
+
+            <a
+                href="sales.html"
+                class="nav-link"
+            >
+                <span class="nav-icon">▤</span>
+                <span>Sales</span>
+            </a>
+
+            <a
+                href="director-product.html"
+                class="nav-link"
+            >
+                <span class="nav-icon">□</span>
+                <span>Products</span>
+            </a>
+
+            <a
+                href="customer.html"
+                class="nav-link"
+            >
+                <span class="nav-icon">♙</span>
+                <span>Customers</span>
+            </a>
+
+
+            <p class="nav-title management-title">
+                MANAGEMENT
+            </p>
+
+            <a
+                href="managers.html"
+                class="nav-link active"
+            >
+                <span class="nav-icon">♙</span>
+                <span>Managers</span>
+            </a>
+
+            <a
+                href="report.html"
+                class="nav-link"
+            >
+                <span class="nav-icon">▥</span>
+                <span>Reports</span>
+            </a>
+
+            <a
+                href="#"
+                class="nav-link"
+            >
+                <span class="nav-icon">◒</span>
+                <span>Analytics</span>
+            </a>
+
+
+            <p class="nav-title management-title">
+                SYSTEM
+            </p>
+
+            <a
+                href="#"
+                class="nav-link"
+            >
+                <span class="nav-icon">⚙</span>
+                <span>Settings</span>
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="support-box">
+
+                <div class="support-icon">
+                    ?
+                </div>
+
+                <div>
+                    <strong>Need Help?</strong>
+
+                    <small>
+                        Contact administrator
+                    </small>
+                </div>
+
+            </div>
+
+
+            <a
+                href="../index.html"
+                class="logout-link"
+                id="logoutButton"
+            >
+                <span>⇥</span>
+                Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+
+    <main class="main-content">
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <button
+                class="menu-button"
+                id="menuButton"
+                aria-label="Open menu"
+            >
+                ☰
+            </button>
+
+
+            <div class="page-heading">
+
+                <h1>Manager Management</h1>
+
+                <p>
+                    Create and manage manager accounts.
+                </p>
+
+            </div>
+
+
+            <div class="topbar-actions">
+
+                <button
+                    class="notification-button"
+                    id="notificationButton"
+                    aria-label="Notifications"
+                >
+                    🔔
+                    <span class="notification-badge">
+                        0
+                    </span>
+                </button>
+
+
+                <div class="profile">
+
+               		<div class="profile-avatar">
+    <img
+        src="../images/logo1.jpg"
+        alt="MAI-KIFI-COMM"
+    >
+</div>
+
+                    <div class="profile-info">
+
+                        <strong id="profileName">
+                            Loading...
+                        </strong>
+
+                        <span id="profileRole">
+                            Director
+                        </span>
+
+                    </div>
+
+                    <span class="profile-arrow">
+                        ▾
+                    </span>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- CONTENT -->
+
+        <section class="page-content">
+
+
+            <!-- PAGE HEADER -->
+
+            <div class="page-actions">
+
+                <div>
+
+                    <h2>
+                        Managers
+                    </h2>
+
+                    <p>
+                        Manage accounts and access for your sales managers.
+                    </p>
+
+                </div>
+
+
+                <button
+                    class="primary-button"
+                    id="addManagerButton"
+                >
+                    <span>+</span>
+                    Add Manager
+                </button>
+
+            </div>
+
+
+            <!-- STATS -->
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        ♙
+                    </div>
+
+                    <div>
+                        <p>Total Managers</p>
+
+                        <h2 id="totalManagers">
+                            0
+                        </h2>
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        ✓
+                    </div>
+
+                    <div>
+                        <p>Active Managers</p>
+
+                        <h2 id="activeManagers">
+                            0
+                        </h2>
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        ×
+                    </div>
+
+                    <div>
+                        <p>Inactive Managers</p>
+
+                        <h2 id="inactiveManagers">
+                            0
+                        </h2>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- MANAGERS TABLE -->
+
+            <div class="dashboard-card">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <h3>
+                            Manager Accounts
+                        </h3>
+
+                        <p>
+                            Managers registered in the system
+                        </p>
+
+                    </div>
+
+
+                    <div class="search-box">
+
+                        <input
+                            type="search"
+                            id="managerSearch"
+                            placeholder="Search managers..."
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="table-container">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Manager
+                                </th>
+
+                                <th>
+                                    Username
+                                </th>
+
+                                <th>
+                                    Email
+                                </th>
+
+                                <th>
+                                    Status
+                                </th>
+
+                                <th>
+                                    Created
+                                </th>
+
+                                <th>
+                                    Actions
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody id="managerTableBody">
+
+                            <tr>
+
+                                <td
+                                    colspan="6"
+                                    class="loading-row"
+                                >
+                                    Loading managers...
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- MOBILE OVERLAY -->
+
+    <div
+        class="sidebar-overlay"
+        id="sidebarOverlay"
+    ></div>
+
+
+    <!-- ADD MANAGER MODAL -->
+
+    <div
+        class="modal"
+        id="managerModal"
+    >
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <div>
+
+                    <h2 id="modalTitle">
+                        Add Manager
+                    </h2>
+
+                    <p>
+                        Create a new manager account.
+                    </p>
+
+                </div>
+
+                <button
+                    type="button"
+                    class="close-button"
+                    id="closeManagerModal"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <form id="managerForm">
+
+                <input
+                    type="hidden"
+                    id="managerId"
+                >
+
+
+                <div class="form-group">
+
+                    <label for="fullName">
+                        Full Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="fullName"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="username">
+                        Username
+                    </label>
+
+                    <input
+                        type="text"
+                        id="username"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="email">
+                        Email
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        required
+                    >
+
+                </div>
+
+
+                <div
+                    class="form-group"
+                    id="passwordGroup"
+                >
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        minlength="6"
+                    >
+
+                    <small>
+                        Minimum 6 characters.
+                    </small>
+
+                </div>
+
+
+                <div
+                    class="form-message"
+                    id="formMessage"
+                ></div>
+
+
+                <div class="modal-actions">
+
+                    <button
+                        type="button"
+                        class="secondary-button"
+                        id="cancelManager"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="primary-button"
+                    >
+                        Save Manager
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+<!-- CHANGE PASSWORD MODAL -->
+<div class="modal" id="passwordModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Change Manager Password</h2>
+            <button type="button" class="close-modal" id="closePasswordModal">
+                &times;
+            </button>
+        </div>
+
+        <form id="passwordForm">
+
+            <input type="hidden" id="passwordManagerId">
+
+            <div class="form-group">
+                <label for="passwordManagerName">Manager</label>
+                <input
+                    type="text"
+                    id="passwordManagerName"
+                    readonly
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="newPassword">New Password</label>
+                <input
+                    type="password"
+                    id="newPassword"
+                    minlength="6"
+                    required
+                    placeholder="Enter new password"
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input
+                    type="password"
+                    id="confirmPassword"
+                    minlength="6"
+                    required
+                    placeholder="Confirm new password"
+                >
+            </div>
+
+            <div id="passwordMessage" class="form-message"></div>
+
+            <div class="modal-actions">
+                <button type="button" class="btn-secondary" id="cancelPasswordButton">
+                    Cancel
+                </button>
+
+                <button type="submit" class="btn-primary">
+                    Change Password
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+
+
+    <script src="../js/managers.js"></script>
+
+</body>
+
+</html>

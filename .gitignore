@@ -1,0 +1,7 @@
+node_modules/
+.env
+uploads/
+cookies.txt
+director-upload-cookies.txt
+manager-test-cookies.txt
+manager1-cookies.txt

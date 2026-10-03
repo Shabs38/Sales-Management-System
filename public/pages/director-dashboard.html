@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Director Dashboard | Sales Management System</title>
+
+<link rel="stylesheet" href="../css/director-dashboard.css">
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================================
+         SIDEBAR
+    ========================================== -->
+
+    <aside class="sidebar" id="sidebar">
+
+        <!-- Logo -->
+
+        <div class="sidebar-logo">
+
+            <div class="logo-icon">
+               <img src="../images/logo1.jpg" alt="" style="width:40px; height:40px; border-radius:50%">
+            </div>
+
+            <div>
+                <h2>MAI KIFI COMM</h2> 
+                <h2>Sales Management</h2>
+                <span>System</span>
+            </div>
+
+        </div>
+
+
+        <!-- Navigation -->
+
+        <nav class="navigation">
+
+            <p class="nav-title">
+                MAIN MENU
+            </p>
+
+
+            <a
+                href="#"
+                class="nav-link active"
+                data-page="Dashboard"
+            >
+                <span class="nav-icon">⌂</span>
+                <span>Dashboard</span>
+            </a>
+
+
+            <a
+                href="sales.html"
+                class="nav-link"
+                data-page="Sales"
+            >
+                <span class="nav-icon">▤</span>
+                <span>Sales</span>
+            </a>
+
+
+            <a
+                href="director-product.html"
+                class="nav-link"
+                data-page="Products"
+            >
+                <span class="nav-icon">□</span>
+                <span>Products</span>
+            </a>
+
+
+            <a
+                href="customer.html"
+                class="nav-link"
+                data-page="Customers"
+            >
+                <span class="nav-icon">♙</span>
+                <span>Customers</span>
+            </a>
+
+
+            <p class="nav-title management-title">
+                MANAGEMENT
+            </p>
+
+
+            <a
+                href="managers.html"
+                class="nav-link"
+                data-page="Managers"
+            >
+                <span class="nav-icon">♙</span>
+                <span>Managers</span>
+            </a>
+
+
+            <a
+                href="report.html"
+                class="nav-link"
+                data-page="Reports"
+            >
+                <span class="nav-icon">▥</span>
+                <span>Reports</span>
+            </a>
+
+
+            <a
+                href="#"
+                class="nav-link"
+                data-page="Analytics"
+            >
+                <span class="nav-icon">◒</span>
+                <span>Analytics</span>
+            </a>
+
+
+            <p class="nav-title management-title">
+                SYSTEM
+            </p>
+
+
+            <a
+                href="#"
+                class="nav-link"
+                data-page="Settings"
+            >
+                <span class="nav-icon">⚙</span>
+                <span>Settings</span>
+            </a>
+
+
+        </nav>
+
+
+        <!-- Sidebar bottom -->
+
+        <div class="sidebar-bottom">
+
+            <div class="support-box">
+
+                <div class="support-icon">
+                    ?
+                </div>
+
+                <div>
+                    <strong>Need Help?</strong>
+
+                    <small>
+                        Contact administrator
+                    </small>
+                </div>
+
+            </div>
+
+
+            <a
+                href="../index.html"
+                class="logout-link"
+                id="logoutButton"
+            >
+                <span>⇥</span>
+                Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =========================================
+         MAIN CONTENT
+    ========================================== -->
+
+    <main class="main-content">
+
+
+        <!-- TOP BAR -->
+
+        <header class="topbar">
+
+            <button
+                class="menu-button"
+                id="menuButton"
+                aria-label="Open menu"
+            >
+                ☰
+            </button>
+
+
+            <div class="page-heading">
+
+                <h1>Director Dashboard</h1>
+
+                <p>
+                    Welcome back. Here's what's happening
+                    with your business today.
+                </p>
+
+            </div>
+
+
+            <div class="topbar-actions">
+
+
+                <!-- Notification -->
+
+                <button
+                    class="notification-button"
+                    id="notificationButton"
+                    aria-label="Notifications"
+                >
+
+                    🔔
+
+                    <span class="notification-badge">
+                        3
+                    </span>
+
+                </button>
+
+
+                <!-- Profile -->
+
+                <div class="profile">
+
+            		<div class="profile-avatar">
+    <img
+        src="../images/logo1.jpg"
+        alt="MAI-KIFI-COMM"
+    >
+</div>
+
+                    <div class="profile-info">
+
+                        <strong id="profileName">
+                            Director
+                        </strong>
+
+                        <span id="profileRole" >
+                            Administrator
+                        </span>
+
+                    </div>
+
+                    <span class="profile-arrow">
+                        ▾
+                    </span>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- =========================================
+             DASHBOARD CONTENT
+        ========================================== -->
+
+        <section class="dashboard-content">
+
+
+            <!-- DATE / ACTION -->
+
+            <div class="dashboard-actions">
+
+                <div>
+
+                    <span class="current-date">
+                        Monday, September 14, 2026
+                    </span>
+
+                </div>
+
+
+                <button
+                    class="primary-button"
+                    id="newSaleButton"
+                >
+                    <span>+</span>
+                    New Sale
+                </button>
+
+            </div>
+
+
+
+            <!-- =====================================
+                 STAT CARDS
+            ====================================== -->
+
+            <div class="stats-grid">
+
+
+                <!-- Revenue -->
+
+                <div class="stat-card">
+
+                    <div class="stat-card-top">
+
+                        <div class="stat-icon revenue-icon">
+                            ₦
+                        </div>
+
+                        <span class="growth positive">
+                            ↑ 12.5%
+                        </span>
+
+                    </div>
+
+
+                    <div class="stat-info">
+
+                        <p>
+                            Total Revenue
+                        </p>
+
+                        <h2 id="totalRevenue">
+                            ₦0
+                        </h2>
+
+                        <span>
+                            Compared with last month
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- Sales -->
+
+                <div class="stat-card">
+
+                    <div class="stat-card-top">
+
+                        <div class="stat-icon sales-icon">
+                            ▤
+                        </div>
+
+                        <span class="growth positive">
+                            ↑ 8.2%
+                        </span>
+
+                    </div>
+
+
+                    <div class="stat-info">
+
+                        <p>
+                            Total Sales
+                        </p>
+
+                        <h2 id="totalSales">
+                            0
+                        </h2>
+
+                        <span>
+                            Transactions this month
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- Products -->
+
+                <div class="stat-card">
+
+                    <div class="stat-card-top">
+
+                        <div class="stat-icon product-icon">
+                            □
+                        </div>
+
+                        <span class="growth neutral">
+                            Active
+                        </span>
+
+                    </div>
+
+
+                    <div class="stat-info">
+
+                        <p>
+                            Products
+                        </p>
+
+                        <h2 id="totalProducts">
+                            0
+                        </h2>
+
+                        <span>
+                            Products in inventory
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- Managers -->
+
+                <div class="stat-card">
+
+                    <div class="stat-card-top">
+
+                        <div class="stat-icon manager-icon">
+                            ♙
+                        </div>
+
+                        <span class="growth positive" id="activeManagers">>
+                            0 Active
+                        </span>
+
+                    </div>
+
+
+                    <div class="stat-info">
+
+                        <p>
+                            Managers
+                        </p>
+
+                        <h2 id="totalManagers">
+                            0
+                        </h2>
+
+                        <span id="managerStatusText">
+                            0 currently inactive
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =====================================
+                 CHART + PERFORMANCE
+            ====================================== -->
+
+            <div class="dashboard-row">
+
+
+                <!-- SALES CHART -->
+
+                <div class="dashboard-card sales-chart-card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <h3>
+                                Sales Overview
+                            </h3>
+
+                            <p id="chartDescription">
+                                Daily sales performance
+                            </p>
+
+                        </div>
+
+
+                        <select
+                            id="chartPeriod"
+                            class="chart-select"
+                        >
+
+                            <option value="monthly">
+                                Monthly
+                            </option>
+
+                            <option value="weekly">
+                                Weekly
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="chart">
+
+                        <div class="y-axis">
+
+                            <span>₦3M</span>
+                            <span>₦2M</span>
+                            <span>₦1M</span>
+                            <span>₦0</span>
+
+                        </div>
+
+
+                        <div class="chart-area">
+
+                            <div class="grid-line"></div>
+                            <div class="grid-line"></div>
+                            <div class="grid-line"></div>
+                            <div class="grid-line"></div>
+
+
+                            <div class="bars" id="salesChartBars">
+
+                                <div class="bar-column">
+                                    <div
+                                        class="bar"
+                                        style="height: 42%;"
+                                    ></div>
+                                    <span>Jan</span>
+                                </div>
+
+
+                                <div class="bar-column">
+                                    <div
+                                        class="bar"
+                                        style="height: 56%;"
+                                    ></div>
+                                    <span>Feb</span>
+                                </div>
+
+
+                                <div class="bar-column">
+                                    <div
+                                        class="bar"
+                                        style="height: 48%;"
+                                    ></div>
+                                    <span>Mar</span>
+                                </div>
+
+
+                                <div class="bar-column">
+                                    <div
+                                        class="bar"
+                                        style="height: 67%;"
+                                    ></div>
+                                    <span>Apr</span>
+                                </div>
+
+
+                                <div class="bar-column">
+                                    <div
+                                        class="bar"
+                                        style="height: 60%;"
+                                    ></div>
+                                    <span>May</span>
+                                </div>
+
+
+                                <div class="bar-column">
+                                    <div
+                                        class="bar"
+                                        style="height: 78%;"
+                                    ></div>
+                                    <span>Jun</span>
+                                </div>
+
+
+                                <div class="bar-column">
+                                    <div
+                                        class="bar"
+                                        style="height: 70%;"
+                                    ></div>
+                                    <span>Jul</span>
+                                </div>
+
+
+                                <div class="bar-column">
+                                    <div
+                                        class="bar"
+                                        style="height: 88%;"
+                                    ></div>
+                                    <span>Aug</span>
+                                </div>
+
+
+                                <div class="bar-column current">
+                                    <div
+                                        class="bar"
+                                        style="height: 94%;"
+                                    ></div>
+                                    <span>Sep</span>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- TOP MANAGERS -->
+
+                <div class="dashboard-card manager-performance">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <h3>
+                                Top Managers
+                            </h3>
+
+                            <p>
+                                Sales performance
+                            </p>
+
+                        </div>
+
+                        <a href="#">
+                            View All
+                        </a>
+
+                    </div>
+
+
+                    <div class="manager-list" id="managerList">
+
+
+                        <div class="manager-row">
+
+                            <div class="manager-avatar">
+                                AM
+                            </div>
+
+                            <div class="manager-details">
+
+                                <strong>
+                                    Ahmed Musa
+                                </strong>
+
+                                <span>
+                                    284 sales
+                                </span>
+
+                            </div>
+
+                            <strong class="manager-revenue">
+                                ₦2.4M
+                            </strong>
+
+                        </div>
+
+
+                        <div class="manager-row">
+
+                            <div class="manager-avatar">
+                                FA
+                            </div>
+
+                            <div class="manager-details">
+
+                                <strong>
+                                    Fatima Ali
+                                </strong>
+
+                                <span>
+                                    241 sales
+                                </span>
+
+                            </div>
+
+                            <strong class="manager-revenue">
+                                ₦2.1M
+                            </strong>
+
+                        </div>
+
+
+                        <div class="manager-row">
+
+                            <div class="manager-avatar">
+                                IM
+                            </div>
+
+                            <div class="manager-details">
+
+                                <strong>
+                                    Ibrahim Mohammed
+                                </strong>
+
+                                <span>
+                                    218 sales
+                                </span>
+
+                            </div>
+
+                            <strong class="manager-revenue">
+                                ₦1.9M
+                            </strong>
+
+                        </div>
+
+
+                        <div class="manager-row">
+
+                            <div class="manager-avatar">
+                                ZB
+                            </div>
+
+                            <div class="manager-details">
+
+                                <strong>
+                                    Zainab Bello
+                                </strong>
+
+                                <span>
+                                    196 sales
+                                </span>
+
+                            </div>
+
+                            <strong class="manager-revenue">
+                                ₦1.6M
+                            </strong>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =====================================
+                 RECENT TRANSACTIONS
+            ====================================== -->
+
+            <div class="dashboard-card transactions-card">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <h3>
+                            Recent Transactions
+                        </h3>
+
+                        <p>
+                            Latest sales activities
+                        </p>
+
+                    </div>
+
+                    <a href="#">
+                        View All Transactions
+                    </a>
+
+                </div>
+
+
+                <div class="table-container">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Transaction ID
+                                </th>
+
+                                <th>
+                                    Customer
+                                </th>
+
+                                <th>
+                                    Manager
+                                </th>
+
+                                <th>
+                                    Amount
+                                </th>
+
+                                <th>
+                                    Date
+                                </th>
+
+                                <th>
+                                    Status
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody id="transactionsTableBody">
+
+
+                            
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+
+
+        </section>
+
+    </main>
+
+
+
+    <!-- =========================================
+         MOBILE OVERLAY
+    ========================================== -->
+
+    <div
+        class="sidebar-overlay"
+        id="sidebarOverlay"
+    ></div>
+
+
+
+    <!-- =========================================
+         NOTIFICATION PANEL
+    ========================================== -->
+
+    <div
+        class="notification-panel"
+        id="notificationPanel"
+    >
+
+        <div class="notification-header">
+
+            <h3>
+                Notifications
+            </h3>
+
+            <button id="closeNotifications">
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="notification-item">
+
+            <span class="notification-dot"></span>
+
+            <div>
+
+                <strong>
+                    New sale recorded
+                </strong>
+
+                <p>
+                    Ahmed Musa recorded a new sale.
+                </p>
+
+                <small>
+                    10 minutes ago
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <div class="notification-item">
+
+            <span class="notification-dot"></span>
+
+            <div>
+
+                <strong>
+                    Manager performance
+                </strong>
+
+                <p>
+                    September sales target reached 85%.
+                </p>
+
+                <small>
+                    1 hour ago
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <div class="notification-item">
+
+            <span class="notification-dot"></span>
+
+            <div>
+
+                <strong>
+                    Low stock alert
+                </strong>
+
+                <p>
+                    4 products require restocking.
+                </p>
+
+                <small>
+                    2 hours ago
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <script src="../js/director.js"></script>
+
+</body>
+
+</html>

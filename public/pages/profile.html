@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>My Profile - Sales Management System</title>
+
+    <link
+        rel="stylesheet"
+        href="../css/profile.css">
+</head>
+
+<body>
+
+    <!-- =====================================
+         SIDEBAR
+    ====================================== -->
+
+    <aside class="sidebar" id="sidebar">
+
+        <div class="sidebar-brand">
+
+            <div class="brand-logo">
+                MK
+            </div>
+
+            <div>
+                <h2>MAI-KIFI-COMM</h2>
+                <span>Sales Management System</span>
+            </div>
+
+        </div>
+
+
+        <nav class="sidebar-nav">
+
+            <a
+                href="manager-dashboard.html"
+                class="nav-link"
+                data-page="dashboard">
+
+                <span class="nav-icon">▦</span>
+                <span>Dashboard</span>
+
+            </a>
+
+
+            <a
+                href="sales.html"
+                class="nav-link"
+                data-page="sales">
+
+                <span class="nav-icon">₦</span>
+                <span>Sales</span>
+
+            </a>
+
+
+            <a
+                href="product.html"
+                class="nav-link"
+                data-page="products">
+
+                <span class="nav-icon">▣</span>
+                <span>Products</span>
+
+            </a>
+
+
+            <a
+                href="customer.html"
+                class="nav-link"
+                data-page="customers">
+
+                <span class="nav-icon">♙</span>
+                <span>Customers</span>
+
+            </a>
+
+
+            <a
+                href="report.html"
+                class="nav-link"
+                data-page="reports">
+
+                <span class="nav-icon">▤</span>
+                <span>Reports</span>
+
+            </a>
+
+
+            <a
+                href="profile.html"
+                class="nav-link active"
+                data-page="profile">
+
+                <span class="nav-icon">◉</span>
+                <span>Profile</span>
+
+            </a>
+
+
+            <a
+                href="settings.html"
+                class="nav-link"
+                data-page="settings">
+
+                <span class="nav-icon">⚙</span>
+                <span>Settings</span>
+
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <button
+                type="button"
+                id="logoutButton"
+                class="logout-button">
+
+                <span>⇥</span>
+                <span>Logout</span>
+
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =====================================
+         MAIN CONTENT
+    ====================================== -->
+
+    <main class="main-content">
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <button
+                type="button"
+                id="menuButton"
+                class="menu-button"
+                aria-label="Open menu">
+
+                ☰
+
+            </button>
+
+
+            <div class="page-title">
+
+                <h1>My Profile</h1>
+
+                <p>
+                    Manage your account information
+                </p>
+
+            </div>
+
+
+            <div class="topbar-right">
+
+                <button
+                    type="button"
+                    id="notificationButton"
+                    class="notification-button"
+                    aria-label="Notifications">
+
+                    🔔
+
+                    <span
+                        id="notificationBadge"
+                        class="notification-badge">
+
+                        0
+
+                    </span>
+
+                </button>
+
+
+                <div class="topbar-user">
+
+            		<div class="user-avatar">
+
+    <img
+        id="profileAvatar"
+        src=""
+        alt="Profile picture">
+
+    <span id="profileAvatarInitials">
+        TM
+    </span>
+
+</div> 
+
+                    <div class="user-info">
+
+                        <strong
+                            id="profileName">
+                            Loading...
+                        </strong>
+
+                        <span
+                            id="profileRole">
+                            Manager
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- =====================================
+             PROFILE CONTENT
+        ====================================== -->
+
+        <section class="profile-container">
+
+
+            <!-- PROFILE HEADER -->
+
+            <div class="profile-header-card">
+
+
+			<div class="profile-image-upload">
+    <div class="profile-image-upload-info">
+        <h3>Profile Picture</h3>
+
+        <p>
+            Update your profile picture. JPG, PNG and WEBP
+            images up to 5MB are supported.
+        </p>
+    </div>
+
+    <input
+        type="file"
+        id="profileImageInput"
+        accept="image/jpeg,image/png,image/webp"
+        hidden
+    >
+
+    <button
+        type="button"
+        id="changeProfileImageButton"
+        class="secondary-button"
+    >
+        Change Profile Picture
+    </button>
+
+    <div
+        id="profileImageMessage"
+        class="form-message">
+    </div>
+</div>
+
+       			<div class="large-profile-avatar">
+
+    <img
+        id="largeProfileAvatar"
+        src=""
+        alt="Profile picture">
+
+    <span id="largeProfileAvatarInitials">
+        TM
+    </span>
+
+</div>
+
+
+                <div class="profile-header-info">
+
+                    <h2 id="headerProfileName">
+                        Loading...
+                    </h2>
+
+                    <p id="headerProfileEmail">
+                        Loading...
+                    </p>
+
+                    <span
+                        id="headerProfileRole"
+                        class="role-badge">
+
+                        Manager
+
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================
+                 ACCOUNT INFORMATION
+            ================================== -->
+
+            <div class="profile-grid">
+
+
+                <!-- PERSONAL INFORMATION -->
+
+                <div class="profile-card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <h3>
+                                Personal Information
+                            </h3>
+
+                            <p>
+                                Update your personal
+                                account details.
+                            </p>
+
+                        </div>
+
+                        <span class="card-icon">
+                            👤
+                        </span>
+
+                    </div>
+
+
+                    <form
+                        id="profileForm"
+                        class="profile-form">
+
+
+                        <div class="form-group">
+
+                            <label for="fullName">
+                                Full Name
+                            </label>
+
+                            <input
+                                type="text"
+                                id="fullName"
+                                name="full_name"
+                                placeholder="Enter your full name"
+                                required>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="username">
+                                Username
+                            </label>
+
+                            <input
+                                type="text"
+                                id="username"
+                                name="username"
+                                placeholder="Enter username"
+                                required>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="email">
+                                Email Address
+                            </label>
+
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                placeholder="Enter email address"
+                                required>
+
+                        </div>
+
+
+                        <div
+                            id="profileMessage"
+                            class="form-message">
+                        </div>
+
+
+                        <button
+                            type="submit"
+                            id="saveProfileButton"
+                            class="primary-button">
+
+                            Save Changes
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+
+                <!-- =================================
+                     ACCOUNT DETAILS
+                ================================== -->
+
+                <div class="profile-card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <h3>
+                                Account Details
+                            </h3>
+
+                            <p>
+                                Information about your
+                                system account.
+                            </p>
+
+                        </div>
+
+                        <span class="card-icon">
+                            🛡
+                        </span>
+
+                    </div>
+
+
+                    <div class="account-details">
+
+
+                        <div class="detail-row">
+
+                            <span>
+                                Account ID
+                            </span>
+
+                            <strong id="accountId">
+                                -
+                            </strong>
+
+                        </div>
+
+
+                        <div class="detail-row">
+
+                            <span>
+                                Role
+                            </span>
+
+                            <strong id="accountRole">
+                                -
+                            </strong>
+
+                        </div>
+
+
+                        <div class="detail-row">
+
+                            <span>
+                                Account Status
+                            </span>
+
+                            <strong
+                                id="accountStatus"
+                                class="status-active">
+
+                                -
+
+                            </strong>
+
+                        </div>
+
+
+                        <div class="detail-row">
+
+                            <span>
+                                Username
+                            </span>
+
+                            <strong id="accountUsername">
+                                -
+                            </strong>
+
+                        </div>
+
+
+                        <div class="detail-row">
+
+                            <span>
+                                Member Since
+                            </span>
+
+                            <strong id="accountCreated">
+                                -
+                            </strong>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================
+                     CHANGE PASSWORD
+                ================================== -->
+
+                <div class="profile-card password-card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <h3>
+                                Change Password
+                            </h3>
+
+                            <p>
+                                Keep your account secure
+                                with a strong password.
+                            </p>
+
+                        </div>
+
+                        <span class="card-icon">
+                            🔐
+                        </span>
+
+                    </div>
+
+
+                    <form
+                        id="passwordForm"
+                        class="profile-form">
+
+
+                        <div class="form-group">
+
+                            <label for="currentPassword">
+                                Current Password
+                            </label>
+
+                            <input
+                                type="password"
+                                id="currentPassword"
+                                placeholder="Enter current password"
+                                required>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="newPassword">
+                                New Password
+                            </label>
+
+                            <input
+                                type="password"
+                                id="newPassword"
+                                placeholder="Minimum 6 characters"
+                                minlength="6"
+                                required>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="confirmPassword">
+                                Confirm New Password
+                            </label>
+
+                            <input
+                                type="password"
+                                id="confirmPassword"
+                                placeholder="Confirm new password"
+                                minlength="6"
+                                required>
+
+                        </div>
+
+
+                        <div
+                            id="passwordMessage"
+                            class="form-message">
+                        </div>
+
+
+                        <button
+                            type="submit"
+                            id="changePasswordButton"
+                            class="secondary-button">
+
+                            Change Password
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+
+                <!-- =================================
+                     SECURITY INFORMATION
+                ================================== -->
+
+                <div class="profile-card security-card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <h3>
+                                Account Security
+                            </h3>
+
+                            <p>
+                                Important security
+                                information.
+                            </p>
+
+                        </div>
+
+                        <span class="card-icon">
+                            🔒
+                        </span>
+
+                    </div>
+
+
+                    <div class="security-list">
+
+                        <div class="security-item">
+
+                            <div class="security-icon">
+                                ✓
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Password Protected
+                                </strong>
+
+                                <p>
+                                    Your account is protected
+                                    by a secure password.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="security-item">
+
+                            <div class="security-icon">
+                                ✓
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Role-Based Access
+                                </strong>
+
+                                <p>
+                                    Your permissions are
+                                    controlled by your account role.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="security-item">
+
+                            <div class="security-icon">
+                                ✓
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Secure Session
+                                </strong>
+
+                                <p>
+                                    Your session is protected
+                                    by server-side authentication.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =====================================
+         SIDEBAR OVERLAY
+    ====================================== -->
+
+    <div
+        id="sidebarOverlay"
+        class="sidebar-overlay">
+    </div>
+
+
+    <!-- =====================================
+         NOTIFICATION PANEL
+    ====================================== -->
+
+    <div
+        id="notificationPanel"
+        class="notification-panel">
+
+        <div class="notification-header">
+
+            <h3>Notifications</h3>
+
+            <button
+                type="button"
+                id="closeNotificationButton">
+
+                ×
+
+            </button>
+
+        </div>
+
+        <div
+            id="notificationList"
+            class="notification-list">
+
+            <p class="empty-notification">
+                No new notifications.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- JAVASCRIPT -->
+
+    <script src="../js/profile.js"></script>
+
+</body>
+
+</html>

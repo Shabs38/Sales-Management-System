@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Sales | Sales Management System</title>
+
+    <link
+        rel="stylesheet"
+        href="../css/sales.css"
+    >
+</head>
+
+<body>
+
+    <!-- =========================================
+         SIDEBAR
+    ========================================== -->
+
+    <aside class="sidebar" id="sidebar">
+
+        <div class="sidebar-logo">
+
+            <div class="logo-icon">
+                <img
+                    src="../images/logo1.jpg"
+                    alt="Mai Kifi Comm Logo"
+                    style="
+                        width: 40px;
+                        height: 40px;
+                        border-radius: 50%;
+                    "
+                >
+            </div>
+
+            <div>
+                <h2>MAI-KIFI-COMM</h2>
+
+                <span>
+                    Sales Management System
+                </span>
+            </div>
+
+        </div>
+
+
+        <nav class="navigation">
+
+            <p class="nav-title">
+                MAIN MENU
+            </p>
+
+            <a
+                href="manager-dashboard.html"
+                class="nav-link"
+            >
+                <span class="nav-icon">⌂</span>
+                <span>Dashboard</span>
+            </a>
+
+            <a
+                href="sales.html"
+                class="nav-link active"
+            >
+                <span class="nav-icon">▤</span>
+                <span>Sales</span>
+            </a>
+
+            <a
+                href="products.html"
+                class="nav-link"
+            >
+                <span class="nav-icon">□</span>
+                <span>Products</span>
+            </a>
+
+            <a
+                href="customers.html"
+                class="nav-link"
+            >
+                <span class="nav-icon">♙</span>
+                <span>Customers</span>
+            </a>
+
+            <p class="nav-title management-title">
+                MANAGEMENT
+            </p>
+
+            <a
+                href="reports.html"
+                class="nav-link"
+            >
+                <span class="nav-icon">▥</span>
+                <span>Reports</span>
+            </a>
+
+            <p class="nav-title management-title">
+                SYSTEM
+            </p>
+
+            <a
+                href="profile.html"
+                class="nav-link"
+            >
+                <span class="nav-icon">◉</span>
+                <span>Profile</span>
+            </a>
+
+            <a
+                href="settings.html"
+                class="nav-link"
+            >
+                <span class="nav-icon">⚙</span>
+                <span>Settings</span>
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="support-box">
+
+                <div class="support-icon">
+                    ?
+                </div>
+
+                <div>
+                    <strong>
+                        Need Help?
+                    </strong>
+
+                    <small>
+                        Contact administrator
+                    </small>
+                </div>
+
+            </div>
+
+            <a
+                href="../index.html"
+                class="logout-link"
+                id="logoutButton"
+            >
+                <span>⇥</span>
+                Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =========================================
+         MOBILE OVERLAY
+    ========================================== -->
+
+    <div
+        class="sidebar-overlay"
+        id="sidebarOverlay"
+    ></div>
+
+
+    <!-- =========================================
+         MAIN CONTENT
+    ========================================== -->
+
+    <main class="main-content">
+
+        <header class="topbar">
+
+            <button
+                type="button"
+                class="menu-button"
+                id="menuButton"
+                aria-label="Open menu"
+            >
+                ☰
+            </button>
+
+            <div class="page-heading">
+
+                <h1>
+                    MAI KIFI COMM SALES
+                </h1>
+
+                <p>
+                    Record, monitor and manage sales transactions.
+                </p>
+
+            </div>
+
+
+            <div class="topbar-actions">
+
+                <button
+                    type="button"
+                    class="notification-button"
+                    id="notificationButton"
+                    aria-label="Notifications"
+                >
+                    🔔
+
+                    <span class="notification-badge">
+                        3
+                    </span>
+                </button>
+
+
+                <div class="profile">
+
+             		<div class="profile-avatar">
+    <img
+        src="../images/logo1.jpg"
+        alt="MAI-KIFI-COMM"
+    >
+</div>
+
+                    <div class="profile-info">
+
+                        <strong>
+                            Ahmed Musa
+                        </strong>
+
+                        <span>
+                            Manager
+                        </span>
+
+                    </div>
+
+                    <span class="profile-arrow">
+                        ▾
+                    </span>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- =====================================
+             SALES CONTENT
+        ====================================== -->
+
+        <section class="sales-content">
+
+
+            <!-- ACTION BAR -->
+
+            <div class="sales-actions">
+
+                <div>
+                    <span class="current-date">
+                        Monday, September 14, 2026
+                    </span>
+                </div>
+
+                <button
+                    type="button"
+                    class="primary-button"
+                    id="newSaleButton"
+                >
+                    <span>+</span>
+                    New Sale
+                </button>
+
+            </div>
+
+
+            <!-- =================================
+                 SUMMARY CARDS
+            ================================== -->
+
+            <div class="sales-stats">
+
+                <div class="sales-stat-card">
+
+                    <div class="sales-stat-icon">
+                        ▤
+                    </div>
+
+                    <div>
+
+                        <p>
+                            Today's Sales
+                        </p>
+
+                        <h2>
+                            42
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <div class="sales-stat-card">
+
+                    <div class="sales-stat-icon">
+                        ₦
+                    </div>
+
+                    <div>
+
+                        <p>
+                            Today's Revenue
+                        </p>
+
+                        <h2>
+                            ₦685,000
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <div class="sales-stat-card">
+
+                    <div class="sales-stat-icon">
+                        ✓
+                    </div>
+
+                    <div>
+
+                        <p>
+                            Completed
+                        </p>
+
+                        <h2>
+                            38
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <div class="sales-stat-card">
+
+                    <div class="sales-stat-icon">
+                        !
+                    </div>
+
+                    <div>
+
+                        <p>
+                            Pending
+                        </p>
+
+                        <h2>
+                            4
+                        </h2>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================
+                 SALES TABLE CARD
+            ================================== -->
+
+            <div class="sales-card">
+
+                <div class="sales-card-header">
+
+                    <div>
+
+                        <h3>
+                            Sales Transactions
+                        </h3>
+
+                        <p>
+                            View and manage your team's sales.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- FILTER BAR -->
+
+                <div class="sales-filters">
+
+                    <div class="search-box">
+
+                        <span>
+                            🔍
+                        </span>
+
+                        <input
+                            type="text"
+                            id="salesSearch"
+                            placeholder="Search transaction or customer..."
+                        >
+
+                    </div>
+
+
+                    <select id="statusFilter">
+
+                        <option value="all">
+                            All Status
+                        </option>
+
+                        <option value="completed">
+                            Completed
+                        </option>
+
+                        <option value="pending">
+                            Pending
+                        </option>
+
+                        <option value="cancelled">
+                            Cancelled
+                        </option>
+
+                    </select>
+
+
+                    <input
+                        type="date"
+                        id="dateFilter"
+                    >
+
+                </div>
+
+
+                <!-- TABLE -->
+
+                <div class="table-container">
+
+                    <table id="salesTable">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>Transaction ID</th>
+                                <th>Customer</th>
+                                <th>Salesperson</th>
+                                <th>Amount</th>
+                                <th>Payment</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Action</th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+                            <!-- sales.js loads transactions here -->
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================================
+         NOTIFICATION PANEL
+    ========================================== -->
+
+    <div
+        class="notification-panel"
+        id="notificationPanel"
+    >
+
+        <div class="notification-header">
+
+            <h3>
+                Notifications
+            </h3>
+
+            <button
+                type="button"
+                id="closeNotifications"
+                class="close-notifications"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="notification-item">
+
+            <div class="notification-icon">
+                ✓
+            </div>
+
+            <div>
+
+                <strong>
+                    New Sale Recorded
+                </strong>
+
+                <p>
+                    A new sale has been recorded.
+                </p>
+
+                <small>
+                    10 minutes ago
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <div class="notification-item">
+
+            <div class="notification-icon">
+                !
+            </div>
+
+            <div>
+
+                <strong>
+                    Low Stock Alert
+                </strong>
+
+                <p>
+                    4 products require restocking.
+                </p>
+
+                <small>
+                    1 hour ago
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <div class="notification-item">
+
+            <div class="notification-icon">
+                ✓
+            </div>
+
+            <div>
+
+                <strong>
+                    Daily Target
+                </strong>
+
+                <p>
+                    Your team has reached 85% of today's target.
+                </p>
+
+                <small>
+                    2 hours ago
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================
+         NEW SALE MODAL
+    ========================================== -->
+
+    <div
+        class="sale-modal"
+        id="saleModal"
+    >
+
+        <div class="sale-modal-content">
+
+            <div class="sale-modal-header">
+
+                <div>
+
+                    <h2>
+                        New Sale
+                    </h2>
+
+                    <p>
+                        Record a new sales transaction.
+                    </p>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="close-sale-modal"
+                    id="closeSaleModal"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <!-- SALE FORM -->
+
+            <form id="saleForm">
+
+
+                <!-- CUSTOMER -->
+
+                <div class="form-group customer-autocomplete">
+
+                    <label for="customerInput">
+                        Customer
+                    </label>
+
+                    <input
+                        type="text"
+                        id="customerInput"
+                        placeholder="Type customer name or phone..."
+                        autocomplete="off"
+                        required
+                    >
+
+                    <input
+                        type="hidden"
+                        id="customer"
+                    >
+
+                    <div
+                        id="customerSuggestions"
+                        class="customer-suggestions"
+                    ></div>
+
+
+                    <button
+                        type="button"
+                        id="addCustomerButton"
+                        class="secondary-button"
+                    >
+                        + Add New Customer
+                    </button>
+
+                </div>
+
+
+                <!-- NEW CUSTOMER FORM -->
+
+                <div
+                    id="newCustomerForm"
+                    class="new-customer-form"
+                >
+
+                    <h3>
+                        Add New Customer
+                    </h3>
+
+
+                    <div class="form-group">
+
+                        <label for="newCustomerName">
+                            Full Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="newCustomerName"
+                            placeholder="Enter customer name"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="newCustomerPhone">
+                            Phone
+                        </label>
+
+                        <input
+                            type="text"
+                            id="newCustomerPhone"
+                            placeholder="Enter phone number"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="newCustomerEmail">
+                            Email (Optional)
+                        </label>
+
+                        <input
+                            type="email"
+                            id="newCustomerEmail"
+                            placeholder="Enter email address"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="newCustomerAddress">
+                            Address (Optional)
+                        </label>
+
+                        <input
+                            type="text"
+                            id="newCustomerAddress"
+                            placeholder="Enter address"
+                        >
+
+                    </div>
+
+
+                    <div class="customer-form-actions">
+
+                        <button
+                            type="button"
+                            id="cancelNewCustomer"
+                            class="secondary-button"
+                        >
+                            Cancel
+                        </button>
+
+                        <button
+                            type="button"
+                            id="saveNewCustomer"
+                            class="primary-button"
+                        >
+                            Save Customer
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SALE ITEMS -->
+
+                <div class="sale-items-section">
+
+                    <div class="sale-items-header">
+
+                        <h3>
+                            Sale Items
+                        </h3>
+
+                        <button
+                            type="button"
+                            class="add-item-button"
+                            id="addSaleItem"
+                        >
+                            + Add Product
+                        </button>
+
+                    </div>
+
+
+                    <div id="saleItems">
+
+                        <div class="sale-item">
+
+                            <div class="form-group">
+
+                                <label for="firstProduct">
+                                    Product
+                                </label>
+
+                                <select
+                                    id="firstProduct"
+                                    class="sale-product"
+                                    required
+                                >
+
+                                    <option value="">
+                                        Select Product
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label>
+                                    Quantity
+                                </label>
+
+                                <input
+                                    type="number"
+                                    class="sale-quantity"
+                                    min="1"
+                                    value=""
+                                    required
+                                >
+
+                            </div>
+
+
+                            <button
+                                type="button"
+                                class="remove-item-button"
+                            >
+                                ×
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- TOTAL -->
+
+                <div class="sale-total">
+
+                    <span>
+                        Total Amount
+                    </span>
+
+                    <strong id="saleTotal">
+                        ₦0
+                    </strong>
+
+                </div>
+
+
+                <!-- PAYMENT -->
+
+                <div class="form-group">
+
+                    <label for="paymentMethod">
+                        Payment Method
+                    </label>
+
+                    <select
+                        id="paymentMethod"
+                        required
+                    >
+
+                        <option value="">
+                            Select Payment Method
+                        </option>
+
+                        <option value="cash">
+                            Cash
+                        </option>
+
+                        <option value="pos">
+                            POS
+                        </option>
+
+                        <option value="transfer">
+                            Bank Transfer
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- FORM BUTTONS -->
+
+                <div class="sale-form-actions">
+
+                    <button
+                        type="button"
+                        class="cancel-sale-button"
+                        id="cancelSale"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="primary-button"
+                    >
+                        Record Sale
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================
+         SALE DETAILS MODAL
+    ========================================== -->
+
+    <div
+        class="sale-details-modal"
+        id="saleDetailsModal"
+    >
+
+        <div class="sale-details-content">
+
+            <div class="sale-details-header">
+
+                <div>
+
+                    <h2>
+                        Sale Details
+                    </h2>
+
+                    <p>
+                        Transaction information
+                    </p>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="close-details-button"
+                    id="closeSaleDetails"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <!-- SALE INFORMATION -->
+
+            <div class="sale-details-info">
+
+                <div>
+
+                    <span>
+                        Transaction ID
+                    </span>
+
+                    <strong id="detailsTransactionId">
+                        —
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Customer
+                    </span>
+
+                    <strong id="detailsCustomer">
+                        —
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Salesperson
+                    </span>
+
+                    <strong id="detailsSalesperson">
+                        —
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Payment Method
+                    </span>
+
+                    <strong id="detailsPayment">
+                        —
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Date
+                    </span>
+
+                    <strong id="detailsDate">
+                        —
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- PRODUCTS -->
+
+            <div class="sale-details-products">
+
+                <h3>
+                    Products
+                </h3>
+
+                <div id="detailsProducts">
+                    <!-- Products inserted by sales.js -->
+                </div>
+
+            </div>
+
+
+            <!-- TOTAL -->
+
+            <div class="details-total">
+
+                <span>
+                    Total Amount
+                </span>
+
+                <strong id="detailsTotal">
+                    ₦0
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- JAVASCRIPT -->
+
+    <script src="../js/sales.js"></script>
+
+</body>
+
+</html>

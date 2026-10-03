@@ -1,0 +1,1271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Director Products Management</title>
+
+    <link rel="stylesheet" href="../css/director-product.css">
+</head>
+
+<body>
+
+    <!-- ================================
+         SIDEBAR
+    ================================= -->
+
+    <aside class="sidebar" id="sidebar">
+
+        <div class="sidebar-logo">
+            <div class="logo-icon"><img src="../images/logo1.jpg" alt="" style="width:40px; height:40px; border-radius:50%"></div>
+
+            <div>
+                <h2>Sales System</h2>
+                <span>Director Panel</span>
+            </div>
+        </div>
+
+
+        <nav class="sidebar-nav">
+
+            <a href="director-dashboard.html">
+                <span>▣</span>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="sales.html">
+                <span>▤</span>
+                <span>Sales</span>
+            </a>
+
+            <a href="director-products.html" class="active">
+                <span>▦</span>
+                <span>Products</span>
+            </a>
+
+            <a href="customers.html">
+                <span>♙</span>
+                <span>Customers</span>
+            </a>
+
+            <a href="managers.html">
+                <span>♟</span>
+                <span>Managers</span>
+            </a>
+
+            <a href="reports.html">
+                <span>▥</span>
+                <span>Reports</span>
+            </a>
+
+            <a href="#">
+                <span>◈</span>
+                <span>Analytics</span>
+            </a>
+
+            <a href="settings.html">
+                <span>⚙</span>
+                <span>Settings</span>
+            </a>
+
+        </nav>
+
+
+        <!-- Sidebar Bottom -->
+
+        <div class="sidebar-bottom">
+
+            <div class="support-box">
+                <span class="support-icon">?</span>
+
+                <div>
+                    <strong>Need Help?</strong>
+                    <small>Contact support</small>
+                </div>
+            </div>
+
+
+            <a href="../index.html"
+               class="logout-link"
+               id="logoutButton">
+
+                <span>↪</span>
+                <span>Logout</span>
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- Mobile Overlay -->
+
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+
+    <!-- ================================
+         MAIN CONTENT
+    ================================= -->
+
+    <main class="main-content">
+
+
+        <!-- ================================
+             TOPBAR
+        ================================= -->
+
+        <header class="topbar">
+
+            <div class="topbar-left">
+
+                <button
+                    type="button"
+                    class="menu-button"
+                    id="menuButton">
+
+                    ☰
+
+                </button>
+
+                <div>
+                    <h1>Products Management</h1>
+
+                    <p>
+                        Manage products, prices and stock levels.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="topbar-right">
+
+                <!-- Notification -->
+
+                <button
+                    type="button"
+                    class="notification-button"
+                    id="notificationButton">
+
+                    🔔
+
+                    <span class="notification-badge">
+                        3
+                    </span>
+
+                </button>
+
+
+                <!-- Director Profile -->
+
+                <div class="profile-mini">
+
+                  <div class="profile-avatar">
+    <img
+        src="../images/logo1.jpg"
+        alt="MAI-KIFI-COMM"
+    >
+</div>
+
+                    <div class="profile-info">
+
+                        <strong>Alh.Sageer Director</strong>
+
+                        <span>Director</span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- ================================
+             PRODUCTS CONTENT
+        ================================= -->
+
+        <section class="products-content">
+
+
+            <!-- Page Header -->
+
+            <div class="page-header">
+
+                <div>
+
+                    <h2>Products</h2>
+
+                    <p>
+                        Add, edit and manage your products.
+                    </p>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="primary-button"
+                    id="addProductButton">
+
+                    + Add Product
+
+                </button>
+
+            </div>
+
+
+            <!-- ================================
+                 STATISTICS
+            ================================= -->
+
+            <div class="stats-grid">
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        📦
+                    </div>
+
+                    <div>
+
+                        <span>Total Products</span>
+
+                        <strong>356</strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        ✓
+                    </div>
+
+                    <div>
+
+                        <span>In Stock</span>
+
+                        <strong>321</strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        !
+                    </div>
+
+                    <div>
+
+                        <span>Low Stock</span>
+
+                        <strong>24</strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        ×
+                    </div>
+
+                    <div>
+
+                        <span>Out of Stock</span>
+
+                        <strong>11</strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================================
+                 PRODUCTS TABLE
+            ================================= -->
+
+            <div class="products-card">
+
+
+                <div class="card-header">
+
+                    <div>
+
+                        <h3>Product Inventory</h3>
+
+                        <p>
+                            Products and their current selling prices.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Filters -->
+
+                <div class="filters">
+
+
+                    <div class="search-box">
+
+                        <span>⌕</span>
+
+                        <input
+                            type="text"
+                            id="productSearch"
+                            placeholder="Search product or SKU...">
+
+                    </div>
+
+
+                    <select id="categoryFilter">
+
+                        <option value="all">
+                            All Categories
+                        </option>
+
+                        <option value="food">
+                            Food
+                        </option>
+
+                        <option value="beverages">
+                            Beverages
+                        </option>
+
+                        <option value="household">
+                            Household
+                        </option>
+
+                        <option value="personal-care">
+                            Personal Care
+                        </option>
+
+                    </select>
+
+
+                    <select id="stockFilter">
+
+                        <option value="all">
+                            All Stock
+                        </option>
+
+                        <option value="in-stock">
+                            In Stock
+                        </option>
+
+                        <option value="low-stock">
+                            Low Stock
+                        </option>
+
+                        <option value="out-of-stock">
+                            Out of Stock
+                        </option>
+
+                    </select>
+
+
+                </div>
+
+
+                <!-- Table -->
+
+                <div class="table-container">
+
+                    <table id="productsTable">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>Product</th>
+
+                                <th>Category</th>
+
+                                <th>Selling Price</th>
+
+                                <th>Stock</th>
+
+                                <th>Status</th>
+
+                                <th>Action</th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+
+                            <!-- Product 1 -->
+
+                            <tr
+                                data-category="food"
+                                data-stock="in-stock">
+
+                                <td>
+
+                                    <div class="product-name">
+
+                                        <div class="product-image">
+                                            PR
+                                        </div>
+
+                                        <div>
+
+                                            <strong>
+                                                Premium Rice 25kg
+                                            </strong>
+
+                                            <span>
+                                                SKU: PR-25001
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>Food</td>
+
+
+                                <td>
+                                    ₦20,000
+                                </td>
+
+
+                                <td>
+                                    85
+                                </td>
+
+
+                                <td>
+
+                                    <span class="stock-status in-stock">
+                                        In Stock
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+
+                                    <div class="action-buttons">
+
+                                        <button
+                                            type="button"
+                                            class="view-product">
+
+                                            View
+
+                                        </button>
+
+
+                                        <button
+                                            type="button"
+                                            class="edit-product">
+
+                                            Edit
+
+                                        </button>
+
+
+                                        <button
+                                            type="button"
+                                            class="delete-product">
+
+                                            Delete
+
+                                        </button>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+
+                            <!-- Product 2 -->
+
+                            <tr
+                                data-category="food"
+                                data-stock="low-stock">
+
+                                <td>
+
+                                    <div class="product-name">
+
+                                        <div class="product-image">
+                                            VO
+                                        </div>
+
+                                        <div>
+
+                                            <strong>
+                                                Vegetable Oil 5L
+                                            </strong>
+
+                                            <span>
+                                                SKU: VO-50002
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>Food</td>
+
+
+                                <td>
+                                    ₦15,000
+                                </td>
+
+
+                                <td>
+                                    12
+                                </td>
+
+
+                                <td>
+
+                                    <span class="stock-status low-stock">
+                                        Low Stock
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+
+                                    <div class="action-buttons">
+
+                                        <button
+                                            type="button"
+                                            class="view-product">
+
+                                            View
+
+                                        </button>
+
+                                        <button
+                                            type="button"
+                                            class="edit-product">
+
+                                            Edit
+
+                                        </button>
+
+                                        <button
+                                            type="button"
+                                            class="delete-product">
+
+                                            Delete
+
+                                        </button>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+
+                            <!-- Product 3 -->
+
+                            <tr
+                                data-category="food"
+                                data-stock="in-stock">
+
+                                <td>
+
+                                    <div class="product-name">
+
+                                        <div class="product-image">
+                                            SU
+                                        </div>
+
+                                        <div>
+
+                                            <strong>
+                                                Sugar 10kg
+                                            </strong>
+
+                                            <span>
+                                                SKU: SU-10003
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>Food</td>
+
+
+                                <td>
+                                    ₦12,000
+                                </td>
+
+
+                                <td>
+                                    64
+                                </td>
+
+
+                                <td>
+
+                                    <span class="stock-status in-stock">
+                                        In Stock
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+
+                                    <div class="action-buttons">
+
+                                        <button
+                                            type="button"
+                                            class="view-product">
+
+                                            View
+
+                                        </button>
+
+                                        <button
+                                            type="button"
+                                            class="edit-product">
+
+                                            Edit
+
+                                        </button>
+
+                                        <button
+                                            type="button"
+                                            class="delete-product">
+
+                                            Delete
+
+                                        </button>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+
+                            <!-- Product 4 -->
+
+                            <tr
+                                data-category="food"
+                                data-stock="out-of-stock">
+
+                                <td>
+
+                                    <div class="product-name">
+
+                                        <div class="product-image">
+                                            FL
+                                        </div>
+
+                                        <div>
+
+                                            <strong>
+                                                Flour 10kg
+                                            </strong>
+
+                                            <span>
+                                                SKU: FL-10004
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>Food</td>
+
+
+                                <td>
+                                    ₦12,000
+                                </td>
+
+
+                                <td>
+                                    0
+                                </td>
+
+
+                                <td>
+
+                                    <span class="stock-status out-of-stock">
+                                        Out of Stock
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+
+                                    <div class="action-buttons">
+
+                                        <button
+                                            type="button"
+                                            class="view-product">
+
+                                            View
+
+                                        </button>
+
+                                        <button
+                                            type="button"
+                                            class="edit-product">
+
+                                            Edit
+
+                                        </button>
+
+                                        <button
+                                            type="button"
+                                            class="delete-product">
+
+                                            Delete
+
+                                        </button>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ================================
+         NOTIFICATION PANEL
+    ================================= -->
+
+    <div
+        class="notification-panel"
+        id="notificationPanel">
+
+        <div class="notification-header">
+
+            <div>
+
+                <h3>Notifications</h3>
+
+                <span>3 new notifications</span>
+
+            </div>
+
+            <button
+                type="button"
+                id="closeNotifications">
+
+                ×
+
+            </button>
+
+        </div>
+
+
+        <div class="notification-list">
+
+
+            <div class="notification-item">
+
+                <div class="notification-icon">
+                    🛒
+                </div>
+
+                <div>
+
+                    <strong>New sale recorded</strong>
+
+                    <p>
+                        A new sales transaction has been recorded.
+                    </p>
+
+                    <small>
+                        10 minutes ago
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="notification-item">
+
+                <div class="notification-icon">
+                    📦
+                </div>
+
+                <div>
+
+                    <strong>Low stock alert</strong>
+
+                    <p>
+                        Vegetable Oil 5L is running low.
+                    </p>
+
+                    <small>
+                        30 minutes ago
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="notification-item">
+
+                <div class="notification-icon">
+                    👤
+                </div>
+
+                <div>
+
+                    <strong>Manager activity</strong>
+
+                    <p>
+                        A manager recorded a new sale.
+                    </p>
+
+                    <small>
+                        1 hour ago
+                    </small>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- ================================
+         ADD PRODUCT MODAL
+    ================================= -->
+
+    <div
+        class="product-modal"
+        id="productModal">
+
+
+        <div class="product-modal-content">
+
+
+            <div class="product-modal-header">
+
+                <div>
+
+                    <h2>Add New Product</h2>
+
+                    <p>
+                        Add a product and set its selling price.
+                    </p>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="close-product-modal"
+                    id="closeProductModal">
+
+                    ×
+
+                </button>
+
+            </div>
+
+
+            <form id="productForm">
+
+
+                <div class="form-group">
+
+                    <label for="productName">
+                        Product Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="productName"
+                        placeholder="e.g. Premium Rice 25kg"
+                        required>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="productSku">
+                        SKU
+                    </label>
+
+                    <input
+                        type="text"
+                        id="productSku"
+                        placeholder="e.g. PR-25005"
+                        required>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="productCategory">
+                        Category
+                    </label>
+
+                    <select
+                        id="productCategory"
+                        required>
+
+                        <option value="">
+                            Select Category
+                        </option>
+
+                        <option value="food">
+                            Food
+                        </option>
+
+                        <option value="beverages">
+                            Beverages
+                        </option>
+
+                        <option value="household">
+                            Household
+                        </option>
+
+                        <option value="personal-care">
+                            Personal Care
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- DIRECTOR CAN SET PRICE -->
+
+                <div class="form-group">
+
+                    <label for="productPrice">
+                        Selling Price (₦)
+                    </label>
+
+                    <input
+                        type="number"
+                        id="productPrice"
+                        min="0"
+                        step="0.01"
+                        placeholder="e.g. 20000"
+                        required>
+
+                </div>
+
+
+                <div class="form-row">
+
+
+                    <div class="form-group">
+
+                        <label for="productStock">
+                            Stock Quantity
+                        </label>
+
+                        <input
+                            type="number"
+                            id="productStock"
+                            min="0"
+                            placeholder="e.g. 50"
+                            required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="lowStockLimit">
+                            Low Stock Limit
+                        </label>
+
+                        <input
+                            type="number"
+                            id="lowStockLimit"
+                            min="0"
+                            value="10"
+                            required>
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="product-form-actions">
+
+                    <button
+                        type="button"
+                        class="cancel-product-button"
+                        id="cancelProduct">
+
+                        Cancel
+
+                    </button>
+
+
+                    <button
+                        type="submit"
+                        class="primary-button">
+
+                        Add Product
+
+                    </button>
+
+                </div>
+
+
+            </form>
+
+        </div>
+
+    </div>
+    
+    <!-- ========================================
+     EDIT PRODUCT MODAL
+======================================== -->
+
+<div class="product-modal" id="editProductModal">
+
+    <div class="product-modal-content">
+
+        <div class="product-modal-header">
+
+            <div>
+                <h2>Edit Product</h2>
+
+                <p>
+                    Update product information and selling price.
+                </p>
+            </div>
+
+            <button
+                type="button"
+                class="close-product-modal"
+                id="closeEditProductModal">
+
+                ×
+
+            </button>
+
+        </div>
+
+
+        <form id="editProductForm">
+
+
+            <!-- Product Name -->
+
+            <div class="form-group">
+
+                <label for="editProductName">
+                    Product Name
+                </label>
+
+                <input
+                    type="text"
+                    id="editProductName"
+                    required>
+
+            </div>
+
+
+            <!-- SKU -->
+
+            <div class="form-group">
+
+                <label for="editProductSku">
+                    SKU
+                </label>
+
+                <input
+                    type="text"
+                    id="editProductSku"
+                    required>
+
+            </div>
+
+
+            <!-- Category -->
+
+            <div class="form-group">
+
+                <label for="editProductCategory">
+                    Category
+                </label>
+
+                <select
+                    id="editProductCategory"
+                    required>
+
+                    <option value="food">
+                        Food
+                    </option>
+
+                    <option value="beverages">
+                        Beverages
+                    </option>
+
+                    <option value="household">
+                        Household
+                    </option>
+
+                    <option value="personal-care">
+                        Personal Care
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- SELLING PRICE -->
+
+            <div class="form-group">
+
+                <label for="editProductPrice">
+                    Selling Price (₦)
+                </label>
+
+                <input
+                    type="number"
+                    id="editProductPrice"
+                    min="0"
+                    step="0.01"
+                    required>
+
+                <small class="form-help">
+                    Only the Director can change the selling price.
+                </small>
+
+            </div>
+
+
+            <!-- Stock -->
+
+            <div class="form-row">
+
+                <div class="form-group">
+
+                    <label for="editProductStock">
+                        Stock Quantity
+                    </label>
+
+                    <input
+                        type="number"
+                        id="editProductStock"
+                        min="0"
+                        required>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="editLowStockLimit">
+                        Low Stock Limit
+                    </label>
+
+                    <input
+                        type="number"
+                        id="editLowStockLimit"
+                        min="0"
+                        required>
+
+                </div>
+
+            </div>
+
+
+            <!-- Buttons -->
+
+            <div class="product-form-actions">
+
+                <button
+                    type="button"
+                    class="cancel-product-button"
+                    id="cancelEditProduct">
+
+                    Cancel
+
+                </button>
+
+
+                <button
+                    type="submit"
+                    class="primary-button">
+
+                    Save Changes
+
+                </button>
+
+            </div>
+
+
+        </form>
+
+    </div>
+
+</div>
+
+
+    <script src="../js/director-product.js"></script>
+
+</body>
+</html>

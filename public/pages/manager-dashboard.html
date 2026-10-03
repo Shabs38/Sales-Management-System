@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Manager Dashboard | Sales Management System</title>
+
+    <link
+        rel="stylesheet"
+        href="../css/manager-dashboard.css"
+    >
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================================
+         SIDEBAR
+    ========================================== -->
+
+    <aside class="sidebar" id="sidebar">
+
+
+        <!-- LOGO -->
+
+        <div class="sidebar-logo">
+
+            <div class="logo-icon">
+                <img src="../images/logo1.jpg" alt="" style="width:40px; height:40px; border-radius:50%">
+            </div>
+
+            <div>
+
+                <h2>MAI KIFI COMM</h2>
+               <h2>Sales Management
+                </h2>
+
+                <span>
+                    System
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- NAVIGATION -->
+
+        <nav class="navigation">
+
+            <p class="nav-title">
+     MANAGER'S           MAIN MENU
+            </p>
+
+
+            <a
+                href="manager-dashboard.html"
+                class="nav-link"
+            >
+
+                <span class="nav-icon">
+                    ⌂
+                </span>
+
+                <span>
+                    Dashboard
+                </span>
+
+            </a>
+
+
+            <a
+                href="sales.html"
+                class="nav-link"
+            >
+
+                <span class="nav-icon">
+                    ▤
+                </span>
+
+                <span>
+                    Sales
+                </span>
+
+            </a>
+
+
+            <a
+                href="product.html"
+                class="nav-link"
+            >
+
+                <span class="nav-icon">
+                    □
+                </span>
+
+                <span>
+                    Products
+                </span>
+
+            </a>
+
+
+            <a
+                href="customer.html"
+                class="nav-link"
+            >
+
+                <span class="nav-icon">
+                    ♙
+                </span>
+
+                <span>
+                    Customers
+                </span>
+
+            </a>
+
+
+            <p class="nav-title management-title">
+                MANAGEMENT
+            </p>
+
+
+            <a
+                href="report.html"
+                class="nav-link"
+            >
+
+                <span class="nav-icon">
+                    ▥
+                </span>
+
+                <span>
+                    Reports
+                </span>
+
+            </a>
+
+
+            <p class="nav-title management-title">
+                SYSTEM
+            </p>
+
+
+            <a
+                href="profile.html"
+                class="nav-link"
+            >
+
+                <span class="nav-icon">
+                    ◉
+                </span>
+
+                <span>
+                    Profile
+                </span>
+
+            </a>
+
+
+            <a
+                href="settings.html"
+                class="nav-link"
+            >
+
+                <span class="nav-icon">
+                    ⚙
+                </span>
+
+                <span>
+                    Settings
+                </span>
+
+            </a>
+
+        </nav>
+
+
+        <!-- SIDEBAR BOTTOM -->
+
+        <div class="sidebar-bottom">
+
+
+            <div class="support-box">
+
+                <div class="support-icon">
+                    ?
+                </div>
+
+                <div>
+
+                    <strong>
+                        Need Help?
+                    </strong>
+
+                    <small>
+                        Contact administrator
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <a
+                href="../index.html"
+                class="logout-link"
+                id="logoutButton"
+            >
+
+                <span>
+                    ⇥
+                </span>
+
+                Logout
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =========================================
+         MAIN CONTENT
+    ========================================== -->
+
+    <main class="main-content">
+
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+
+            <button
+                class="menu-button"
+                id="menuButton"
+                aria-label="Open menu"
+            >
+                ☰
+            </button>
+
+
+            <div class="page-heading">
+
+                <h1>
+                    Manager Dashboard
+                </h1>
+
+                <p>
+                    Monitor your team's sales and daily
+                    business activities.
+                </p>
+
+            </div>
+
+
+            <div class="topbar-actions">
+
+
+                <!-- NOTIFICATION -->
+
+                <button
+                    class="notification-button"
+                    id="notificationButton"
+                    aria-label="Notifications"
+                >
+
+                    🔔
+
+ <span
+    class="notification-badge"
+    id="notificationBadge"
+>
+    0
+</span>                   
+
+                </button>
+
+
+                <!-- PROFILE -->
+
+                <div class="profile">
+
+
+    <div class="profile-avatar">
+    <img
+        src="../images/logo1.jpg"
+        alt="MAI-KIFI-COMM"
+    >
+</div>
+
+<div class="profile-info">
+
+    <strong id="profileName">
+        Loading...
+    </strong>
+
+    <span id="profileRole">
+        Loading...
+    </span>
+
+</div>               
+
+                    <span class="profile-arrow">
+                        ▾
+                    </span>
+
+                </div>
+
+            </div>
+            
+<!-- NOTIFICATION PANEL -->
+
+<div
+    class="notification-panel"
+    id="notificationPanel"
+>
+
+    <div class="notification-header">
+
+        <h3>Notifications</h3>
+
+        <button
+            id="closeNotifications"
+            class="close-notifications"
+        >
+            ×
+        </button>
+
+    </div>
+
+    <div id="notificationList">
+
+        <!-- Notifications loaded from API -->
+
+    </div>
+
+</div>
+
+        </header>
+
+
+
+        <!-- =========================================
+             DASHBOARD CONTENT
+        ========================================== -->
+
+        <section class="dashboard-content">
+
+
+            <!-- ACTION BAR -->
+
+            <div class="dashboard-actions">
+
+
+                <div>
+
+                    <span class="current-date" id="currentDate">
+    Loading date...
+</span>
+
+                </div>
+
+
+                <button
+                    class="primary-button"
+                    id="newSaleButton"
+                >
+
+                    <span>
+                        +
+                    </span>
+
+                    New Sale
+
+                </button>
+
+            </div>
+
+
+
+            <!-- =====================================
+                 STAT CARDS
+            ====================================== -->
+
+            <div class="stats-grid">
+
+
+                <!-- TODAY'S SALES -->
+
+                <div class="stat-card">
+
+                    <div class="stat-card-top">
+
+                        <div class="stat-icon sales-icon">
+                            ▤
+                        </div>
+
+                        <span class="stat-change" id="managerSalesGrowth">
+        Today                    
+                        </span>
+
+                    </div>
+
+
+                    <div class="stat-info">
+
+                        <p>
+                            Today's Sales
+                        </p>
+
+                        <h2 id="managerTotalSales">
+                            0
+                        </h2>
+
+                        <span>
+                            Transactions today
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- TODAY'S REVENUE -->
+
+                <div class="stat-card">
+
+                    <div class="stat-card-top">
+
+                        <div class="stat-icon revenue-icon">
+                            ₦
+                        </div>
+
+      <span
+    class="stat-change"
+    id="managerRevenueGrowth"
+>
+    Loading...
+</span>                  
+
+                    </div>
+
+
+                    <div class="stat-info">
+
+        <p>
+    Today's Revenue
+</p>                
+
+                        <h2 id="managerTotalRevenue">
+                            ₦0
+                        </h2>
+
+                        <span>
+                            Compared with yesterday
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- PRODUCTS SOLD -->
+
+                <div class="stat-card">
+
+                    <div class="stat-card-top">
+
+                        <div class="stat-icon product-icon">
+                            □
+                        </div>
+
+                        <span class="growth neutral">
+                            Today
+                        </span>
+
+                    </div>
+
+
+                    <div class="stat-info">
+
+                        <p>
+                            Products Sold
+                        </p>
+
+                        <h2 id="managerProductsSold">
+                            0
+                        </h2>
+
+                        <span>
+                            Items sold today
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- CUSTOMERS -->
+
+                <div class="stat-card">
+
+                    <div class="stat-card-top">
+
+                        <div class="stat-icon customer-icon">
+                            ♙
+                        </div>
+
+  <span class="stat-change" id="managerCustomerGrowth">
+    Today
+</span>                      
+
+                    </div>
+
+
+                    <div class="stat-info">
+
+                        <p>
+                            Customers
+                        </p>
+
+                        <h2 id="managerTotalCustomers">
+                            0
+                        </h2>
+
+                        <span>
+                            Customers served today
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =====================================
+                 SALES OVERVIEW + TOP PRODUCTS
+            ====================================== -->
+
+            <div class="dashboard-row">
+
+
+                <!-- SALES OVERVIEW -->
+
+                <div class="dashboard-card sales-chart-card">
+
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <h3>
+                                Sales Overview
+                            </h3>
+
+  <p id="managerChartDescription">
+    Loading...
+</p>                          
+
+                        </div>
+
+
+                        <select
+                            id="chartPeriod"
+                            class="chart-select"
+                        >
+
+                            <option value="weekly">
+                                This Week
+                            </option>
+
+                            <option value="monthly">
+                                This Month
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="chart">
+
+     <div class="y-axis" id="managerChartYAxis">
+</div>                   
+
+                        <div class="chart-area">
+
+                            <div class="grid-line"></div>
+                            <div class="grid-line"></div>
+                            <div class="grid-line"></div>
+                            <div class="grid-line"></div>
+
+
+                            <div class="bars" id="managerSalesChartBars">
+           
+                </div>
+
+
+
+                <!-- TOP PRODUCTS -->
+
+                <div class="dashboard-card">
+
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <h3>
+                                Top Products
+                            </h3>
+
+                            <p>
+                                Best selling products
+                            </p>
+
+                        </div>
+
+
+                        <a href="product.html">
+                            View All
+                        </a>
+
+                    </div>
+
+
+                    <div class="product-list" id="managerTopProducts">
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =====================================
+                 RECENT SALES
+            ====================================== -->
+
+            <div class="dashboard-card transactions-card">
+
+
+                <div class="card-header">
+
+                    <div>
+
+                        <h3>
+                            Recent Sales
+                        </h3>
+
+                        <p>
+                            Latest transactions from your sales
+                        </p>
+
+                    </div>
+
+
+                    <a href="sales.html">
+                        View All Sales
+                    </a>
+
+                </div>
+
+
+                <div class="table-container">
+
+                    <table>
+
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Transaction ID
+                                </th>
+
+                                <th>
+                                    Customer
+                                </th>
+
+                                <th>
+                                    Salesperson
+                                </th>
+
+                                <th>
+                                    Amount
+                                </th>
+
+                                <th>
+                                    Date
+                                </th>
+
+                                <th>
+                                    Status
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody id="managerRecentSales">
+             
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+    </main>
+
+
+
+    <!-- =========================================
+         MOBILE OVERLAY
+    ========================================== -->
+
+    <div
+        class="sidebar-overlay"
+        id="sidebarOverlay"
+    ></div>
+
+
+
+    <!-- =========================================
+         NOTIFICATION PANEL
+    ========================================== -->
+
+    
+
+
+
+    <script src="../js/manager.js"></script>
+
+</body>
+
+</html>
