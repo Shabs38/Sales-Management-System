@@ -341,6 +341,7 @@ async function changeMyPassword(req, res) {
                 "Unable to change password."
         });
    }
+}
 
 	async function uploadProfileImage(req, res) {
     return res.status(501).json({
@@ -348,83 +349,6 @@ async function changeMyPassword(req, res) {
         message: "Profile image upload is temporarily unavailable on the deployed version."
     });
 }
-        // Get the previous image
-        const oldImageResult = await pool.query(
-            `
-            SELECT profile_image
-            FROM users
-            WHERE id = $1
-            `,
-            [userId]
-        );
-
-        if (oldImageResult.rows.length === 0) {
-            return res.status(404).json({
-                success: false,
-                message: "User account not found."
-            });
-        }
-
-        const oldImage =
-            oldImageResult.rows[0].profile_image;
-
-        // Save the new image path
-        const imagePath =
-            `/uploads/profiles/${req.file.filename}`;
-
-        const result = await pool.query(
-            `
-            UPDATE users
-            SET
-                profile_image = $1,
-                updated_at = CURRENT_TIMESTAMP
-            WHERE id = $2
-            RETURNING
-                id,
-                full_name,
-                username,
-                email,
-                role,
-                profile_image
-            `,
-            [imagePath, userId]
-        );
-
-        // Delete previous uploaded image
-        if (oldImage) {
-            const fs = require("fs");
-            const path = require("path");
-
-            const oldFilePath = path.join(
-                __dirname,
-                "..",
-                oldImage
-            );
-
-            if (fs.existsSync(oldFilePath)) {
-                fs.unlinkSync(oldFilePath);
-            }
-        }
-
-        return res.json({
-            success: true,
-            message: "Profile image updated successfully.",
-            profile: result.rows[0]
-        });
-
-    } catch (error) {
-        console.error(
-            "Upload profile image error:",
-            error
-        );
-
-        return res.status(500).json({
-            success: false,
-            message: "Unable to update profile image."
-        });
-    }
-}
-
 
 module.exports = {
     getMyProfile,
