@@ -340,21 +340,14 @@ async function changeMyPassword(req, res) {
             message:
                 "Unable to change password."
         });
-    }
+   }
+
+	async function uploadProfileImage(req, res) {
+    return res.status(501).json({
+        success: false,
+        message: "Profile image upload is temporarily unavailable on the deployed version."
+    });
 }
-
-
-async function uploadProfileImage(req, res) {
-    try {
-        const userId = req.session.user.id;
-
-        if (!req.file) {
-            return res.status(400).json({
-                success: false,
-                message: "Profile image is required."
-            });
-        }
-
         // Get the previous image
         const oldImageResult = await pool.query(
             `
