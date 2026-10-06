@@ -398,17 +398,14 @@ const uploadResult = await cloudinary.uploader.upload(dataUri, {
             profile: result.rows[0]
         });
 
-    } catch (error) {
-        console.error(
-            "Profile image upload error:",
-            error
-        );
+   } catch (error) {
+    console.error("Profile image upload error:", error);
 
-        return res.status(500).json({
-            success: false,
-            message: "Unable to upload profile image."
-        });
-    }
+    return res.status(500).json({
+        success: false,
+        message: error.message || "Unable to upload profile image."
+    });
+  }
 }
 
 module.exports = {
