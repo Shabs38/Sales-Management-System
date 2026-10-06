@@ -36,6 +36,7 @@ const settingsRoutes =
 
 
 const app = express();
+app.set('trust proxy', 1);
 const PORT = process.env.PORT || 5000;
 
 
@@ -68,7 +69,8 @@ app.use(session({
         sameSite: 'lax',
         maxAge: 1000 * 60 * 60 * 24
     }
-}));
+}))
+;
 
 
 app.use(
