@@ -1,9 +1,14 @@
 const { Pool } = require("pg");
 require("dotenv").config();
 
+const isProduction = process.env.NODE_ENV === "production";
+
 const poolConfig = process.env.DATABASE_URL
     ? {
           connectionString: process.env.DATABASE_URL,
+          ssl: isProduction
+              ? { rejectUnauthorized: false }
+              : false,
           max: 5,
           connectionTimeoutMillis: 10000,
           idleTimeoutMillis: 30000
@@ -14,9 +19,7 @@ const poolConfig = process.env.DATABASE_URL
           user: process.env.DB_USER,
           password: process.env.DB_PASSWORD,
           database: process.env.DB_NAME,
-          ssl: {
-              rejectUnauthorized: false
-          },
+          ssl: false,
           max: 5,
           connectionTimeoutMillis: 10000,
           idleTimeoutMillis: 30000
@@ -34,10 +37,19 @@ pool.on("error", (error) => {
 
 pool.query("SELECT NOW()", (error, result) => {
     if (error) {
-        console.error("PostgreSQL connection failed:", error.message);
+        console.error(
+            "PostgreSQL connection failed:",
+            error.message
+        );
     } else {
-        console.log("PostgreSQL connection test successful");
-        console.log("Database time:", result.rows[0].now);
+        console.log(
+            "PostgreSQL connection test successful"
+        );
+
+        console.log(
+            "Database time:",
+            result.rows[0].now
+        );
     }
 });
 

@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs");
 const pool = require("../config/db");
-
+const cloudinary = require("../config/cloudinary");
 // =====================================
 // GET MY PROFILE
 // =====================================
@@ -344,10 +344,71 @@ async function changeMyPassword(req, res) {
 }
 
 	async function uploadProfileImage(req, res) {
-    return res.status(501).json({
-        success: false,
-        message: "Profile image upload is temporarily unavailable on the deployed version."
-    });
+    try {
+        const userId = req.session.user.id;
+
+        if (!req.file) {
+            return res.status(400).json({
+                success: false,
+                message: "Please select an image."
+            });
+        }
+
+       const base64Image = req.file.buffer.toString("base64");
+
+const dataUri = `data:${req.file.mimetype};base64,${base64Image}`;
+
+const uploadResult = await cloudinary.uploader.upload(dataUri, {
+    folder: "sales-management/profile-images",
+    resource_type: "image"
+});
+        const result = await pool.query(
+            `
+            UPDATE users
+            SET
+                profile_image = $1,
+                updated_at = CURRENT_TIMESTAMP
+            WHERE id = $2
+            RETURNING
+                id,
+                full_name,
+                username,
+                email,
+                role,
+                is_active,
+                profile_image,
+                created_at
+            `,
+            [
+                uploadResult.secure_url,
+                userId
+            ]
+        );
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({
+                success: false,
+                message: "User profile not found."
+            });
+        }
+
+        return res.json({
+            success: true,
+            message: "Profile image uploaded successfully.",
+            profile: result.rows[0]
+        });
+
+    } catch (error) {
+        console.error(
+            "Profile image upload error:",
+            error
+        );
+
+        return res.status(500).json({
+            success: false,
+            message: "Unable to upload profile image."
+        });
+    }
 }
 
 module.exports = {

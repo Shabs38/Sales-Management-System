@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const session = require('express-session');
+const pgSession = require('connect-pg-simple')(session);
 const path = require('path');
 require('dotenv').config();
 
@@ -47,14 +48,25 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+
 app.use(session({
+    store: new pgSession({
+        pool: require('./config/db'),
+        tableName: 'user_sessions',
+        createTableIfMissing: true
+    }),
+
     secret: process.env.SESSION_SECRET,
+
     resave: false,
+
     saveUninitialized: false,
+
     cookie: {
         httpOnly: true,
-        secure: false,
-        sameSite: 'lax'
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        maxAge: 1000 * 60 * 60 * 24
     }
 }));
 
@@ -88,6 +100,7 @@ reportRoutes);
 
 app.use('/api/profile',
 profileRoutes);
+
 
 app.use("/api/settings",
 settingsRoutes);
