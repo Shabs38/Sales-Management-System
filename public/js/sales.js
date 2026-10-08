@@ -1,3 +1,4 @@
+
 document.addEventListener("DOMContentLoaded", function () {
 
     // =========================================
@@ -950,6 +951,7 @@ document.addEventListener("DOMContentLoaded", function () {
             "click",
             async function () {
 
+
                 saleModal.classList.add(
                     "active"
                 );
@@ -1480,26 +1482,12 @@ if (saleItems) {
                 // CUSTOMER VALIDATION
                 // ---------------------------------
 
-                if (
-                    !customerHidden ||
-                    !customerHidden.value
-                ) {
-
-                    alert(
-                        "Please select a customer from the suggestions."
-                    );
-
-
-                    if (customerInput) {
-
-                        customerInput.focus();
-
-                    }
-
-
-                    return;
-
-                }
+               // CUSTOMER VALIDATION
+// Customer is optional.
+// If a registered customer is selected,
+// customerHidden.value contains their ID.
+// If no customer is selected, the sale
+// will be saved as a walk-in sale.
 
 
                 // ---------------------------------
@@ -1665,14 +1653,12 @@ if (saleItems) {
                 // ---------------------------------
 
                 const saleData = {
+		customer_id:
+    customerHidden && customerHidden.value
+        ? Number(customerHidden.value)
+        : null,
 
-                    customer_id:
-                        Number(
-                            customerHidden.value
-                        ),
-
-                    items:
-                        items,
+                  items: items,
 
                     // Discount is disabled
                     // in the current UI.

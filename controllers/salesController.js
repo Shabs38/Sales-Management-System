@@ -9,7 +9,7 @@ const getSales = async (req, res) => {
                 s.id,
                 s.sale_reference,
                 s.customer_id,
-                c.full_name AS customer_name,
+                COALESCE(c.full_name, 'Walk-in Customer') AS customer_name,
                 s.user_id,
                 u.full_name AS salesperson_name,
                 s.subtotal,
@@ -26,7 +26,7 @@ const getSales = async (req, res) => {
 
             FROM sales s
 
-            INNER JOIN customers c
+            LEFT JOIN customers c
                 ON s.customer_id = c.id
 
             INNER JOIN users u
@@ -73,7 +73,7 @@ const getSaleById = async (req, res) => {
                 s.id,
                 s.sale_reference,
                 s.customer_id,
-                c.full_name AS customer_name,
+                COALESCE(c.full_name, 'Walk-in Customer') AS customer_name,
                 s.user_id,
           	u.full_name AS salesperson_name,
 	        s.subtotal,
@@ -83,10 +83,10 @@ const getSaleById = async (req, res) => {
                 s.payment_status,
                 s.created_at
             FROM sales s
-            INNER JOIN customers c
+            LEFT JOIN customers c
                 ON s.customer_id = c.id
 	    INNER JOIN users u
-                ON s.user_id = u.id  
+                ON s.user_id = u.id
           WHERE s.id = $1
         `, [id]);
 
@@ -142,13 +142,21 @@ const createSale = async (req, res) => {
             payment_status = 'paid'
         } = req.body;
 
-        // Basic validation
-        if (!customer_id || !Array.isArray(items) || items.length === 0) {
-            return res.status(400).json({
-                success: false,
-                message: 'Customer and at least one product are required'
-            });
-        }
+
+        const customerId =
+    customer_id === '' ||
+    customer_id === undefined ||
+    customer_id === null
+        ? null
+        : Number(customer_id);
+
+       // Basic validation
+if (!Array.isArray(items) || items.length === 0) {
+    return res.status(400).json({
+        success: false,
+        message: 'At least one product is required'
+    });
+}
 
         if (!payment_method) {
             return res.status(400).json({
@@ -167,23 +175,27 @@ const createSale = async (req, res) => {
         // Start transaction
         await client.query('BEGIN');
 
-        // Check customer
-        const customerResult = await client.query(
-            `SELECT id
-             FROM customers
-             WHERE id = $1
-             AND is_active = true`,
-            [customer_id]
-        );
+      // Check customer only if one was selected
+if (customer_id !== null && customer_id !== undefined && customer_id !== '') {
 
-        if (customerResult.rows.length === 0) {
-            await client.query('ROLLBACK');
+    const customerResult = await client.query(
+        `SELECT id
+         FROM customers
+         WHERE id = $1
+         AND is_active = true`,
+        [customer_id]
+    );
 
-            return res.status(404).json({
-                success: false,
-                message: 'Active customer not found'
-            });
-        }
+    if (customerResult.rows.length === 0) {
+        await client.query('ROLLBACK');
+
+        return res.status(404).json({
+            success: false,
+            message: 'Active customer not found'
+        });
+    }
+}
+
 
         let subtotal = 0;
         const saleItems = [];
@@ -363,7 +375,7 @@ const createSale = async (req, res) => {
     } finally {
         client.release();
     }
-}; 
+};
 
 
 module.exports = {

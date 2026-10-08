@@ -214,128 +214,124 @@ document.addEventListener("DOMContentLoaded", function () {
     // RENDER ONE CUSTOMER
     // ================================
 
-    function createCustomerRow(customer) {
+function createCustomerRow(customer) {
 
-        const tableBody =
-            customersTable.querySelector("tbody");
+    const tableBody =
+        customersTable.querySelector("tbody");
 
-        if (!tableBody) return null;
+    if (!tableBody) return null;
 
-        const row =
-            document.createElement("tr");
+    const row =
+        document.createElement("tr");
 
-        const type = "regular";
+    const status =
+        customer.is_active
+            ? "active"
+            : "inactive";
 
-        const status =
-            customer.is_active
-                ? "active"
-                : "inactive";
+    const statusName =
+        status === "active"
+            ? "Active"
+            : "Inactive";
 
-        const typeName = "Regular";
+    const statusClass =
+        status === "active"
+            ? "active"
+            : "inactive";
 
-        const statusName =
-            status === "active"
-                ? "Active"
-                : "Inactive";
+    const customerId =
+        formatCustomerId(customer.id);
 
-        const statusClass =
-            status === "active"
-                ? "active"
-                : "inactive";
+    row.dataset.id = customer.id;
+    row.dataset.status = status;
+    row.dataset.type = "";
+    row.dataset.email = customer.email || "";
+    row.dataset.address = customer.address || "";
+    row.dataset.purchases = "";
+    row.dataset.lastPurchase = "";
 
-        const customerId =
-            formatCustomerId(customer.id);
+    row.innerHTML = `
 
-        row.dataset.id = customer.id;
-        row.dataset.status = status;
-        row.dataset.type = type;
-        row.dataset.email = customer.email || "";
-        row.dataset.address = customer.address || "";
-        row.dataset.purchases = "₦0";
-        row.dataset.lastPurchase = "No purchase yet";
+        <td>
 
-        row.innerHTML = `
+            <div class="customer-name">
 
-            <td>
+                <div class="customer-avatar">
+                    ${escapeHtml(getInitials(customer.full_name))}
+                </div>
 
-                <div class="customer-name">
+                <div>
 
-                    <div class="customer-avatar">
-                        ${escapeHtml(getInitials(customer.full_name))}
-                    </div>
+                    <strong>
+                        ${escapeHtml(customer.full_name)}
+                    </strong>
 
-                    <div>
-
-                        <strong>
-                            ${escapeHtml(customer.full_name)}
-                        </strong>
-
-                        <span>
-                            Customer ID: ${customerId}
-                        </span>
-
-                    </div>
+                    <span>
+                        Customer ID: ${customerId}
+                    </span>
 
                 </div>
 
-            </td>
+            </div>
 
-            <td>
-                ${escapeHtml(customer.phone)}
-            </td>
+        </td>
 
-            <td>
-                ${typeName}
-            </td>
+        <td>
+            ${escapeHtml(customer.phone)}
+        </td>
 
-            <td>
-                ₦0
-            </td>
+        <td>
+            —
+        </td>
 
-            <td>
-                No purchase yet
-            </td>
+        <td>
+            —
+        </td>
 
-            <td>
+        <td>
+            —
+        </td>
 
-                <span class="customer-status ${statusClass}">
-                    ${statusName}
-                </span>
+        <td>
 
-            </td>
+            <span class="customer-status ${statusClass}">
+                ${statusName}
+            </span>
 
-            <td>
+        </td>
 
-                <div class="action-buttons">
+        <td>
 
-                    <button
-                        type="button"
-                        class="view-customer">
-                        View
-                    </button>
+            <div class="action-buttons">
 
-                    <button
-                        type="button"
-                        class="edit-customer">
-                        Edit
-                    </button>
+                <button
+                    type="button"
+                    class="view-customer">
+                    View
+                </button>
 
-                    <button
-                        type="button"
-                        class="delete-customer">
-                        Delete
-                    </button>
+                <button
+                    type="button"
+                    class="edit-customer">
+                    Edit
+                </button>
 
-                </div>
+                <button
+                    type="button"
+                    class="delete-customer">
+                    Delete
+                </button>
 
-            </td>
+            </div>
 
-        `;
+        </td>
 
-        tableBody.appendChild(row);
+    `;
 
-        return row;
-    }
+    tableBody.appendChild(row);
+
+    return row;
+}
 
 
     // ================================
@@ -349,7 +345,7 @@ document.addEventListener("DOMContentLoaded", function () {
         try {
 
             const response =
-                await fetch("/api/customers");
+                await fetch("/api/customers", { credentials: "include" });
 
             const data =
                 await response.json();
@@ -615,6 +611,7 @@ function updateCustomerStats(customers) {
 
                 const response =
                     await fetch("/api/customers", {
+                        credentials: "include",
 
                         method: "POST",
 
@@ -1048,6 +1045,7 @@ function updateCustomerStats(customers) {
                     await fetch(
                         `/api/customers/${customerId}`,
                         {
+                            credentials: "include",
 
                             method: "PUT",
 
@@ -1154,6 +1152,7 @@ function updateCustomerStats(customers) {
                 await fetch(
                     `/api/customers/${customerId}`,
                     {
+                        credentials: "include",
                         method: "DELETE"
                     }
                 );
