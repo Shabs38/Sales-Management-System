@@ -1279,36 +1279,42 @@ function updateCustomerStats(customers) {
     }
 
 
-    // ================================
+       // ================================
     // LOGOUT
     // ================================
 
-    const logoutButton =
-        document.getElementById("logoutButton");
-
+    const logoutButton = document.getElementById("logoutButton");
 
     if (logoutButton) {
-
-        logoutButton.addEventListener("click", function (event) {
-
+        logoutButton.addEventListener("click", async function (event) {
             event.preventDefault();
 
-            const confirmLogout =
-                confirm(
-                    "Are you sure you want to logout?"
-                );
+            const confirmLogout = confirm("Are you sure you want to logout?");
 
-            if (confirmLogout) {
+            if (!confirmLogout) return;
 
-                window.location.href =
-                    "../index.html";
+            try {
+                const response = await fetch("/api/auth/logout", {
+                    method: "POST",
+                    credentials: "include",
+                    headers: {
+                        "Accept": "application/json"
+                    }
+                });
 
+                const result = await response.json();
+
+                if (response.ok && result.success) {
+                    window.location.replace("/pages/index.html");
+                } else {
+                    alert(result.message || "Unable to logout.");
+                }
+            } catch (error) {
+                console.error("Logout error:", error);
+                alert("Unable to logout. Please try again.");
             }
-
         });
-
     }
-
 
     // ================================
     // INITIAL LOAD
