@@ -378,8 +378,57 @@ if (customer_id !== null && customer_id !== undefined && customer_id !== '') {
 };
 
 
+
+// Clear all sales transactions — Director only
+const clearAllSales = async (req, res) => {
+    let client;
+
+    try {
+        client = await pool.connect();
+
+        await client.query('BEGIN');
+
+        const result = await client.query(
+            'DELETE FROM sales RETURNING id'
+        );
+
+        await client.query('COMMIT');
+
+        return res.status(200).json({
+            success: true,
+            message: `Successfully cleared ${result.rowCount} sales transactions.`,
+            deletedSales: result.rowCount
+        });
+
+    } catch (error) {
+        if (client) {
+            try {
+                await client.query('ROLLBACK');
+            } catch (rollbackError) {
+                console.error(
+                    'Rollback failed:',
+                    rollbackError.message
+                );
+            }
+        }
+
+        console.error('Error clearing sales:', error);
+
+        return res.status(500).json({
+            success: false,
+            message: 'Unable to clear sales transactions.'
+        });
+
+    } finally {
+        if (client) {
+            client.release();
+        }
+    }
+};
+
 module.exports = {
     getSales,
     getSaleById,
-    createSale
+    createSale,
+    clearAllSales
 };

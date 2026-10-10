@@ -32,6 +32,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const reportTable =
         document.getElementById("reportTable");
 
+   const clearAllTransactionsBtn =
+    document.getElementById("clearAllTransactionsBtn");
+
+const recordCount =
+    document.getElementById("recordCount");
+
+
     const salesChart =
         document.getElementById("salesChart");
 
@@ -77,6 +84,114 @@ document.addEventListener("DOMContentLoaded", () => {
 
         return data;
     }
+
+
+	// =====================================
+// DIRECTOR-ONLY CLEAR ALL TRANSACTIONS
+// =====================================
+
+async function configureClearAllButton() {
+    if (!clearAllTransactionsBtn) {
+        return;
+    }
+
+    // Keep the button hidden unless Director access is confirmed.
+    clearAllTransactionsBtn.hidden = true;
+
+    try {
+        const data = await apiRequest("/api/auth/me");
+
+        if (
+            !data.success ||
+            !data.user ||
+            data.user.role !== "director"
+        ) {
+            return;
+        }
+
+        clearAllTransactionsBtn.hidden = false;
+
+        clearAllTransactionsBtn.addEventListener(
+            "click",
+            async () => {
+                const confirmed = window.confirm(
+                    "WARNING: This will permanently delete all sales " +
+                    "transactions and their associated sale items. " +
+                    "Product stock will remain unchanged. Continue?"
+                );
+
+                if (!confirmed) {
+                    return;
+                }
+
+                const confirmation = window.prompt(
+                    'Type CLEAR to confirm deletion of all transactions:'
+                );
+
+                if (confirmation !== "CLEAR") {
+                    window.alert(
+                        "Operation cancelled. No transactions were deleted."
+                    );
+                    return;
+                }
+
+                const originalButtonText =
+                    clearAllTransactionsBtn.innerHTML;
+
+                try {
+                    clearAllTransactionsBtn.disabled = true;
+                    clearAllTransactionsBtn.textContent =
+                        "Clearing transactions...";
+
+                    const result = await apiRequest(
+                        "/api/sales/clear-all",
+                        {
+                            method: "DELETE"
+                        }
+                    );
+
+                    if (!result.success) {
+                        throw new Error(
+                            result.message ||
+                            "Unable to clear transactions."
+                        );
+                    }
+
+                    window.alert(result.message);
+
+                    // Refresh reports and the transaction table.
+                    await loadSales();
+
+                } catch (error) {
+                    console.error(
+                        "Clear transactions error:",
+                        error
+                    );
+
+                    window.alert(
+                        error.message ||
+                        "Failed to clear transactions."
+                    );
+
+                } finally {
+                    clearAllTransactionsBtn.disabled = false;
+                    clearAllTransactionsBtn.innerHTML =
+                        originalButtonText;
+                }
+            }
+        );
+
+    } catch (error) {
+        console.error(
+            "Unable to verify Director access:",
+            error
+        );
+
+        // Keep the button hidden if verification fails.
+        clearAllTransactionsBtn.hidden = true;
+    }
+}
+
 
     // =====================================
     // FORMAT CURRENCY
@@ -289,6 +404,12 @@ document.addEventListener("DOMContentLoaded", () => {
     // =====================================
 
     function renderTable(transactions) {
+
+	if (recordCount) {
+    recordCount.textContent =
+        `${transactions.length} Transactions`;
+}
+
 
         if (!reportTable) {
             return;
@@ -1073,10 +1194,9 @@ document.addEventListener("DOMContentLoaded", () => {
         };
     }
 
-    // =====================================
-    // INITIAL LOAD
-    // =====================================
+// INITIAL LOAD
 
-    loadSales();
+configureClearAllButton();
+loadSales();
 
 });

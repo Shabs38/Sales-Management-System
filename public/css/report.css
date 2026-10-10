@@ -869,3 +869,123 @@ body {
     }
 
 }
+
+
+/* =====================================
+   DIRECTOR CLEAR TRANSACTIONS BUTTON
+===================================== */
+
+.clear-transactions-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    padding: 11px 18px;
+    background: linear-gradient(135deg, #dc2626, #b91c1c);
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(185, 28, 28, 0.18);
+    transition:
+        background 0.25s ease,
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.clear-transactions-btn:hover {
+    background: linear-gradient(135deg, #b91c1c, #991b1b);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(185, 28, 28, 0.28);
+}
+
+.clear-transactions-btn:active {
+    transform: translateY(0);
+}
+
+.clear-transactions-btn:focus-visible {
+    outline: 3px solid rgba(220, 38, 38, 0.3);
+    outline-offset: 3px;
+}
+
+.clear-transactions-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.clear-transactions-btn .trash-icon {
+    font-size: 17px;
+    line-height: 1;
+}
+
+@media (max-width: 600px) {
+    .clear-transactions-btn {
+        padding: 10px 13px;
+        font-size: 13px;
+    }
+}
+
+
+
+/* Transaction report header actions */
+
+.transaction-header-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.clear-transactions-btn[hidden] {
+    display: none !important;
+}
+
+.clear-transactions-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    padding: 11px 18px;
+    background: linear-gradient(135deg, #dc2626, #b91c1c);
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(185, 28, 28, 0.18);
+    transition: all 0.25s ease;
+}
+
+.clear-transactions-btn:hover {
+    background: linear-gradient(135deg, #b91c1c, #991b1b);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(185, 28, 28, 0.28);
+}
+
+.clear-transactions-btn:focus-visible {
+    outline: 3px solid rgba(220, 38, 38, 0.3);
+    outline-offset: 3px;
+}
+
+.clear-transactions-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+@media (max-width: 600px) {
+    .transaction-header-actions {
+        justify-content: flex-start;
+    }
+
+    .clear-transactions-btn {
+        padding: 10px 13px;
+        font-size: 13px;
+    }
+}
