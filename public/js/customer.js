@@ -385,10 +385,10 @@ function createCustomerRow(customer) {
                 error
             );
 
-            alert(
-                "Unable to load customers from the server."
-            );
-
+           await window.appDialog.alert(
+    "Unable to load customers from the server.",
+    { title: "Loading Error" }
+);
         }
 
     }
@@ -598,10 +598,10 @@ function updateCustomerStats(customers) {
 
             if (!name || !phone || !type || !status) {
 
-                alert(
-                    "Please complete all required customer fields."
-                );
-
+               await window.appDialog.alert(
+    "Please complete all required customer fields.",
+    { title: "Missing Information" }
+);
                 return;
 
             }
@@ -655,11 +655,10 @@ function updateCustomerStats(customers) {
                 await loadCustomers();
 
 
-                alert(
-                    name +
-                    " has been added successfully."
-                );
-
+               await window.appDialog.alert(
+    name + " has been added successfully.",
+    { title: "Customer Added" }
+);
 
             } catch (error) {
 
@@ -668,11 +667,10 @@ function updateCustomerStats(customers) {
                     error
                 );
 
-                alert(
-                    error.message ||
-                    "Unable to add customer."
-                );
-
+               await window.appDialog.alert(
+    error.message || "Unable to add customer.",
+    { title: "Add Customer Failed" }
+);
             }
 
         });
@@ -1030,10 +1028,10 @@ function updateCustomerStats(customers) {
 
             if (!name || !phone || !type || !status) {
 
-                alert(
-                    "Please complete all required customer fields."
-                );
-
+               await window.appDialog.alert(
+    "Please complete all required customer fields.",
+    { title: "Missing Information" }
+);
                 return;
 
             }
@@ -1088,11 +1086,10 @@ function updateCustomerStats(customers) {
                 await loadCustomers();
 
 
-                alert(
-                    name +
-                    " has been updated successfully."
-                );
-
+              await window.appDialog.alert(
+    name + " has been updated successfully.",
+    { title: "Customer Updated" }
+);
 
             } catch (error) {
 
@@ -1101,11 +1098,10 @@ function updateCustomerStats(customers) {
                     error
                 );
 
-                alert(
-                    error.message ||
-                    "Unable to update customer."
-                );
-
+              await window.appDialog.alert(
+    error.message || "Unable to update customer.",
+    { title: "Update Customer Failed" }
+);
             }
 
         });
@@ -1135,13 +1131,15 @@ function updateCustomerStats(customers) {
             nameElement.textContent.trim();
 
 
-        const confirmDelete =
-            confirm(
-                "Are you sure you want to delete " +
-                name +
-                "?"
-            );
-
+        const confirmDelete = await window.appDialog.confirm(
+    "Are you sure you want to delete " + name + "?",
+    {
+        title: "Delete Customer",
+        confirmText: "Delete",
+        cancelText: "Cancel",
+        danger: true
+    }
+);
 
         if (!confirmDelete) return;
 
@@ -1175,11 +1173,10 @@ function updateCustomerStats(customers) {
             row.remove();
 
 
-            alert(
-                name +
-                " has been deleted successfully."
-            );
-
+          await window.appDialog.alert(
+    name + " has been deleted successfully.",
+    { title: "Customer Deleted" }
+);
 
             applyCustomerFilters();
 
@@ -1191,11 +1188,10 @@ function updateCustomerStats(customers) {
                 error
             );
 
-            alert(
-                error.message ||
-                "Unable to delete customer."
-            );
-
+          await window.appDialog.alert(
+    error.message || "Unable to delete customer.",
+    { title: "Delete Customer Failed" }
+);
         }
 
     }
@@ -1289,7 +1285,14 @@ function updateCustomerStats(customers) {
         logoutButton.addEventListener("click", async function (event) {
             event.preventDefault();
 
-            const confirmLogout = confirm("Are you sure you want to logout?");
+            const confirmLogout = await window.appDialog.confirm(
+    "Are you sure you want to logout?",
+    {
+        title: "Confirm Logout",
+        confirmText: "Logout",
+        cancelText: "Stay"
+    }
+);
 
             if (!confirmLogout) return;
 
@@ -1307,11 +1310,17 @@ function updateCustomerStats(customers) {
                 if (response.ok && result.success) {
                     window.location.replace("/pages/index.html");
                 } else {
-                    alert(result.message || "Unable to logout.");
+                    await window.appDialog.alert(
+    result.message || "Unable to logout.",
+    { title: "Logout Failed" }
+);
                 }
             } catch (error) {
                 console.error("Logout error:", error);
-                alert("Unable to logout. Please try again.");
+               await window.appDialog.alert(
+    "Unable to logout. Please try again.",
+    { title: "Logout Failed" }
+);
             }
         });
     }

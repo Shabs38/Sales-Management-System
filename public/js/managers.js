@@ -94,7 +94,9 @@ async function loadProfile() {
 
         if (user.role !== "director") {
 
-            alert("Access denied.");
+            await window.appDialog.alert("Access denied.", {
+    title: "Access Denied"
+});
 
             window.location.href =
                 "/pages/manager-dashboard.html";
@@ -778,14 +780,15 @@ window.editManager =
             );
 
 
-        if (!manager) {
 
-            alert(
-                "Manager information not found."
-            );
 
-            return;
-        }
+          if (!manager) {
+    window.appDialog.alert(
+        "Manager information not found.",
+        { title: "Manager Not Found" }
+    );
+    return;
+}
 
 
         managerId.value =
@@ -860,11 +863,14 @@ window.toggleManagerStatus =
                 : "activate";
 
 
-        const confirmed =
-            confirm(
-                `Are you sure you want to ${action} ${manager.full_name}'s account?`
-            );
-
+        const confirmed = await window.appDialog.confirm(
+    `Are you sure you want to ${action} ${manager.full_name}'s account?`,
+    {
+        title: `${action.charAt(0).toUpperCase() + action.slice(1)} Manager`,
+        confirmText: action.charAt(0).toUpperCase() + action.slice(1),
+        cancelText: "Cancel"
+    }
+);
 
         if (!confirmed) {
             return;
@@ -915,11 +921,10 @@ window.toggleManagerStatus =
             );
 
 
-            alert(
-                error.message ||
-                "Unable to update manager status."
-            );
-
+           await window.appDialog.alert(
+    error.message || "Unable to update manager status.",
+    { title: "Update Failed" }
+);
         }
 
     };
@@ -958,11 +963,10 @@ async function logoutUser() {
 
         } else {
 
-            alert(
-                data.message ||
-                "Unable to logout."
-            );
-
+          await window.appDialog.alert(
+    data.message || "Unable to logout.",
+    { title: "Logout Failed" }
+);
         }
 
     } catch (error) {
@@ -972,10 +976,10 @@ async function logoutUser() {
             error
         );
 
-        alert(
-            "Unable to connect to the server."
-        );
-
+      await window.appDialog.alert(
+    "Unable to connect to the server.",
+    { title: "Connection Error" }
+);
     }
 
 }
@@ -983,16 +987,19 @@ async function logoutUser() {
 
 logoutButton.addEventListener(
     "click",
-    function (event) {
+    async  function (event) {
 
         event.preventDefault();
 
 
-        const confirmed =
-            confirm(
-                "Are you sure you want to logout?"
-            );
-
+       const confirmed = await window.appDialog.confirm(
+    "Are you sure you want to logout?",
+    {
+        title: "Confirm Logout",
+        confirmText: "Logout",
+        cancelText: "Stay"
+    }
+);
 
         if (!confirmed) {
             return;
@@ -1025,11 +1032,13 @@ function openPasswordModal(managerId) {
         return Number(item.id) === Number(managerId);
     });
 
-    if (!manager) {
-        alert("Manager not found.");
-        return;
-    }
-
+   if (!manager) {
+    window.appDialog.alert(
+        "Manager not found.",
+        { title: "Manager Not Found" }
+    );
+    return;
+}
     passwordManagerId.value = manager.id;
     passwordManagerName.value = manager.full_name;
 

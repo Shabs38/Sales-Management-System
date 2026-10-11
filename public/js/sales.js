@@ -1,4 +1,5 @@
 
+
 document.addEventListener("DOMContentLoaded", function () {
 
     // =========================================
@@ -342,9 +343,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 error
             );
 
-            alert(
-                "Unable to load customers."
-            );
+          await window.appDialog.alert(
+    "Unable to load customers."
+);
 
         }
 
@@ -646,10 +647,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 if (!fullName) {
 
-                    alert(
-                        "Please enter the customer's name."
-                    );
-
+                 await  window.appDialog.alert(
+    "Please enter the customer's name."
+);
 
                     newCustomerName.focus();
 
@@ -660,9 +660,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 if (!phone) {
 
-                    alert(
-                        "Please enter the customer's phone number."
-                    );
+                 await  window.appDialog.alert(
+    "Please enter the customer's phone number."
+);
 
 
                     newCustomerPhone.focus();
@@ -757,9 +757,9 @@ document.addEventListener("DOMContentLoaded", function () {
                         "";
 
 
-                    alert(
-                        "Customer added successfully."
-                    );
+                   await window.appDialog.alert(
+    "Customer added successfully."
+);
 
                 } catch (error) {
 
@@ -769,11 +769,10 @@ document.addEventListener("DOMContentLoaded", function () {
                     );
 
 
-                    alert(
-                        error.message ||
-                        "Unable to add customer."
-                    );
-
+await window.appDialog.alert(
+    error.message ||
+    "Unable to add customer."
+);
                 } finally {
 
                     saveNewCustomer.disabled =
@@ -819,9 +818,9 @@ document.addEventListener("DOMContentLoaded", function () {
             );
 
 
-            alert(
-                "Unable to load products."
-            );
+  await window.appDialog.alert(
+    "Unable to load products."
+);
 
         }
 
@@ -1181,9 +1180,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
         quantityInput.value = stock;
 
-        alert(
-            `Only ${stock} units are available.`
-        );
+       window.appDialog.alert(
+    `Only ${stock} units are available.`
+);
     }
 }
 
@@ -1250,9 +1249,9 @@ document.addEventListener("DOMContentLoaded", function () {
         quantityInput.value =
             quantity;
 
-        alert(
-            `Only ${stock} units are available.`
-        );
+  window.appDialog.alert(
+    `Only ${stock} units are available.`
+);
     }
 }
 
@@ -1435,9 +1434,9 @@ if (saleItems) {
 
                 if (items.length <= 1) {
 
-                    alert(
-                        "A sale must contain at least one product."
-                    );
+                   window.appDialog.alert(
+    "A sale must contain at least one product."
+);
 
                     return;
 
@@ -1499,9 +1498,9 @@ if (saleItems) {
                     !paymentMethod.value
                 ) {
 
-                    alert(
-                        "Please select a payment method."
-                    );
+                  window.appDialog.alert(
+    "Please select a payment method."
+);
 
 
                     if (paymentMethod) {
@@ -1522,9 +1521,9 @@ if (saleItems) {
 
                 if (!saleItems) {
 
-                    alert(
-                        "Sale items are missing."
-                    );
+                  window.appDialog.alert(
+    "Sale items are missing."
+);
 
                     return;
 
@@ -1589,9 +1588,9 @@ if (saleItems) {
                         quantity <= 0
                     ) {
 
-                        alert(
-                            "Please select a valid product and quantity."
-                        );
+                      window.appDialog.alert(
+    "Please select a valid product and quantity."
+);
 
                         return;
 
@@ -1615,9 +1614,9 @@ if (saleItems) {
                         availableStock
                     ) {
 
-                        alert(
-                            `Only ${availableStock} units are available for this product.`
-                        );
+                      window.appDialog.alert(
+    `Only ${availableStock} units are available for this product.`
+);
 
                         return;
 
@@ -1639,9 +1638,9 @@ if (saleItems) {
 
                 if (items.length === 0) {
 
-                    alert(
-                        "Please add at least one product."
-                    );
+                  window.appDialog.alert(
+    "Please add at least one product."
+);
 
                     return;
 
@@ -1709,10 +1708,10 @@ if (saleItems) {
                         );
 
 
-                    alert(
-                        data.message ||
-                        "Sale recorded successfully!"
-                    );
+                   await window.appDialog.alert(
+    data.message ||
+    "Sale recorded successfully!"
+);
 
 
                     // Close modal
@@ -1742,10 +1741,10 @@ if (saleItems) {
                     );
 
 
-                    alert(
-                        error.message ||
-                        "Unable to record sale."
-                    );
+                  await window.appDialog.alert(
+    error.message ||
+    "Unable to record sale."
+);
 
                 } finally {
 
@@ -2618,7 +2617,7 @@ if (saleItems) {
             );
 
 
-            alert(
+          await window.appDialog.alert(
                 error.message ||
                 "Unable to load sale details."
             );
@@ -2735,11 +2734,14 @@ if (saleItems) {
                 event.preventDefault();
 
 
-                const confirmLogout =
-                    confirm(
-                        "Are you sure you want to logout?"
-                    );
-
+               const confirmLogout = await window.appDialog.confirm(
+    "Are you sure you want to logout?",
+    {
+        title: "Confirm Logout",
+        confirmText: "Logout",
+        cancelText: "Stay"
+    }
+);
 
                 if (!confirmLogout) {
 

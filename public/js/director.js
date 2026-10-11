@@ -209,11 +209,10 @@ async function logoutUser() {
 
         } else {
 
-            alert(
-                data.message ||
-                "Unable to logout."
-            );
-
+           await window.appDialog.alert(
+    data.message ||
+    "Unable to logout."
+);
         }
 
     } catch (error) {
@@ -223,10 +222,9 @@ async function logoutUser() {
             error
         );
 
-        alert(
-            "Unable to connect to the server."
-        );
-
+       await window.appDialog.alert(
+    "Unable to connect to the server."
+);
     }
 
 }
@@ -234,16 +232,19 @@ async function logoutUser() {
 
 logoutButton.addEventListener(
     "click",
-    function (event) {
+  async  function (event) {
 
         event.preventDefault();
 
 
-        const confirmLogout =
-            confirm(
-                "Are you sure you want to logout?"
-            );
-
+       const confirmLogout = await window.appDialog.confirm(
+    "Are you sure you want to logout?",
+    {
+        title: "Confirm Logout",
+        confirmText: "Logout",
+        cancelText: "Stay"
+    }
+);
 
         if (!confirmLogout) {
 

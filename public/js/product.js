@@ -297,7 +297,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function showProductDetails(product) {
 
-        alert(
+        window.appDialog.alert(
             "Product Details\n\n" +
 
             "Product: " +
@@ -584,11 +584,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 event.preventDefault();
 
-                const confirmLogout =
-                    confirm(
-                        "Are you sure you want to logout?"
-                    );
-
+               const confirmLogout = await window.appDialog.confirm(
+    "Are you sure you want to logout?",
+    {
+        title: "Confirm Logout",
+        confirmText: "Logout",
+        cancelText: "Stay"
+    }
+);
 
                 if (!confirmLogout) return;
 

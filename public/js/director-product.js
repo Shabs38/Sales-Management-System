@@ -302,16 +302,16 @@ document.addEventListener("DOMContentLoaded", function () {
                     ).textContent.trim();
 
 
-                alert(
-                    "Product Details\n\n" +
-                    "Product: " + productName + "\n" +
-                    "SKU: " + sku + "\n" +
-                    "Category: " + category + "\n" +
-                    "Selling Price: " + price + "\n" +
-                    "Stock: " + stock + "\n" +
-                    "Status: " + status
-                );
-
+               window.appDialog.alert(
+    "Product Details\n\n" +
+    "Product: " + productName + "\n" +
+    "SKU: " + sku + "\n" +
+    "Category: " + category + "\n" +
+    "Selling Price: " + price + "\n" +
+    "Stock: " + stock + "\n" +
+    "Status: " + status,
+    { title: "Product Details" }
+);
             });
 
         });
@@ -373,8 +373,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (!productId) {
 
-            alert("Product ID not found.");
-
+           window.appDialog.alert(
+    "Product ID not found.",
+    { title: "Product Not Found" }
+);
             return;
 
         }
@@ -567,7 +569,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 if (!currentEditingRow) {
 
-                    alert("No product selected.");
+                   await window.appDialog.alert(
+    "No product selected.",
+    { title: "No Product Selected" }
+);
 
                     return;
 
@@ -580,7 +585,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 if (!productId) {
 
-                    alert("Product ID not found.");
+                   await window.appDialog.alert(
+    "Product ID not found.",
+    { title: "Product Not Found" }
+);
 
                     return;
 
@@ -640,10 +648,10 @@ document.addEventListener("DOMContentLoaded", function () {
                     !Number.isFinite(lowStockLimit)
                 ) {
 
-                    alert(
-                        "Please complete all product fields."
-                    );
-
+                 await window.appDialog.alert(
+    "Please complete all product fields.",
+    { title: "Missing Information" }
+);
                     return;
 
                 }
@@ -655,10 +663,10 @@ document.addEventListener("DOMContentLoaded", function () {
                     lowStockLimit < 0
                 ) {
 
-                    alert(
-                        "Price and stock values cannot be negative."
-                    );
-
+                 await window.appDialog.alert(
+    "Price and stock values cannot be negative.",
+    { title: "Invalid Product Values" }
+);
                     return;
 
                 }
@@ -721,11 +729,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     if (response.status === 403) {
 
-                        alert(
-                            data.message ||
-                            "Only a Director can edit products."
-                        );
-
+                       await window.appDialog.alert(
+    data.message || "Only a Director can edit products.",
+    { title: "Permission Denied" }
+);
                         return;
 
                     }
@@ -733,21 +740,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     if (!response.ok) {
 
-                        alert(
-                            data.message ||
-                            "Failed to update product."
-                        );
-
+                       await window.appDialog.alert(
+    data.message || "Failed to update product.",
+    { title: "Update Failed" }
+);
                         return;
 
                     }
 
 
-                    alert(
-                        "Product updated successfully."
-                    );
-
-
+  await window.appDialog.alert(
+    "Product updated successfully.",
+    { title: "Product Updated" }
+);
                     closeEditProductModalWindow();
 
 
@@ -761,11 +766,10 @@ document.addEventListener("DOMContentLoaded", function () {
                     );
 
 
-                    alert(
-                        "Unable to connect to the server."
-                    );
-
-                }
+  await window.appDialog.alert(
+    "Unable to connect to the server.",
+    { title: "Connection Error" }
+);              }
 
             }
         );
@@ -814,7 +818,10 @@ function attachDeleteButtons() {
 
                 if (!productId) {
 
-                    alert("Product ID not found.");
+  await window.appDialog.alert(
+    "Product ID not found.",
+    { title: "Product Not Found" }
+);
 
                     return;
 
@@ -834,14 +841,15 @@ function attachDeleteButtons() {
                     nameElement.textContent.trim();
 
 
-                const confirmDelete =
-                    confirm(
-                        "Are you sure you want to delete " +
-                        productName +
-                        "?"
-                    );
-
-
+               const confirmDelete = await window.appDialog.confirm(
+    "Are you sure you want to delete " + productName + "?",
+    {
+        title: "Delete Product",
+        confirmText: "Delete",
+        cancelText: "Cancel",
+        danger: true
+    }
+);
                 if (!confirmDelete) {
 
                     return;
@@ -878,11 +886,10 @@ function attachDeleteButtons() {
 
                     if (response.status === 403) {
 
-                        alert(
-                            data.message ||
-                            "Only a Director can delete products."
-                        );
-
+  await window.appDialog.alert(
+    data.message || "Only a Director can delete products.",
+    { title: "Permission Denied" }
+);
                         return;
 
                     }
@@ -890,21 +897,20 @@ function attachDeleteButtons() {
 
                     if (!response.ok) {
 
-                        alert(
-                            data.message ||
-                            "Failed to delete product."
-                        );
+  await window.appDialog.alert(
+    data.message || "Failed to delete product.",
+    { title: "Delete Failed" }
+);
 
                         return;
 
                     }
 
 
-                    alert(
-                        productName +
-                        " has been deleted successfully."
-                    );
-
+  await window.appDialog.alert(
+    productName + " has been deleted successfully.",
+    { title: "Product Deleted" }
+);
 
                     // Reload from PostgreSQL
                     await loadProducts();
@@ -918,10 +924,10 @@ function attachDeleteButtons() {
                     );
 
 
-                    alert(
-                        "Unable to connect to the server."
-                    );
-
+  await window.appDialog.alert(
+    "Unable to connect to the server.",
+    { title: "Connection Error" }
+);
                 }
 
             }
@@ -944,6 +950,37 @@ function attachDeleteButtons() {
         attachDeleteButtons();
 
     }
+
+// ========================================
+// UPDATE PRODUCT DASHBOARD STATISTICS
+// ========================================
+
+function updateProductStats(products) {
+    const total = products.length;
+
+    const inStock = products.filter(
+        product => product.status === "in-stock"
+    ).length;
+
+    const lowStock = products.filter(
+        product => product.status === "low-stock"
+    ).length;
+
+    const outOfStock = products.filter(
+        product => product.status === "out-of-stock"
+    ).length;
+
+    const totalEl = document.getElementById("totalProducts");
+    const inStockEl = document.getElementById("inStock");
+    const lowStockEl = document.getElementById("lowStock");
+    const outOfStockEl = document.getElementById("outOfStock");
+
+    if (totalEl) totalEl.textContent = total;
+    if (inStockEl) inStockEl.textContent = inStock;
+    if (lowStockEl) lowStockEl.textContent = lowStock;
+    if (outOfStockEl) outOfStockEl.textContent = outOfStock;
+}
+
 
 
     // ========================================
@@ -976,10 +1013,9 @@ function attachDeleteButtons() {
 
             if (response.status === 403) {
 
-                alert(
-                    "You do not have permission to view products."
-                );
-
+               await window.appDialog.alert(
+    "You do not have permission to view products."
+);
                 return;
 
             }
@@ -1006,6 +1042,9 @@ function attachDeleteButtons() {
                 );
 
             }
+
+		// Update dashboard statistics using database products
+updateProductStats(data.products || []);
 
 
             const tableBody =
@@ -1244,10 +1283,9 @@ function attachDeleteButtons() {
             );
 
 
-            alert(
-                "Unable to load products from the server."
-            );
-
+       await window.appDialog.alert(
+    "Unable to load products from the server."
+);
         }
 
     }
@@ -1436,10 +1474,9 @@ function attachDeleteButtons() {
                     lowStockLimit < 0
                 ) {
 
-                    alert(
-                        "Please complete all product fields."
-                    );
-
+                  await window.appDialog.alert(
+    "Please complete all product fields."
+);
                     return;
 
                 }
@@ -1498,10 +1535,9 @@ function attachDeleteButtons() {
 
                     if (response.status === 403) {
 
-                        alert(
-                            "Only a Director can add products."
-                        );
-
+                     await window.appDialog.alert(
+    "Only a Director can add products."
+);
                         return;
 
                     }
@@ -1516,21 +1552,19 @@ function attachDeleteButtons() {
                         !data.success
                     ) {
 
-                        alert(
-                            data.message ||
-                            "Failed to add product."
-                        );
-
+  await window.appDialog.alert(
+    data.message ||
+    "Failed to add product."
+);
                         return;
 
                     }
 
 
-                    alert(
-                        productName +
-                        " has been added successfully."
-                    );
-
+  await window.appDialog.alert(
+    productName +
+    " has been added successfully."
+);
 
                     productForm.reset();
 
@@ -1549,10 +1583,9 @@ function attachDeleteButtons() {
                     );
 
 
-                    alert(
-                        "Unable to connect to the server."
-                    );
-
+  await window.appDialog.alert(
+    "Unable to connect to the server."
+);
                 }
 
             }

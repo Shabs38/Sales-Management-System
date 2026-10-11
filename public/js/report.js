@@ -114,27 +114,39 @@ async function configureClearAllButton() {
         clearAllTransactionsBtn.addEventListener(
             "click",
             async () => {
-                const confirmed = window.confirm(
-                    "WARNING: This will permanently delete all sales " +
-                    "transactions and their associated sale items. " +
-                    "Product stock will remain unchanged. Continue?"
-                );
+               const confirmed = await window.appDialog.confirm(
+    "WARNING: This will permanently delete all sales " +
+    "transactions and their associated sale items. " +
+    "Product stock will remain unchanged. Continue?",
+    {
+        title: "Clear All Transactions",
+        confirmText: "Continue",
+        cancelText: "Cancel",
+        danger: true
+    }
+);
 
-                if (!confirmed) {
-                    return;
-                }
+if (!confirmed) {
+    return;
+}
+               const confirmation = await window.appDialog.prompt(
+    "Type CLEAR to confirm deletion of all transactions:",
+    {
+        title: "Final Confirmation",
+        confirmText: "Confirm",
+        placeholder: "Type CLEAR here"
+    }
+);
 
-                const confirmation = window.prompt(
-                    'Type CLEAR to confirm deletion of all transactions:'
-                );
-
-                if (confirmation !== "CLEAR") {
-                    window.alert(
-                        "Operation cancelled. No transactions were deleted."
-                    );
-                    return;
-                }
-
+if (confirmation !== "CLEAR") {
+    await window.appDialog.alert(
+        "Operation cancelled. No transactions were deleted.",
+        {
+            title: "Operation Cancelled"
+        }
+    );
+    return;
+}
                 const originalButtonText =
                     clearAllTransactionsBtn.innerHTML;
 
@@ -157,7 +169,9 @@ async function configureClearAllButton() {
                         );
                     }
 
-                    window.alert(result.message);
+                    await window.appDialog.alert(result.message, {
+    title: "Transactions Cleared"
+});
 
                     // Refresh reports and the transaction table.
                     await loadSales();
@@ -167,11 +181,13 @@ async function configureClearAllButton() {
                         "Clear transactions error:",
                         error
                     );
-
-                    window.alert(
-                        error.message ||
-                        "Failed to clear transactions."
-                    );
+		await window.appDialog.alert(
+    error.message ||
+    "Failed to clear transactions.",
+    {
+        title: "Operation Failed"
+    }
+);
 
                 } finally {
                     clearAllTransactionsBtn.disabled = false;
@@ -1034,10 +1050,10 @@ async function configureClearAllButton() {
                 error
             );
 
-            alert(
-                error.message ||
-                "Unable to load sale details."
-            );
+         await window.appDialog.alert(
+    error.message ||
+    "Unable to load sale details."
+);
         }
     }
 
