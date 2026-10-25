@@ -251,7 +251,87 @@
             </section>
 
 
-            <!-- APPEARANCE -->
+            <!-- BUSINESS BRANDING -->
+<section class="settings-card" id="businessBrandingSection">
+    <div class="card-header">
+        <div>
+            <h2>Business Branding</h2>
+            <p>Customize the business information displayed on printed receipts.</p>
+        </div>
+    </div>
+
+    <form id="businessBrandingForm">
+        <div class="form-group">
+            <label for="businessName">Business Name *</label>
+            <input type="text" id="businessName" maxlength="150"
+                   required placeholder="Enter business name">
+        </div>
+
+        <div class="form-group">
+            <label for="businessAddress">Business Address</label>
+            <textarea id="businessAddress" rows="3" maxlength="2000"
+                      placeholder="Enter business address"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="businessPhone">Business Phone</label>
+            <input type="tel" id="businessPhone" maxlength="50"
+                   placeholder="Enter business phone">
+        </div>
+
+        <div class="form-group">
+            <label for="businessEmail">Business Email</label>
+            <input type="email" id="businessEmail" maxlength="254"
+                   placeholder="Enter business email">
+        </div>
+
+       <div class="form-group">
+            <label for="businessLogoUrl">Business Logo URL</label>
+            <input
+                type="url"
+                id="businessLogoUrl"
+                placeholder="Logo URL (optional)"
+            >
+            <small>Upload a logo below or enter an HTTPS image URL.</small>
+        </div>    <div class="form-group">
+        <label for="businessLogoFile">Upload Business Logo</label>
+        <input
+            type="file"
+            id="businessLogoFile"
+            accept="image/jpeg,image/png,image/webp"
+        >
+
+        <button
+            type="button"
+            id="uploadBusinessLogoButton"
+            class="save-button"
+        >
+            Upload Logo
+        </button>
+
+        <div style="margin-top:12px;">
+            <img
+                id="businessLogoPreview"
+                alt="Business logo preview"
+                style="display:none;max-width:150px;max-height:100px;object-fit:contain;"
+            >
+        </div>
+    </div>
+        </div>
+
+        <div id="businessBrandingMessage" role="status"
+             aria-live="polite"></div>
+
+        <div class="settings-actions">
+            <button type="submit" id="saveBusinessBrandingButton"
+                    class="save-button">
+                Save Business Branding
+            </button>
+        </div>
+    </form>
+</section>
+
+<!-- APPEARANCE -->
             <section class="settings-card">
 
                 <div class="card-header">

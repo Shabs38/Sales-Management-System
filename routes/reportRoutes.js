@@ -5,7 +5,8 @@ const {
 } = require('../controllers/reportController');
 
 const {
-    requireManagerOrDirector
+    requireManagerOrDirector,
+    requireBusiness
 } = require('../middleware/authMiddleware');
 
 const router = express.Router();
@@ -13,6 +14,7 @@ const router = express.Router();
 router.get(
     '/',
     requireManagerOrDirector,
+    requireBusiness,
     getReports
 );
 

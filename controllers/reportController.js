@@ -5,6 +5,14 @@ const getReports = async (req, res) => {
     try {
 
         const user = req.session.user;
+        const businessId = Number(user?.business_id);
+
+        if (!Number.isInteger(businessId) || businessId <= 0) {
+            return res.status(403).json({
+                success: false,
+                message: 'Business context is required.'
+            });
+        }
 
         const {
             from,
@@ -20,10 +28,10 @@ const getReports = async (req, res) => {
         // BUILD FILTERS
         // =========================================
 
-        const conditions = [];
-        const values = [];
+        const conditions = ['s.business_id = $1'];
+        const values = [businessId];
 
-        let parameterIndex = 1;
+        let parameterIndex = 2;
 
 
         // DATE FROM
@@ -149,9 +157,9 @@ const getReports = async (req, res) => {
                             SELECT s2.id
                             FROM sales s2
                             LEFT JOIN customers c2
-                                ON c2.id = s2.customer_id
+                                ON c2.id = s2.customer_id AND c2.business_id = s2.business_id
                             LEFT JOIN users u2
-                                ON u2.id = s2.user_id
+                                ON u2.id = s2.user_id AND u2.business_id = s2.business_id
                             ${whereClause.replaceAll(
                                 's.',
                                 's2.'
@@ -174,10 +182,10 @@ const getReports = async (req, res) => {
             FROM sales s
 
             LEFT JOIN customers c
-                ON c.id = s.customer_id
+                ON c.id = s.customer_id AND c.business_id = s.business_id
 
             LEFT JOIN users u
-                ON u.id = s.user_id
+                ON u.id = s.user_id AND u.business_id = s.business_id
 
             ${whereClause}
             `,
@@ -205,10 +213,10 @@ const getReports = async (req, res) => {
             FROM sales s
 
             LEFT JOIN customers c
-                ON c.id = s.customer_id
+                ON c.id = s.customer_id AND c.business_id = s.business_id
 
             LEFT JOIN users u
-                ON u.id = s.user_id
+                ON u.id = s.user_id AND u.business_id = s.business_id
 
             ${whereClause}
 
@@ -245,16 +253,17 @@ const getReports = async (req, res) => {
             FROM sale_items si
 
             INNER JOIN sales s
-                ON s.id = si.sale_id
+    ON s.id = si.sale_id
+   AND s.business_id = si.business_id
 
             INNER JOIN products p
-                ON p.id = si.product_id
+                ON p.id = si.product_id AND p.business_id = s.business_id
 
             LEFT JOIN customers c
-                ON c.id = s.customer_id
+                ON c.id = s.customer_id AND c.business_id = s.business_id
 
             LEFT JOIN users u
-                ON u.id = s.user_id
+                ON u.id = s.user_id AND u.business_id = s.business_id
 
             ${whereClause}
 
@@ -296,10 +305,10 @@ const salesOverTimeResult = await pool.query(
     FROM sales s
 
     LEFT JOIN customers c
-        ON c.id = s.customer_id
+        ON c.id = s.customer_id AND c.business_id = s.business_id
 
     LEFT JOIN users u
-        ON u.id = s.user_id
+        ON u.id = s.user_id AND u.business_id = s.business_id
 
     ${whereClause}
 
@@ -348,10 +357,10 @@ const salesOverTimeResult = await pool.query(
             FROM sales s
 
             LEFT JOIN customers c
-                ON c.id = s.customer_id
+                ON c.id = s.customer_id AND c.business_id = s.business_id
 
             LEFT JOIN users u
-                ON u.id = s.user_id
+                ON u.id = s.user_id AND u.business_id = s.business_id
 
             ${whereClause}
 

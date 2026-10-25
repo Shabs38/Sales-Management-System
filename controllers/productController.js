@@ -1,11 +1,33 @@
 const pool = require("../config/db");
 
+function getBusinessId(req) {
+    const id = Number(req.session?.user?.business_id);
+    return Number.isInteger(id) && id > 0 ? id : null;
+}
+
+function requireBusinessId(req, res) {
+    const businessId = getBusinessId(req);
+
+    if (businessId === null) {
+        res.status(403).json({
+            success: false,
+            message: "A valid business membership is required."
+        });
+        return null;
+    }
+
+    return businessId;
+}
+
 
 // ========================================
 // GET ALL PRODUCTS
 // ========================================
 
 async function getProducts(req, res) {
+
+    const businessId = requireBusinessId(req, res);
+    if (businessId === null) return;
 
     try {
 
@@ -23,8 +45,9 @@ async function getProducts(req, res) {
                 updated_at
             FROM products
             WHERE is_active = TRUE
+              AND business_id = $1
             ORDER BY id DESC
-        `);
+        `, [businessId]);
 
 
         const products = result.rows.map(function (product) {
@@ -85,6 +108,9 @@ async function getProducts(req, res) {
 
 async function createProduct(req, res) {
 
+    const businessId = requireBusinessId(req, res);
+    if (businessId === null) return;
+
     try {
 
         const {
@@ -131,6 +157,7 @@ async function createProduct(req, res) {
         const result = await pool.query(
             `
             INSERT INTO products (
+                business_id,
                 product_name,
                 sku,
                 category,
@@ -138,7 +165,7 @@ async function createProduct(req, res) {
                 stock_quantity,
                 low_stock_limit
             )
-            VALUES ($1, $2, $3, $4, $5, $6)
+            VALUES ($1, $2, $3, $4, $5, $6, $7)
             RETURNING
                 id,
                 product_name,
@@ -152,6 +179,7 @@ async function createProduct(req, res) {
                 updated_at
             `,
             [
+                businessId,
                 product_name.trim(),
                 sku.trim(),
                 category,
@@ -238,6 +266,9 @@ async function createProduct(req, res) {
 
 async function updateProduct(req, res) {
 
+    const businessId = requireBusinessId(req, res);
+    if (businessId === null) return;
+
     try {
 
         const { id } = req.params;
@@ -295,6 +326,7 @@ async function updateProduct(req, res) {
                 low_stock_limit = $6,
                 updated_at = CURRENT_TIMESTAMP
             WHERE id = $7
+              AND business_id = $8
             RETURNING
                 id,
                 product_name,
@@ -314,7 +346,8 @@ async function updateProduct(req, res) {
                 Number(selling_price),
                 Number(stock_quantity),
                 Number(low_stock_limit),
-                id
+                id,
+                businessId
             ]
         );
 
@@ -405,6 +438,9 @@ async function updateProduct(req, res) {
 
 async function deleteProduct(req, res) {
 
+    const businessId = requireBusinessId(req, res);
+    if (businessId === null) return;
+
     try {
 
         const { id } = req.params;
@@ -417,9 +453,10 @@ async function deleteProduct(req, res) {
                 is_active = FALSE,
                 updated_at = CURRENT_TIMESTAMP
             WHERE id = $1
+              AND business_id = $2
             RETURNING id, product_name
             `,
-            [id]
+            [id, businessId]
         );
 
 
@@ -459,11 +496,66 @@ async function deleteProduct(req, res) {
 
 
 // ========================================
+// GET PRODUCT STATISTICS
+// ========================================
+
+async function getProductStats(req, res) {
+    const businessId = requireBusinessId(req, res);
+    if (businessId === null) return;
+
+    try {
+        const result = await pool.query(`
+            SELECT
+                COUNT(*) AS total_products,
+
+                COUNT(*) FILTER (
+                    WHERE stock_quantity > low_stock_limit
+                ) AS in_stock,
+
+                COUNT(*) FILTER (
+                    WHERE stock_quantity > 0
+                    AND stock_quantity <= low_stock_limit
+                ) AS low_stock,
+
+                COUNT(*) FILTER (
+                    WHERE stock_quantity = 0
+                ) AS out_of_stock
+
+            FROM products
+            WHERE is_active = TRUE
+              AND business_id = $1
+        `, [businessId]);
+
+        const stats = result.rows[0];
+
+        res.json({
+            success: true,
+            stats: {
+                totalProducts: Number(stats.total_products),
+                inStock: Number(stats.in_stock),
+                lowStock: Number(stats.low_stock),
+                outOfStock: Number(stats.out_of_stock)
+            }
+        });
+
+    } catch (error) {
+        console.error("Get product statistics error:", error);
+
+        res.status(500).json({
+            success: false,
+            message: "Failed to load product statistics."
+        });
+    }
+}
+
+
+// ========================================
 // EXPORT CONTROLLERS
 // ========================================
 
 module.exports = {
     getProducts,
+    getProductStats,
     createProduct,
     updateProduct,
     deleteProduct

@@ -41,7 +41,7 @@ const requireDirector = (req, res, next) => {
     }
 
 
-    if (req.session.user.role !== "director") {
+    if (req.session.user.is_platform_admin === true || req.session.user.role !== "director") {
 
         // Browser page request
         if (req.accepts('html')) {
@@ -143,7 +143,7 @@ const requireManagerOrDirector = (req, res, next) => {
 
     const role = req.session.user.role;
 
-    if (role !== "manager" && role !== "director") {
+    if (req.session.user.is_platform_admin === true || (role !== "manager" && role !== "director")) {
 
         if (req.accepts('html')) {
             return res.status(403).send(`
@@ -222,8 +222,58 @@ const requireManagerOrDirector = (req, res, next) => {
 };
 
 
+// Software-owner access, separate from business director access.
+const requirePlatformAdmin = (req, res, next) => {
+    if (!req.session.user) {
+        return res.status(401).json({
+            success: false,
+            message: "Authentication required."
+        });
+    }
+
+    if (req.session.user.is_platform_admin !== true) {
+        return res.status(403).json({
+            success: false,
+            message: "Platform administrator access required."
+        });
+    }
+
+    next();
+};
+
+// Require a business membership before accessing tenant-scoped routes.
+const requireBusiness = (req, res, next) => {
+    if (!req.session.user) {
+        return res.status(401).json({
+            success: false,
+            message: "Authentication required."
+        });
+    }
+
+    const user = req.session.user;
+
+    if (user.is_platform_admin === true) {
+        return res.status(403).json({
+            success: false,
+            message: "A business membership is required for this operation."
+        });
+    }
+
+    if (!Number.isInteger(Number(user.business_id)) ||
+        Number(user.business_id) <= 0) {
+        return res.status(403).json({
+            success: false,
+            message: "No valid business is associated with this account."
+        });
+    }
+
+    next();
+};
+
 module.exports = {
     requireAuth,
     requireDirector,
-    requireManagerOrDirector
+    requireManagerOrDirector,
+    requirePlatformAdmin,
+    requireBusiness
 };

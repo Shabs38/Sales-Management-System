@@ -790,6 +790,158 @@ await window.appDialog.alert(
     }
 
 
+    // SEARCHABLE_PRODUCT_SELECTOR_V2
+    function initializeProductSearch(item) {
+        const select = item.querySelector('.sale-product');
+        if (!select || select.dataset.searchInitialized === 'true') return;
+        const group = select.parentElement;
+        if (!group) return;
+        select.dataset.searchInitialized = 'true';
+
+        const wrapper = document.createElement('div');
+        wrapper.className = 'sale-product-search-wrapper';
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.className = 'sale-product-search';
+        input.placeholder = 'Search product name or SKU...';
+        input.autocomplete = 'off';
+        input.setAttribute('role', 'combobox');
+        input.setAttribute('aria-autocomplete', 'list');
+        input.setAttribute('aria-expanded', 'false');
+
+        if (select.id) {
+            input.id = select.id + 'Search';
+            const label = group.querySelector('label[for="' + select.id + '"]');
+            if (label) label.htmlFor = input.id;
+        }
+
+        const list = document.createElement('div');
+        list.className = 'sale-product-suggestions';
+        list.setAttribute('role', 'listbox');
+        list.hidden = true;
+        group.insertBefore(wrapper, select);
+        wrapper.appendChild(input);
+        wrapper.appendChild(list);
+
+        // Preserve the original select for existing sale and price logic.
+        select.required = false;
+        select.tabIndex = -1;
+        select.setAttribute('aria-hidden', 'true');
+        select.style.cssText = 'position:absolute!important;width:1px!important;height:1px!important;margin:-1px!important;padding:0!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important;';
+
+        function closeList() {
+            list.hidden = true;
+            list.innerHTML = '';
+            input.setAttribute('aria-expanded', 'false');
+        }
+
+        function syncInput() {
+            const option = select.options[select.selectedIndex];
+            input.value = option && option.value ? option.textContent.trim().split(' — ')[0].trim() : '';
+        }
+
+        function showMatches() {
+            const query = input.value.trim().toLowerCase();
+            list.innerHTML = '';
+            if (!query) { closeList(); return; }
+
+            const matches = products.filter(function (product) {
+                const active = product.is_active === true ||
+                    product.is_active === 'true' ||
+                    product.is_active === 1 ||
+                    product.is_active === '1';
+
+                const stock = Number(product.stock_quantity);
+                if (!active || !Number.isFinite(stock) || stock <= 0) return false;
+
+                const name = String(product.product_name || '').toLowerCase();
+                const sku = String(product.sku || '').toLowerCase();
+
+                return name.includes(query) || sku.includes(query);
+            }).slice(0, 15);
+
+            if (!matches.length) {
+                const empty = document.createElement('div');
+                empty.className = 'sale-product-no-results';
+                empty.textContent = 'No matching in-stock products found';
+                list.appendChild(empty);
+            } else {
+                matches.forEach(function (product) {
+                    const option = document.createElement('button');
+                    option.type = 'button';
+                    option.className = 'sale-product-suggestion';
+                    option.setAttribute('role', 'option');
+                    const title = document.createElement('span');
+                    title.className = 'sale-product-suggestion-name';
+                    title.textContent = product.product_name || 'Unnamed product';
+                    const details = document.createElement('span');
+                    details.className = 'sale-product-suggestion-details';
+                    details.textContent = (product.sku ? 'SKU: ' + product.sku + ' · ' : '') + '₦' + Number(product.selling_price || 0).toLocaleString('en-NG') + ' · Stock: ' + Number(product.stock_quantity || 0);
+                    option.appendChild(title);
+                    option.appendChild(details);
+                    option.addEventListener('mousedown', function (event) { event.preventDefault(); });
+                    option.addEventListener('click', function () {
+                        select.value = String(product.id);
+                        syncInput();
+                        closeList();
+                        select.dispatchEvent(new Event('change', { bubbles: true }));
+                        const quantity = item.querySelector('.sale-quantity');
+                        if (quantity) quantity.focus();
+                    });
+                    list.appendChild(option);
+                });
+            }
+            list.hidden = false;
+            input.setAttribute('aria-expanded', 'true');
+        }
+
+        input.addEventListener('input', function () {
+            select.value = '';
+            updateProductStock(item);
+            calculateSaleTotal();
+            showMatches();
+        });
+        input.addEventListener('focus', function () {
+            if (input.value.trim() && !select.value) showMatches();
+        });
+        input.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape') closeList();
+            if (event.key === 'Enter' && !list.hidden) {
+                const first = list.querySelector('.sale-product-suggestion');
+                if (first) { event.preventDefault(); first.click(); }
+            }
+        });
+        document.addEventListener('click', function (event) {
+            if (!wrapper.contains(event.target)) closeList();
+        });
+        select.addEventListener('change', syncInput);
+        syncInput();
+    }
+
+    function initializeProductSearches() {
+        if (!saleItems) return;
+        saleItems.querySelectorAll('.sale-item').forEach(function (item) {
+            initializeProductSearch(item);
+        });
+    }
+
+    (function installProductSearchStyles() {
+        if (document.getElementById('saleProductSearchStyles')) return;
+        const style = document.createElement('style');
+        style.id = 'saleProductSearchStyles';
+        style.textContent = '.sale-product-search-wrapper{position:relative;width:100%}' +
+            '.sale-product-search{box-sizing:border-box;width:100%;padding:11px 12px;border:1px solid #cbd5e1;border-radius:6px;background:#fff;color:#1f2937;font:inherit}' +
+            '.sale-product-search:focus{outline:2px solid rgba(8,113,125,.2);border-color:#08717d}' +
+            '.sale-product-suggestions{position:absolute;z-index:10000;top:calc(100% + 4px);left:0;right:0;max-height:240px;overflow-y:auto;background:#fff;border:1px solid #d1d5db;border-radius:7px;box-shadow:0 8px 20px rgba(0,0,0,.12)}' +
+            '.sale-product-suggestions[hidden]{display:none!important}' +
+            '.sale-product-suggestion{display:flex;flex-direction:column;gap:4px;width:100%;padding:10px 12px;border:0;border-bottom:1px solid #edf0f2;background:#fff;color:#1f2937;text-align:left;cursor:pointer;font:inherit}' +
+            '.sale-product-suggestion:hover,.sale-product-suggestion:focus{background:#eef8f7;outline:none}' +
+            '.sale-product-suggestion-name{font-weight:600}' +
+            '.sale-product-suggestion-details,.sale-product-no-results{color:#64748b;font-size:.9em}' +
+            '.sale-product-no-results{padding:12px}';
+        document.head.appendChild(style);
+    })();
+
     // =========================================
     // LOAD PRODUCTS
     // =========================================
@@ -809,6 +961,8 @@ await window.appDialog.alert(
 
 
             populateProductSelects();
+
+            initializeProductSearches();
 
         } catch (error) {
 
@@ -1325,6 +1479,8 @@ await window.appDialog.alert(
                 saleItems.appendChild(
                     newItem
                 );
+
+                initializeProductSearch(newItem);
 
 
                 calculateSaleTotal();
@@ -2413,9 +2569,142 @@ if (saleItems) {
     // OPEN SALE DETAILS
     // =========================================
 
-    async function openSaleDetails(
+
+    /* SALES_RECEIPT_FEATURE_V1 */
+    let activeReceiptSaleId = null;
+
+    function ensurePrintReceiptButton(saleId) {
+        activeReceiptSaleId = saleId;
+
+        const header = document.querySelector('#saleDetailsModal .sale-details-header');
+        if (!header) return;
+
+        let button = document.getElementById('printSaleReceiptButton');
+        if (button) return;
+
+        button = document.createElement('button');
+        button.id = 'printSaleReceiptButton';
+        button.type = 'button';
+        button.textContent = 'Print Receipt';
+        button.style.cssText = 'margin:0 10px;padding:9px 13px;background:#08717d;color:white;border:0;border-radius:6px;cursor:pointer;';
+
+        const closeButton = header.querySelector('#closeSaleDetails');
+        if (closeButton) closeButton.parentNode.insertBefore(button, closeButton);
+        else header.appendChild(button);
+
+        button.addEventListener('click', async function () {
+            if (!activeReceiptSaleId) return;
+
+            button.disabled = true;
+            button.textContent = 'Preparing...';
+
+            try {
+                const [saleData, brandingData] = await Promise.all([
+                    apiRequest('/api/sales/' + encodeURIComponent(activeReceiptSaleId)),
+                    apiRequest('/api/business/branding')
+                ]);
+
+                const sale = saleData.sale || {};
+                const items = saleData.items || [];
+               const business = brandingData.business || brandingData.branding || {};
+const branding = brandingData.branding || {};
+
+                const esc = value => String(value == null ? '' : value).replace(/[&<>"']/g, c => ({
+                    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+                }[c]));
+
+                const pick = (obj, keys, fallback = '') => {
+                    for (const key of keys) {
+                        if (obj && obj[key] != null && obj[key] !== '') return obj[key];
+                    }
+                    return fallback;
+                };
+
+                const money = value => '₦' + Number(value || 0).toLocaleString('en-NG', {
+                    minimumFractionDigits: 2, maximumFractionDigits: 2
+                });
+
+                const name = pick(business, ['name', 'business_name'], 'Business');
+                const address = pick(business, ['address']);
+                const phone = pick(branding, ['phone']);
+                const email = pick(branding, ['email']);
+                const logo = pick(business, ['logo_url', 'logoUrl']);
+                const reference = pick(sale, ['sale_reference', 'reference'], activeReceiptSaleId);
+                const dateValue = pick(sale, ['created_at', 'sale_date']);
+                const date = dateValue ? new Date(dateValue).toLocaleString() : '';
+                const customer = pick(sale, ['customer_name'], 'Walk-in Customer');
+                const staff = pick(sale, ['salesperson_name', 'user_name']);
+                const payment = pick(sale, ['payment_method'], 'N/A');
+                const status = pick(sale, ['status'], 'Completed');
+                const subtotal = pick(sale, ['subtotal', 'sub_total'], null);
+                const discount = pick(sale, ['discount_amount', 'discount'], 0);
+                const total = pick(sale, ['total_amount', 'total', 'grand_total'], 0);
+
+                const rows = items.map(item => {
+                    const qty = Number(pick(item, ['quantity', 'qty'], 0));
+                    const price = Number(pick(item, ['unit_price', 'price'], 0));
+                    const amount = pick(item, ['line_total', 'total_price', 'subtotal', 'total'], qty * price);
+                    return '<tr><td>' + esc(pick(item, ['product_name', 'item_name', 'name'], 'Item')) +
+                        '</td><td class="num">' + esc(qty) +
+                        '</td><td class="num">' + esc(money(price)) +
+                        '</td><td class="num">' + esc(money(amount)) + '</td></tr>';
+                }).join('');
+
+                function receipt(copyName) {
+                    return '<section class="receipt"><header>' +
+                        (logo ? '<img class="logo" src="' + esc(logo) + '" alt="Logo">' : '') +
+                        '<h1>' + esc(name) + '</h1>' +
+                        (address ? '<div>' + esc(address) + '</div>' : '') +
+                        (phone ? '<div>Phone: ' + esc(phone) + '</div>' : '') +
+                        (email ? '<div>Email: ' + esc(email) + '</div>' : '') +
+                        '<h2>SALES RECEIPT</h2><strong>' + copyName + '</strong></header>' +
+                        '<p><b>Receipt:</b> ' + esc(reference) + '<br><b>Date:</b> ' + esc(date) +
+                        '<br><b>Customer:</b> ' + esc(customer) +
+                        (staff ? '<br><b>Served by:</b> ' + esc(staff) : '') + '</p>' +
+                        '<table><thead><tr><th>Item</th><th>Qty</th><th>Unit price</th><th>Amount</th></tr></thead>' +
+                        '<tbody>' + (rows || '<tr><td colspan="4">No item details available</td></tr>') + '</tbody></table>' +
+                        '<div class="totals">' +
+                        (subtotal !== null ? '<p>Subtotal: <b>' + esc(money(subtotal)) + '</b></p>' : '') +
+                        '<p>Discount: <b>' + esc(money(discount)) + '</b></p>' +
+                        '<h3>Total: ' + esc(money(total)) + '</h3>' +
+                        '<p>Payment: ' + esc(payment) + '<br>Status: ' + esc(status) + '</p></div>' +
+                        '<footer>Thank you for your patronage!</footer></section>';
+                }
+
+                const printWindow = window.open('', '_blank', 'width=900,height=700');
+                if (!printWindow) {
+                    alert('Allow pop-ups in your browser, then try again.');
+                    return;
+                }
+
+                printWindow.document.open();
+                printWindow.document.write('<!doctype html><html><head><meta charset="utf-8"><title>Receipt</title><style>' +
+                    '@page{margin:12mm}body{font-family:Arial,sans-serif;color:#222;font-size:12px}' +
+                    '.receipt{max-width:700px;margin:auto;padding:10px 0 24px;page-break-after:always}' +
+                    '.receipt:last-child{page-break-after:auto}header{text-align:center;line-height:1.5}h1{font-size:22px;margin:6px}' +
+                    '.logo{max-width:100px;max-height:70px;object-fit:contain}table{width:100%;border-collapse:collapse;margin:14px 0}' +
+                    'th,td{text-align:left;border-bottom:1px solid #ddd;padding:8px 4px}.num{text-align:right;white-space:nowrap}' +
+                    '.totals{margin-left:auto;max-width:300px}.totals h3{border-top:2px solid;padding-top:8px}' +
+                    'footer{text-align:center;margin-top:24px}@media print{.receipt{break-after:page}.receipt:last-child{break-after:auto}}' +
+                    '</style></head><body>' + receipt('CUSTOMER COPY') + receipt('OFFICE COPY') +
+                    '<script>window.onload=function(){var a=[...document.images];Promise.all(a.map(i=>i.decode?i.decode().catch(()=>{}):Promise.resolve())).then(()=>window.print())};<\/script>' +
+                    '</body></html>');
+                printWindow.document.close();
+            } catch (error) {
+                console.error('Receipt preparation failed:', error);
+                alert('Could not prepare the receipt. Check that the sale and business branding are available.');
+            } finally {
+                button.disabled = false;
+                button.textContent = 'Print Receipt';
+            }
+        });
+    }
+
+async function openSaleDetails(
         saleId
     ) {
+        ensurePrintReceiptButton(saleId);
+
 
         try {
 

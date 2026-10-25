@@ -2,11 +2,28 @@ const bcrypt = require('bcryptjs');
 const pool = require('../config/db');
 
 
+// BUSINESS IDENTITY
+
+function getBusinessId(req) {
+    const id = Number(req.session?.user?.business_id);
+
+    return Number.isInteger(id) && id > 0 ? id : null;
+}
+
+
 // ========================================
 // GET ALL MANAGERS
 // ========================================
 
 const getManagers = async (req, res) => {
+    const businessId = getBusinessId(req);
+    if (!businessId) {
+        return res.status(403).json({
+            success: false,
+            message: 'A valid business is required'
+        });
+    }
+
     try {
 
         const result = await pool.query(`
@@ -21,8 +38,9 @@ const getManagers = async (req, res) => {
                 updated_at
             FROM users
             WHERE role = 'manager'
+              AND business_id = $1
             ORDER BY id DESC
-        `);
+        `, [businessId]);
 
         res.status(200).json({
             success: true,
@@ -46,6 +64,13 @@ const getManagers = async (req, res) => {
 // ========================================
 
 const getManagerById = async (req, res) => {
+    const businessId = getBusinessId(req);
+    if (!businessId) {
+        return res.status(403).json({
+            success: false,
+            message: 'A valid business is required'
+        });
+    }
 
     try {
 
@@ -63,8 +88,9 @@ const getManagerById = async (req, res) => {
                 updated_at
             FROM users
             WHERE id = $1
-            AND role = 'manager'
-        `, [id]);
+              AND role = 'manager'
+              AND business_id = $2
+        `, [id, businessId]);
 
         if (result.rows.length === 0) {
 
@@ -98,6 +124,15 @@ const getManagerById = async (req, res) => {
 const createManager = async (req, res) => {
 
     try {
+
+        const businessId = getBusinessId(req);
+        if (!businessId) {
+            return res.status(403).json({
+                success: false,
+                message: 'A valid business is required'
+            });
+        }
+
 
         const {
             full_name,
@@ -187,9 +222,10 @@ const createManager = async (req, res) => {
                 email,
                 password_hash,
                 role,
-                is_active
+                is_active,
+                business_id
             )
-            VALUES ($1, $2, $3, $4, 'manager', true)
+            VALUES ($1, $2, $3, $4, 'manager', true, $5)
             RETURNING
                 id,
                 full_name,
@@ -203,7 +239,8 @@ const createManager = async (req, res) => {
                 full_name,
                 username,
                 email,
-                passwordHash
+                passwordHash,
+                businessId
             ]
         );
 
@@ -235,6 +272,14 @@ const updateManager = async (req, res) => {
 
     try {
 
+        const businessId = getBusinessId(req);
+        if (!businessId) {
+            return res.status(403).json({
+                success: false,
+                message: 'A valid business is required'
+            });
+        }
+
         const { id } = req.params;
 
         const {
@@ -259,8 +304,9 @@ const updateManager = async (req, res) => {
             `SELECT id
              FROM users
              WHERE id = $1
-             AND role = 'manager'`,
-            [id]
+             AND role = 'manager'
+             AND business_id = $2`,
+            [id, businessId]
         );
 
         if (managerCheck.rows.length === 0) {
@@ -319,6 +365,7 @@ const updateManager = async (req, res) => {
                 updated_at = CURRENT_TIMESTAMP
              WHERE id = $4
              AND role = 'manager'
+             AND business_id = $5
              RETURNING
                 id,
                 full_name,
@@ -332,7 +379,8 @@ const updateManager = async (req, res) => {
                 full_name,
                 username,
                 email,
-                id
+                id,
+                businessId
             ]
         );
 
@@ -364,14 +412,23 @@ const toggleManagerStatus = async (req, res) => {
 
     try {
 
+        const businessId = getBusinessId(req);
+        if (!businessId) {
+            return res.status(403).json({
+                success: false,
+                message: 'A valid business is required'
+            });
+        }
+
         const { id } = req.params;
 
         const managerResult = await pool.query(
             `SELECT id, is_active
              FROM users
              WHERE id = $1
-             AND role = 'manager'`,
-            [id]
+             AND role = 'manager'
+             AND business_id = $2`,
+            [id, businessId]
         );
 
 
@@ -398,6 +455,7 @@ const toggleManagerStatus = async (req, res) => {
                 updated_at = CURRENT_TIMESTAMP
              WHERE id = $2
              AND role = 'manager'
+             AND business_id = $3
              RETURNING
                 id,
                 full_name,
@@ -408,7 +466,8 @@ const toggleManagerStatus = async (req, res) => {
                 updated_at`,
             [
                 newStatus,
-                id
+                id,
+                businessId
             ]
         );
 
@@ -445,6 +504,14 @@ const changeManagerPassword = async (req, res) => {
 
     try {
 
+        const businessId = getBusinessId(req);
+        if (!businessId) {
+            return res.status(403).json({
+                success: false,
+                message: 'A valid business is required'
+            });
+        }
+
         const { id } = req.params;
 
         const { password } = req.body;
@@ -472,8 +539,9 @@ const changeManagerPassword = async (req, res) => {
             `SELECT id
              FROM users
              WHERE id = $1
-             AND role = 'manager'`,
-            [id]
+             AND role = 'manager'
+             AND business_id = $2`,
+            [id, businessId]
         );
 
 
@@ -498,10 +566,12 @@ const changeManagerPassword = async (req, res) => {
                 password_hash = $1,
                 updated_at = CURRENT_TIMESTAMP
              WHERE id = $2
-             AND role = 'manager'`,
+             AND role = 'manager'
+             AND business_id = $3`,
             [
                 passwordHash,
-                id
+                id,
+                businessId
             ]
         );
 

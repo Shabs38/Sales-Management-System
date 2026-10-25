@@ -5,18 +5,18 @@ const {
 } = require('../controllers/dashboardController');
 
 const {
-    requireDirector
+    requireDirector,
+    requireBusiness
 } = require('../middleware/authMiddleware');
 
 const router = express.Router();
 
-
-// Director dashboard
+// Director dashboard requires director access and valid business membership.
 router.get(
     '/director',
     requireDirector,
+    requireBusiness,
     getDirectorDashboard
 );
-
 
 module.exports = router;

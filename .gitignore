@@ -7,3 +7,13 @@ manager-test-cookies.txt
 manager1-cookies.txt
 
 sales_management_backup.dump
+
+# Local environment files and secrets
+.env.*
+!.env.example
+
+# Local database dumps and recovery backups
+*.dump
+*.bak
+*.before-*
+*.pre-*

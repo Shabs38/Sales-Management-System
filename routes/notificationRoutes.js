@@ -1,18 +1,22 @@
-const express = require('express');
+const express = require("express");
 
 const {
     getManagerNotifications
-} = require('../controllers/notificationController');
+} = require("../controllers/notificationController");
 
 const {
-    requireAuth
-} = require('../middleware/authMiddleware');
+    requireAuth,
+    requireBusiness,
+    requireManagerOrDirector
+} = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
 router.get(
-    '/',
+    "/",
     requireAuth,
+    requireBusiness,
+    requireManagerOrDirector,
     getManagerNotifications
 );
 

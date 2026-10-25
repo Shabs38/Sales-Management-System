@@ -2,6 +2,7 @@ const express = require("express");
 
 const {
     getProducts,
+    getProductStats,
     createProduct,
     updateProduct,
     deleteProduct
@@ -9,7 +10,8 @@ const {
 
 const {
     requireManagerOrDirector,
-    requireDirector
+    requireDirector,
+    requireBusiness
 } = require("../middleware/authMiddleware");
 
 const router = express.Router();
@@ -23,8 +25,23 @@ const router = express.Router();
 router.get(
     "/",
     requireManagerOrDirector,
+    requireBusiness,
     getProducts
 );
+
+
+// ========================================
+// GET PRODUCT STATISTICS
+// Manager + Director
+// ========================================
+
+router.get(
+    "/stats",
+    requireManagerOrDirector,
+    requireBusiness,
+    getProductStats
+);
+
 
 
 // ========================================
@@ -35,6 +52,7 @@ router.get(
 router.post(
     "/",
     requireDirector,
+    requireBusiness,
     createProduct
 );
 
@@ -47,6 +65,7 @@ router.post(
 router.put(
     "/:id",
     requireDirector,
+    requireBusiness,
     updateProduct
 );
 
@@ -59,6 +78,7 @@ router.put(
 router.delete(
     "/:id",
     requireDirector,
+    requireBusiness,
     deleteProduct
 );
 

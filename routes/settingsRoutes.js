@@ -6,13 +6,14 @@ const {
 } = require("../controllers/settingsController");
 
 const {
-    requireAuth
+    requireAuth,
+    requireDirector,
+    requireBusiness
 } = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
-router.get("/", requireAuth, getSettings);
-
-router.put("/", requireAuth, updateSettings);
+router.get("/", requireAuth, requireBusiness, requireDirector, getSettings);
+router.put("/", requireAuth, requireBusiness, requireDirector, updateSettings);
 
 module.exports = router;

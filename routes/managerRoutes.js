@@ -10,24 +10,23 @@ const {
 } = require('../controllers/managerController');
 
 const {
-    requireDirector
+    requireDirector,
+    requireBusiness
 } = require('../middleware/authMiddleware');
 
 const router = express.Router();
 
+// Director access and valid business membership required.
+router.get('/', requireDirector, requireBusiness, getManagers);
 
-// Director only
-router.get('/', requireDirector, getManagers);
+router.get('/:id', requireDirector, requireBusiness, getManagerById);
 
-router.get('/:id', requireDirector, getManagerById);
+router.post('/', requireDirector, requireBusiness, createManager);
 
-router.post('/', requireDirector, createManager);
+router.put('/:id', requireDirector, requireBusiness, updateManager);
 
-router.put('/:id', requireDirector, updateManager);
+router.patch('/:id/status', requireDirector, requireBusiness, toggleManagerStatus);
 
-router.patch('/:id/status', requireDirector, toggleManagerStatus);
-
-router.patch('/:id/password', requireDirector, changeManagerPassword);
-
+router.patch('/:id/password', requireDirector, requireBusiness, changeManagerPassword);
 
 module.exports = router;

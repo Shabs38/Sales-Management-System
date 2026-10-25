@@ -513,3 +513,193 @@ document.addEventListener("DOMContentLoaded", () => {
     loadSettings();
 
 });
+
+// =========================================
+// BUSINESS BRANDING
+// =========================================
+document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("businessBrandingForm");
+    if (!form) return;
+
+    const nameInput = document.getElementById("businessName");
+    const addressInput = document.getElementById("businessAddress");
+    const phoneInput = document.getElementById("businessPhone");
+    const emailInput = document.getElementById("businessEmail");
+    const logoInput = document.getElementById("businessLogoUrl");
+    const saveButton = document.getElementById("saveBusinessBrandingButton");
+    const message = document.getElementById("businessBrandingMessage");
+   const logoFileInput = document.getElementById("businessLogoFile");
+const uploadLogoButton = document.getElementById("uploadBusinessLogoButton");
+const logoPreview = document.getElementById("businessLogoPreview");
+
+function setLogoPreview(url) {
+    logoPreview.style.display = url ? "block" : "none";
+
+    if (url) {
+        logoPreview.src = url;
+    } else {
+        logoPreview.removeAttribute("src");
+    }
+}
+
+logoPreview.addEventListener("error", () => {
+    logoPreview.style.display = "none";
+});
+
+
+
+
+    function showBrandingMessage(text, isError = false) {
+        message.textContent = text;
+        message.style.color = isError ? "#b42318" : "#08717d";
+        message.style.marginTop = "12px";
+    }
+
+    async function brandingRequest(url, options = {}) {
+        const response = await fetch(url, {
+            credentials: "include",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                ...(options.headers || {})
+            },
+            ...options
+        });
+
+        let data;
+        try {
+            data = await response.json();
+        } catch {
+            throw new Error("The server returned an invalid response.");
+        }
+
+        if (!response.ok || !data.success) {
+            throw new Error(data.message || "Business branding request failed.");
+        }
+
+        return data;
+    }
+
+    async function loadBusinessBranding() {
+        try {
+            const data = await brandingRequest("/api/business/branding");
+            const branding = data.branding || {};
+
+            nameInput.value = branding.name || "";
+            addressInput.value = branding.address || "";
+            phoneInput.value = branding.phone || "";
+            emailInput.value = branding.email || "";
+            logoInput.value = branding.logoUrl || "";
+           setLogoPreview(logoInput.value);
+
+        } catch (error) {
+            showBrandingMessage(
+                error.message || "Could not load business branding.",
+                true
+            );
+        }
+    }
+
+
+uploadLogoButton.addEventListener("click", async () => {
+    const file = logoFileInput.files[0];
+
+    if (!file) {
+        showBrandingMessage("Please choose a logo image first.", true);
+        return;
+    }
+
+    const allowedTypes = [
+        "image/jpeg",
+        "image/png",
+        "image/webp"
+    ];
+
+    if (!allowedTypes.includes(file.type)) {
+        showBrandingMessage("Choose a JPG, PNG or WEBP image.", true);
+        return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+        showBrandingMessage("The logo must not exceed 5 MB.", true);
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append("businessLogo", file);
+
+    uploadLogoButton.disabled = true;
+    uploadLogoButton.textContent = "Uploading...";
+    showBrandingMessage("");
+
+    try {
+        const response = await fetch("/api/business/branding/logo", {
+            method: "POST",
+            credentials: "include",
+            headers: {
+                Accept: "application/json"
+            },
+            body: formData
+        });
+
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+            throw new Error(data.message || "Logo upload failed.");
+        }
+
+        logoInput.value = data.logoUrl;
+        setLogoPreview(data.logoUrl);
+
+        showBrandingMessage(
+            data.message || "Business logo uploaded successfully."
+        );
+    } catch (error) {
+        showBrandingMessage(
+            error.message || "Could not upload the business logo.",
+            true
+        );
+    } finally {
+        uploadLogoButton.disabled = false;
+        uploadLogoButton.textContent = "Upload Logo";
+    }
+});
+
+
+    form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        saveButton.disabled = true;
+        saveButton.textContent = "Saving...";
+        showBrandingMessage("");
+
+        try {
+            const payload = {
+                name: nameInput.value.trim(),
+                address: addressInput.value.trim(),
+                phone: phoneInput.value.trim(),
+                email: emailInput.value.trim(),
+                logoUrl: logoInput.value.trim()
+            };
+
+            const data = await brandingRequest("/api/business/branding", {
+                method: "PUT",
+                body: JSON.stringify(payload)
+            });
+
+            showBrandingMessage(
+                data.message || "Business branding saved successfully."
+            );
+        } catch (error) {
+            showBrandingMessage(
+                error.message || "Could not save business branding.",
+                true
+            );
+        } finally {
+            saveButton.disabled = false;
+            saveButton.textContent = "Save Business Branding";
+        }
+    });
+
+    loadBusinessBranding();
+});

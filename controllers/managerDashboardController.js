@@ -2,7 +2,20 @@ const pool = require('../config/db');
 
 const getManagerDashboard = async (req, res) => {
     try {
-        const managerId = req.session.user.id;
+        const managerId = req.session?.user?.id;
+        const businessId = Number(req.session?.user?.business_id);
+
+        if (
+            !Number.isInteger(Number(managerId)) ||
+            Number(managerId) <= 0 ||
+            !Number.isInteger(businessId) ||
+            businessId <= 0
+        ) {
+            return res.status(403).json({
+                success: false,
+                message: 'Valid manager and business context required'
+            });
+        }
 
         // Today's sales and revenue
         const todaySummary = await pool.query(`
@@ -11,10 +24,11 @@ const getManagerDashboard = async (req, res) => {
                 COALESCE(SUM(total_amount), 0) AS total_revenue
             FROM sales
             WHERE user_id = $1
+            AND business_id = $2
             AND created_at >= CURRENT_DATE
-        `, [managerId]);
-        
-        
+        `, [managerId, businessId]);
+
+
     // Yesterday's sales and revenue
 const yesterdaySummary = await pool.query(`
     SELECT
@@ -22,9 +36,10 @@ const yesterdaySummary = await pool.query(`
         COALESCE(SUM(total_amount), 0) AS total_revenue
     FROM sales
     WHERE user_id = $1
+            AND business_id = $2
     AND created_at >= CURRENT_DATE - INTERVAL '1 day'
     AND created_at < CURRENT_DATE
-`, [managerId]);
+`, [managerId, businessId]);
 
 
 // Today's customers
@@ -33,19 +48,21 @@ const todayCustomers = await pool.query(`
         COUNT(DISTINCT customer_id) AS total_customers
     FROM sales
     WHERE user_id = $1
+            AND business_id = $2
     AND created_at >= CURRENT_DATE
-`, [managerId]);   
-        
-        
+`, [managerId, businessId]);
+
+
         // Yesterday's customers
 const yesterdayCustomers = await pool.query(`
     SELECT
         COUNT(DISTINCT customer_id) AS total_customers
     FROM sales
     WHERE user_id = $1
+            AND business_id = $2
     AND created_at >= CURRENT_DATE - INTERVAL '1 day'
     AND created_at < CURRENT_DATE
-`, [managerId]);
+`, [managerId, businessId]);
 
         // Products sold today
         const productsSold = await pool.query(`
@@ -54,16 +71,19 @@ const yesterdayCustomers = await pool.query(`
             FROM sale_items si
             INNER JOIN sales s
                 ON s.id = si.sale_id
+                AND s.business_id = si.business_id
             WHERE s.user_id = $1
+            AND s.business_id = $2
             AND s.created_at >= CURRENT_DATE
-        `, [managerId]);
+        `, [managerId, businessId]);
 
         // Customers handled by this manager
         const customers = await pool.query(`
             SELECT COUNT(DISTINCT customer_id) AS total_customers
             FROM sales
             WHERE user_id = $1
-        `, [managerId]);
+            AND business_id = $2
+        `, [managerId, businessId]);
 
         // Top-selling products
         const topProducts = await pool.query(`
@@ -75,13 +95,16 @@ const yesterdayCustomers = await pool.query(`
             FROM sale_items si
             INNER JOIN sales s
                 ON s.id = si.sale_id
+                AND s.business_id = si.business_id
             INNER JOIN products p
                 ON p.id = si.product_id
+                AND p.business_id = si.business_id
             WHERE s.user_id = $1
+            AND s.business_id = $2
             GROUP BY p.id, p.product_name
             ORDER BY quantity_sold DESC
             LIMIT 5
-        `, [managerId]);
+        `, [managerId, businessId]);
 
         // Recent sales
         const recentSales = await pool.query(`
@@ -96,12 +119,15 @@ const yesterdayCustomers = await pool.query(`
             FROM sales s
             LEFT JOIN customers c
                 ON c.id = s.customer_id
+                AND c.business_id = s.business_id
             LEFT JOIN users u
                 ON u.id = s.user_id
+                AND u.business_id = s.business_id
             WHERE s.user_id = $1
+            AND s.business_id = $2
             ORDER BY s.created_at DESC
             LIMIT 10
-        `, [managerId]);
+        `, [managerId, businessId]);
 
 
 /* =========================================
@@ -131,6 +157,7 @@ if (period === 'monthly') {
         FROM sales
 
         WHERE user_id = $1
+            AND business_id = $2
 
         AND created_at >=
             CURRENT_TIMESTAMP - INTERVAL '12 months'
@@ -142,7 +169,7 @@ if (period === 'monthly') {
             )
 
         ORDER BY sale_date ASC
-    `, [managerId]);
+    `, [managerId, businessId]);
 
 } else {
 
@@ -160,6 +187,7 @@ if (period === 'monthly') {
         FROM sales
 
         WHERE user_id = $1
+            AND business_id = $2
 
         AND created_at >=
             CURRENT_TIMESTAMP - INTERVAL '7 days'
@@ -167,7 +195,7 @@ if (period === 'monthly') {
         GROUP BY DATE(created_at)
 
         ORDER BY sale_date ASC
-    `, [managerId]);
+    `, [managerId, businessId]);
 
 }
 
@@ -184,7 +212,7 @@ const yesterdaySales =
 
 const todayRevenue =
     Number(todaySummary.rows[0].total_revenue);
-    
+
 
 const yesterdayRevenue =
     Number(yesterdaySummary.rows[0].total_revenue);
@@ -202,28 +230,28 @@ const revenueGrowth =
         ? (todayRevenue > 0 ? 100 : 0)
         : ((todayRevenue - yesterdayRevenue) /
             yesterdayRevenue) * 100;
-          
-            
+
+
 const todayCustomerCount =
     Number(
         todayCustomers.rows[0].total_customers
     );
-    
+
 
 const yesterdayCustomerCount =
     Number(
         yesterdayCustomers.rows[0].total_customers
     );
-    
+
 
 const customerGrowth =
     yesterdayCustomerCount === 0
         ? (todayCustomerCount > 0 ? 100 : 0)
         : ((todayCustomerCount - yesterdayCustomerCount) /
             yesterdayCustomerCount) * 100;
-            
-            
-                        
+
+
+
         res.status(200).json({
             success: true,
 
@@ -248,7 +276,7 @@ const customerGrowth =
     revenue_growth: Number(
         revenueGrowth.toFixed(1)
     ),
-    
+
     customer_growth: Number(
     customerGrowth.toFixed(1)
 )
@@ -259,9 +287,9 @@ const customerGrowth =
             top_products: topProducts.rows,
 
             recent_sales: recentSales.rows,
-            
+
             sales_chart: salesChart.rows
-            
+
         });
 
     } catch (error) {

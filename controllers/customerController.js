@@ -1,13 +1,36 @@
 const pool = require('../config/db');
 
+function getBusinessId(req) {
+    const id = Number(req.session?.user?.business_id);
+    return Number.isInteger(id) && id > 0 ? id : null;
+}
+
+function requireBusinessId(req, res) {
+    const businessId = getBusinessId(req);
+
+    if (businessId === null) {
+        res.status(403).json({
+            success: false,
+            message: 'A valid business membership is required'
+        });
+        return null;
+    }
+
+    return businessId;
+}
+
 // Get all customers
 const getCustomers = async (req, res) => {
+    const businessId = requireBusinessId(req, res);
+    if (businessId === null) return;
+
     try {
         const result = await pool.query(`
             SELECT *
             FROM customers
+            WHERE business_id = $1
             ORDER BY id DESC
-        `);
+        `, [businessId]);
 
         res.status(200).json({
             success: true,
@@ -27,12 +50,15 @@ const getCustomers = async (req, res) => {
 
 // Get one customer
 const getCustomerById = async (req, res) => {
+    const businessId = requireBusinessId(req, res);
+    if (businessId === null) return;
+
     try {
         const { id } = req.params;
 
         const result = await pool.query(
-            'SELECT * FROM customers WHERE id = $1',
-            [id]
+            'SELECT * FROM customers WHERE id = $1 AND business_id = $2',
+            [id, businessId]
         );
 
         if (result.rows.length === 0) {
@@ -60,6 +86,9 @@ const getCustomerById = async (req, res) => {
 
 // Create customer
 const createCustomer = async (req, res) => {
+    const businessId = requireBusinessId(req, res);
+    if (businessId === null) return;
+
     try {
         const {
             full_name,
@@ -77,10 +106,10 @@ const createCustomer = async (req, res) => {
 
         const result = await pool.query(
             `INSERT INTO customers
-            (full_name, phone, email, address)
-            VALUES ($1, $2, $3, $4)
+            (business_id, full_name, phone, email, address)
+            VALUES ($1, $2, $3, $4, $5)
             RETURNING *`,
-            [full_name, phone, email || null, address || null]
+            [businessId, full_name, phone, email || null, address || null]
         );
 
         res.status(201).json({
@@ -109,6 +138,9 @@ const createCustomer = async (req, res) => {
 
 // Update customer
 const updateCustomer = async (req, res) => {
+    const businessId = requireBusinessId(req, res);
+    if (businessId === null) return;
+
     try {
         const { id } = req.params;
 
@@ -128,7 +160,7 @@ const updateCustomer = async (req, res) => {
                  address = $4,
                  is_active = $5,
                  updated_at = CURRENT_TIMESTAMP
-             WHERE id = $6
+             WHERE id = $6 AND business_id = $7
              RETURNING *`,
             [
                 full_name,
@@ -136,7 +168,8 @@ const updateCustomer = async (req, res) => {
                 email || null,
                 address || null,
                 is_active !== undefined ? is_active : true,
-                id
+                id,
+                businessId
             ]
         );
 
@@ -173,12 +206,15 @@ const updateCustomer = async (req, res) => {
 
 // Delete customer
 const deleteCustomer = async (req, res) => {
+    const businessId = requireBusinessId(req, res);
+    if (businessId === null) return;
+
     try {
         const { id } = req.params;
 
         const result = await pool.query(
-            'DELETE FROM customers WHERE id = $1 RETURNING *',
-            [id]
+            'DELETE FROM customers WHERE id = $1 AND business_id = $2 RETURNING *',
+            [id, businessId]
         );
 
         if (result.rows.length === 0) {

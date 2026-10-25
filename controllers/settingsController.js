@@ -1,32 +1,50 @@
 const pool = require("../config/db");
 
+function getBusinessId(req) {
+    const id = Number(req.session?.user?.business_id);
+    return Number.isInteger(id) && id > 0 ? id : null;
+}
+
+function readBoolean(value, fallback) {
+    return typeof value === "boolean" ? value : fallback;
+}
+
 // GET SETTINGS
 async function getSettings(req, res) {
     try {
-        const userId = req.session.user.id;
+        const userId = req.session?.user?.id;
+        const businessId = getBusinessId(req);
 
-        // Create default settings if this user does not have one
+        if (!userId || !businessId || req.session?.user?.is_platform_admin) {
+            return res.status(403).json({
+                success: false,
+                message: "A valid business membership is required."
+            });
+        }
+
+        const businessResult = await pool.query(
+            `SELECT preferences FROM businesses WHERE id = $1`,
+            [businessId]
+        );
+
+        if (businessResult.rows.length === 0) {
+            return res.status(403).json({
+                success: false,
+                message: "Business not found."
+            });
+        }
+
         await pool.query(
-            `
-            INSERT INTO user_settings (user_id)
-            VALUES ($1)
-            ON CONFLICT (user_id) DO NOTHING
-            `,
+            `INSERT INTO user_settings (user_id)
+             VALUES ($1)
+             ON CONFLICT (user_id) DO NOTHING`,
             [userId]
         );
 
         const result = await pool.query(
-            `
-            SELECT
-                notifications,
-                email_notifications,
-                low_stock_alerts,
-                sale_alerts,
-                theme,
-                language
-            FROM user_settings
-            WHERE user_id = $1
-            `,
+            `SELECT theme, language
+             FROM user_settings
+             WHERE user_id = $1`,
             [userId]
         );
 
@@ -37,24 +55,23 @@ async function getSettings(req, res) {
             });
         }
 
+        const preferences = businessResult.rows[0].preferences || {};
+        const saved = preferences.notifications || {};
+        const personal = result.rows[0];
+
         return res.json({
             success: true,
             settings: {
-                notifications: result.rows[0].notifications,
-                emailNotifications:
-                    result.rows[0].email_notifications,
-                lowStockAlerts:
-                    result.rows[0].low_stock_alerts,
-                saleAlerts:
-                    result.rows[0].sale_alerts,
-                theme: result.rows[0].theme,
-                language: result.rows[0].language
+                notifications: readBoolean(saved.enabled, true),
+                emailNotifications: readBoolean(saved.emailNotifications, false),
+                lowStockAlerts: readBoolean(saved.lowStockAlerts, true),
+                saleAlerts: readBoolean(saved.saleAlerts, true),
+                theme: personal.theme,
+                language: personal.language
             }
         });
-
     } catch (error) {
         console.error("Get settings error:", error);
-
         return res.status(500).json({
             success: false,
             message: "Unable to load settings."
@@ -62,11 +79,20 @@ async function getSettings(req, res) {
     }
 }
 
-
 // UPDATE SETTINGS
 async function updateSettings(req, res) {
+    const client = await pool.connect();
+
     try {
-        const userId = req.session.user.id;
+        const userId = req.session?.user?.id;
+        const businessId = getBusinessId(req);
+
+        if (!userId || !businessId || req.session?.user?.is_platform_admin) {
+            return res.status(403).json({
+                success: false,
+                message: "A valid business membership is required."
+            });
+        }
 
         const {
             notifications,
@@ -75,106 +101,91 @@ async function updateSettings(req, res) {
             saleAlerts,
             theme,
             language
-        } = req.body;
+        } = req.body || {};
 
-        const allowedThemes = ["light", "dark"];
-        const allowedLanguages = ["English"];
-
-        if (!allowedThemes.includes(theme)) {
+        if (!["light", "dark"].includes(theme)) {
             return res.status(400).json({
                 success: false,
                 message: "Invalid theme selected."
             });
         }
 
-        if (!allowedLanguages.includes(language)) {
+        if (!["English"].includes(language)) {
             return res.status(400).json({
                 success: false,
                 message: "Invalid language selected."
             });
         }
 
-        const result = await pool.query(
-            `
-            INSERT INTO user_settings (
-                user_id,
-                notifications,
-                email_notifications,
-                low_stock_alerts,
-                sale_alerts,
-                theme,
-                language,
-                updated_at
-            )
-            VALUES (
-                $1,
-                $2,
-                $3,
-                $4,
-                $5,
-                $6,
-                $7,
-                CURRENT_TIMESTAMP
-            )
-            ON CONFLICT (user_id)
-            DO UPDATE SET
-                notifications = EXCLUDED.notifications,
-                email_notifications =
-                    EXCLUDED.email_notifications,
-                low_stock_alerts =
-                    EXCLUDED.low_stock_alerts,
-                sale_alerts =
-                    EXCLUDED.sale_alerts,
-                theme = EXCLUDED.theme,
-                language = EXCLUDED.language,
-                updated_at = CURRENT_TIMESTAMP
-            RETURNING
-                notifications,
-                email_notifications,
-                low_stock_alerts,
-                sale_alerts,
-                theme,
-                language
-            `,
-            [
-                userId,
-                Boolean(notifications),
-                Boolean(emailNotifications),
-                Boolean(lowStockAlerts),
-                Boolean(saleAlerts),
-                theme,
-                language
-            ]
+        const preferences = {
+            enabled: readBoolean(notifications, true),
+            emailNotifications: readBoolean(emailNotifications, false),
+            lowStockAlerts: readBoolean(lowStockAlerts, true),
+            saleAlerts: readBoolean(saleAlerts, true)
+        };
+
+        await client.query("BEGIN");
+
+        const businessResult = await client.query(
+            `UPDATE businesses
+             SET preferences =
+                 COALESCE(preferences, '{}'::jsonb)
+                 || jsonb_build_object('notifications', $2::jsonb),
+                 updated_at = CURRENT_TIMESTAMP
+             WHERE id = $1
+             RETURNING id`,
+            [businessId, JSON.stringify(preferences)]
         );
 
-        const settings = result.rows[0];
+        if (businessResult.rows.length === 0) {
+            await client.query("ROLLBACK");
+            return res.status(403).json({
+                success: false,
+                message: "Business not found."
+            });
+        }
+
+        await client.query(
+            `INSERT INTO user_settings (user_id, theme, language, updated_at)
+             VALUES ($1, $2, $3, CURRENT_TIMESTAMP)
+             ON CONFLICT (user_id)
+             DO UPDATE SET
+                 theme = EXCLUDED.theme,
+                 language = EXCLUDED.language,
+                 updated_at = CURRENT_TIMESTAMP`,
+            [userId, theme, language]
+        );
+
+        await client.query("COMMIT");
 
         return res.json({
             success: true,
             message: "Settings updated successfully.",
             settings: {
-                notifications: settings.notifications,
-                emailNotifications:
-                    settings.email_notifications,
-                lowStockAlerts:
-                    settings.low_stock_alerts,
-                saleAlerts:
-                    settings.sale_alerts,
-                theme: settings.theme,
-                language: settings.language
+                notifications: preferences.enabled,
+                emailNotifications: preferences.emailNotifications,
+                lowStockAlerts: preferences.lowStockAlerts,
+                saleAlerts: preferences.saleAlerts,
+                theme,
+                language
             }
         });
-
     } catch (error) {
-        console.error("Update settings error:", error);
+        try {
+            await client.query("ROLLBACK");
+        } catch (rollbackError) {
+            console.error("Settings rollback error:", rollbackError);
+        }
 
+        console.error("Update settings error:", error);
         return res.status(500).json({
             success: false,
             message: "Unable to update settings."
         });
+    } finally {
+        client.release();
     }
 }
-
 
 module.exports = {
     getSettings,

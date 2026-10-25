@@ -10,7 +10,8 @@ const {
 
 const {
     requireManagerOrDirector,
-    requireDirector
+    requireDirector,
+    requireBusiness
 } = require('../middleware/authMiddleware');
 
 const router = express.Router();
@@ -24,6 +25,7 @@ const router = express.Router();
 router.get(
     '/',
     requireManagerOrDirector,
+    requireBusiness,
     getCustomers
 );
 
@@ -36,6 +38,7 @@ router.get(
 router.get(
     '/:id',
     requireManagerOrDirector,
+    requireBusiness,
     getCustomerById
 );
 
@@ -48,6 +51,7 @@ router.get(
 router.post(
     '/',
     requireManagerOrDirector,
+    requireBusiness,
     createCustomer
 );
 
@@ -60,6 +64,7 @@ router.post(
 router.put(
     '/:id',
     requireDirector,
+    requireBusiness,
     updateCustomer
 );
 
@@ -72,6 +77,7 @@ router.put(
 router.delete(
     '/:id',
     requireDirector,
+    requireBusiness,
     deleteCustomer
 );
 

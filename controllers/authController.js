@@ -13,7 +13,8 @@ async function login(req, res) {
     }
 
     const result = await pool.query(
-      `SELECT id, full_name, username, email, password_hash, role, is_active
+      `SELECT id, full_name, username, email, password_hash, role,
+                    is_active, business_id, is_platform_admin
              FROM users
              WHERE username = $1 OR email = $1
              LIMIT 1`,
@@ -45,17 +46,9 @@ async function login(req, res) {
       });
     }
 
-    req.session.user = {
-      id: user.id,
-      full_name: user.full_name,
-      username: user.username,
-      email: user.email,
-      role: user.role,
-    };
-
-    req.session.save((error) => {
-      if (error) {
-        console.error("Session save error:", error);
+    req.session.regenerate((regenerateError) => {
+      if (regenerateError) {
+        console.error("Session regeneration error:", regenerateError);
 
         return res.status(500).json({
           success: false,
@@ -63,10 +56,31 @@ async function login(req, res) {
         });
       }
 
-      return res.json({
-        success: true,
-        message: "Login successful.",
-        user: req.session.user,
+      req.session.user = {
+        id: user.id,
+        full_name: user.full_name,
+        username: user.username,
+        email: user.email,
+        role: user.role,
+        business_id: user.business_id,
+        is_platform_admin: user.is_platform_admin,
+      };
+
+      req.session.save((saveError) => {
+        if (saveError) {
+          console.error("Session save error:", saveError);
+
+          return res.status(500).json({
+            success: false,
+            message: "Unable to create login session.",
+          });
+        }
+
+        return res.json({
+          success: true,
+          message: "Login successful.",
+          user: req.session.user,
+        });
       });
     });
   } catch (error) {

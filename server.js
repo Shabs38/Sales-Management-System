@@ -15,6 +15,8 @@ const productRoutes = require('./routes/productRoutes');
 const customerRoutes = require('./routes/customerRoutes');
 
 const salesRoutes = require('./routes/salesRoutes');
+const businessBrandingRoutes = require('./routes/businessBrandingRoutes');
+const platformBusinessRoutes = require('./routes/platformBusinessRoutes');
 
 const managerRoutes = require('./routes/managerRoutes'); 
 
@@ -40,9 +42,27 @@ app.set('trust proxy', 1);
 const PORT = process.env.PORT || 5000;
 
 
-// Middleware
+// Middlewares
+
+const allowedOrigins = [
+    'https://sales-management-system-seven-virid.vercel.app',
+    'http://localhost:5000',
+    'http://127.0.0.1:5000',
+    'http://localhost:5500',
+    'http://127.0.0.1:5500',
+    'http://localhost:5501',
+    'http://127.0.0.1:5501'
+];
+
 app.use(cors({
-    origin: true,
+    origin: function (origin, callback) {
+        // Allow requests without an Origin header, such as server-to-server calls.
+        if (!origin || allowedOrigins.includes(origin)) {
+            return callback(null, true);
+        }
+
+        return callback(new Error('Origin not allowed by CORS'));
+    },
     credentials: true
 }));
 
@@ -87,6 +107,8 @@ app.use('/api/products', productRoutes);
 app.use('/api/customers', customerRoutes);
 
 app.use('/api/sales', salesRoutes);
+app.use('/api/business/branding', businessBrandingRoutes);
+app.use('/api/platform/businesses', platformBusinessRoutes);
 
 app.use('/api/managers', managerRoutes);
 
@@ -229,6 +251,18 @@ app.get('/pages/profile.html', requireAuth, (req, res) => {
 });
 
 app.get('/pages/settings.html', requireAuth, (req, res) => {
+    const user = req.session?.user;
+
+    if (
+        !user ||
+        user.role !== 'director' ||
+        user.is_platform_admin ||
+        !Number.isInteger(Number(user.business_id)) ||
+        Number(user.business_id) <= 0
+    ) {
+        return res.redirect('/pages/manager-dashboard.html');
+    }
+
     res.sendFile(path.join(__dirname, 'public/pages/settings.html'));
 });
 
