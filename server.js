@@ -46,7 +46,6 @@ const PORT = process.env.PORT || 5000;
 
 const allowedOrigins = [
     'https://sales-management-system-seven-virid.vercel.app',
-    'https://sales-management-system-mjeta2lol-shabs38.vercel.app',
     'http://localhost:5000',
     'http://127.0.0.1:5000',
     'http://localhost:5500',
@@ -57,15 +56,28 @@ const allowedOrigins = [
 
 app.use(cors({
     origin: function (origin, callback) {
-        // Allow requests without an Origin header, such as server-to-server calls.
         if (!origin || allowedOrigins.includes(origin)) {
             return callback(null, true);
+        }
+
+        try {
+            const url = new URL(origin);
+            const isProjectPreview =
+                url.protocol === 'https:' &&
+                /^sales-management-system-[a-z0-9-]+-shabs38\.vercel\.app$/.test(url.hostname);
+
+            if (isProjectPreview) {
+                return callback(null, true);
+            }
+        } catch (error) {
+            // Reject invalid origins.
         }
 
         return callback(new Error('Origin not allowed by CORS'));
     },
     credentials: true
 }));
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
