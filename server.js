@@ -46,6 +46,7 @@ const PORT = process.env.PORT || 5000;
 
 const allowedOrigins = [
     'https://sales-management-system-seven-virid.vercel.app',
+    'https://sales-management-system-mjeta2lol-shabs38.vercel.app',
     'http://localhost:5000',
     'http://127.0.0.1:5000',
     'http://localhost:5500',
