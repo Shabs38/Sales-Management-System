@@ -12,6 +12,27 @@ async function login(req, res) {
       });
     }
 
+ const dbCheck = await pool.query(`
+    SELECT
+        current_database() AS database_name,
+        current_schema() AS schema_name,
+        current_setting('search_path') AS search_path,
+        to_regclass('public.users') AS users_table,
+        EXISTS (
+            SELECT 1
+            FROM information_schema.columns
+            WHERE table_schema = 'public'
+              AND table_name = 'users'
+              AND column_name = 'business_id'
+        ) AS has_business_id
+`);
+
+console.error(
+    '[LOGIN_DB_DIAGNOSTIC]',
+    JSON.stringify(dbCheck.rows[0])
+);
+
+
     const result = await pool.query(
       `SELECT id, full_name, username, email, password_hash, role,
                     is_active, business_id, is_platform_admin
