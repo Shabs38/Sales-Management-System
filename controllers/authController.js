@@ -27,6 +27,18 @@ async function login(req, res) {
         ) AS has_business_id
 `);
 
+let databaseHost = 'DATABASE_URL not configured';
+
+try {
+    if (process.env.DATABASE_URL) {
+        databaseHost = new URL(process.env.DATABASE_URL).hostname;
+    }
+} catch {
+    databaseHost = 'Unable to parse database hostname';
+}
+
+console.error('[DATABASE_HOST_DIAGNOSTIC]', databaseHost);
+
 console.error(
     '[LOGIN_DB_DIAGNOSTIC]',
     JSON.stringify(dbCheck.rows[0])
