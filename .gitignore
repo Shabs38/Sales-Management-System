@@ -17,3 +17,5 @@ sales_management_backup.dump
 *.bak
 *.before-*
 *.pre-*
+.vercel
+.env*
