@@ -37,6 +37,12 @@ try {
     databaseHost = 'Unable to parse database hostname';
 }
 
+console.error(
+  "[DATABASE_URL_CHECK]",
+  process.env.DATABASE_URL?.replace(/:\/\/.*@/, "://***@")
+);
+
+
 console.error('[DATABASE_HOST_DIAGNOSTIC]', databaseHost);
 
 console.error(
