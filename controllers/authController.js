@@ -1,6 +1,8 @@
 const bcrypt = require("bcryptjs");
 const pool = require("../config/db");
 
+
+
 async function login(req, res) {
   try {
     const { username, password } = req.body;
@@ -11,6 +13,19 @@ async function login(req, res) {
         message: "Username and password are required.",
       });
     }
+
+const host = new URL(process.env.DATABASE_URL).hostname;
+
+const columns = await pool.query(`
+  SELECT column_name
+  FROM information_schema.columns
+  WHERE table_name = 'users'
+  ORDER BY ordinal_position
+`);
+
+console.error('[CONNECTED_HOST]', host);
+console.error('[USERS_COLUMNS]', columns.rows);
+
 
  const dbCheck = await pool.query(`
     SELECT
