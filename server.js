@@ -36,6 +36,12 @@ const profileRoutes =
 const settingsRoutes =
     require("./routes/settingsRoutes");
 
+const purchaseRoutes =
+    require("./routes/purchaseRoutes");
+
+const expenseRoutes =
+    require("./routes/expenseRoutes");
+
 
 const app = express();
 app.set('trust proxy', 1);
@@ -142,6 +148,9 @@ profileRoutes);
 app.use("/api/settings",
 settingsRoutes);
 
+app.use("/api/purchases", purchaseRoutes);
+app.use("/api/expenses", expenseRoutes);
+
 
 
 // =================================
@@ -150,7 +159,9 @@ settingsRoutes);
 
 const {
     requireAuth,
-    requireDirector
+    requireDirector,
+    requireManagerOrDirector,
+    requireBusiness
 } = require('./middleware/authMiddleware');
 
 
@@ -188,19 +199,19 @@ app.get(
 
 
 app.get(
-    '/pages/director-products.html',
+    '/pages/director-product.html',
     requireDirector,
     (req, res) => {
-
         res.sendFile(
-            path.join(
-                __dirname,
-                'public/pages/director-products.html'
-            )
+            path.join(__dirname, 'public/pages/director-product.html')
         );
-
     }
 );
+
+// Keep the old plural URL working safely.
+app.get('/pages/director-products.html', requireDirector, (req, res) => {
+    res.redirect('/pages/director-product.html');
+});
 
 
 app.get(
@@ -227,6 +238,13 @@ app.get(
     '/pages/manager-dashboard.html',
     requireAuth,
     (req, res) => {
+
+        if (
+            req.session.user?.role === 'director' &&
+            req.session.user?.is_platform_admin !== true
+        ) {
+            return res.redirect('/pages/director-dashboard.html');
+        }
 
         res.sendFile(
             path.join(
@@ -263,17 +281,45 @@ app.get('/pages/profile.html', requireAuth, (req, res) => {
     res.sendFile(path.join(__dirname, 'public/pages/profile.html'));
 });
 
+app.get(
+    '/pages/purchases.html',
+    requireAuth,
+    requireBusiness,
+    requireDirector,
+    (req, res) => {
+        res.sendFile(
+            path.join(__dirname, 'public/pages/purchases.html')
+        );
+    }
+);
+
+app.get(
+    '/pages/expenses.html',
+    requireAuth,
+    requireBusiness,
+    requireManagerOrDirector,
+    (req, res) => {
+        res.sendFile(
+            path.join(__dirname, 'public/pages/expenses.html')
+        );
+    }
+);
+
 app.get('/pages/settings.html', requireAuth, (req, res) => {
     const user = req.session?.user;
 
     if (
         !user ||
-        user.role !== 'director' ||
+        !['director', 'manager'].includes(user.role) ||
         user.is_platform_admin ||
         !Number.isInteger(Number(user.business_id)) ||
         Number(user.business_id) <= 0
     ) {
-        return res.redirect('/pages/manager-dashboard.html');
+        return res.redirect(
+            user?.role === 'director'
+                ? '/pages/director-dashboard.html'
+                : '/pages/manager-dashboard.html'
+        );
     }
 
     res.sendFile(path.join(__dirname, 'public/pages/settings.html'));

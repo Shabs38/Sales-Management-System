@@ -180,6 +180,8 @@ const createSale = async (req, res) => {
             customer_id,
             items,
             discount = 0,
+            discount_type = 'fixed',
+            discount_value,
             payment_method,
             payment_status = 'paid'
         } = req.body;
@@ -191,7 +193,10 @@ const createSale = async (req, res) => {
                 ? null
                 : Number(customer_id);
 
-        const discountAmount = Number(discount);
+        const discountType = discount_type;
+        const rawDiscountValue =
+            discount_value !== undefined ? discount_value : discount;
+        const discountValue = Number(rawDiscountValue);
 
         // Validate the request before acquiring a database connection.
         if (!Array.isArray(items) || items.length === 0) {
@@ -218,10 +223,21 @@ const createSale = async (req, res) => {
             });
         }
 
-        if (!Number.isFinite(discountAmount) || discountAmount < 0) {
+        if (
+            !['fixed', 'percentage'].includes(discountType) ||
+            !Number.isFinite(discountValue) ||
+            discountValue < 0
+        ) {
             return res.status(400).json({
                 success: false,
-                message: 'Discount must be a valid non-negative number'
+                message: 'Invalid discount type or value'
+            });
+        }
+
+        if (discountType === 'percentage' && discountValue > 100) {
+            return res.status(400).json({
+                success: false,
+                message: 'Percentage discount cannot exceed 100%'
             });
         }
 
@@ -342,9 +358,15 @@ const createSale = async (req, res) => {
             });
         }
 
-        const totalAmount = subtotal - discountAmount;
+        const discountAmount = discountType === 'percentage'
+            ? subtotal * discountValue / 100
+            : discountValue;
 
-        if (!Number.isFinite(totalAmount) || totalAmount < 0) {
+        if (
+            !Number.isFinite(discountAmount) ||
+            discountAmount < 0 ||
+            discountAmount > subtotal
+        ) {
             await client.query('ROLLBACK');
             transactionStarted = false;
 
@@ -353,6 +375,8 @@ const createSale = async (req, res) => {
                 message: 'Discount cannot be greater than subtotal'
             });
         }
+
+        const totalAmount = subtotal - discountAmount;
 
         const saleReference =
             `SAL-${Date.now()}-${Math.floor(Math.random() * 1000)}`;

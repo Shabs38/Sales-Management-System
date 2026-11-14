@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+    let currentUser = null;
 
     const notifications =
         document.getElementById("notifications");
@@ -108,208 +109,170 @@ document.addEventListener("DOMContentLoaded", () => {
        ========================================= */
 
     async function loadUserProfile() {
-
         try {
+            const data = await apiRequest("/api/auth/me");
 
-            const data =
-                await apiRequest(
-                    "/api/auth/me"
-                );
-
-            if (
-                !data.success ||
-                !data.user
-            ) {
-                return;
+            if (!data.success || !data.user) {
+                return null;
             }
 
             const user = data.user;
+            currentUser = user;
 
             if (profileName) {
-                profileName.textContent =
-                    user.full_name;
+                profileName.textContent = user.full_name;
             }
 
             if (profileRole) {
-                profileRole.textContent =
-                    formatRole(user.role);
+                profileRole.textContent = formatRole(user.role);
             }
 
             if (profileAvatar) {
-                profileAvatar.textContent =
-                    getInitials(
-                        user.full_name
-                    );
+                profileAvatar.textContent = getInitials(user.full_name);
             }
 
-        } catch (error) {
+            const isDirector = user.role === "director";
 
-            console.error(
-                "Profile loading error:",
-                error
-            );
+            const directorSections = [
+                "notificationSettingsSection",
+                "businessBrandingSection",
+                "languageSettingsSection"
+            ];
+
+            directorSections.forEach(id => {
+                const section = document.getElementById(id);
+                if (section) {
+                    section.style.display = isDirector ? "" : "none";
+                }
+            });
+
+            return user;
+
+        } catch (error) {
+            console.error("Profile loading error:", error);
+            return null;
         }
     }
-
 
     /* =========================================
        LOAD SETTINGS
        ========================================= */
 
-    async function loadSettings() {
-
+    async function loadSettings(user) {
         try {
-
-            const data =
-                await apiRequest(
-                    "/api/settings"
-                );
-
-            if (
-                !data.success ||
-                !data.settings
-            ) {
-                throw new Error(
-                    "Settings could not be loaded."
-                );
+            if (!user) {
+                throw new Error("Unable to identify the logged-in user.");
             }
 
-            const settings =
-                data.settings;
+            // Managers load only their personal theme.
+            if (user.role === "manager") {
+                const data = await apiRequest("/api/settings/theme");
 
-            notifications.checked =
-                Boolean(
-                    settings.notifications
-                );
+                if (!data.success) {
+                    throw new Error(data.message || "Theme could not be loaded.");
+                }
 
-            emailNotifications.checked =
-                Boolean(
-                    settings.emailNotifications
-                );
+                theme.value = data.theme || "light";
+                applyTheme(theme.value);
+                return;
+            }
 
-            lowStockAlerts.checked =
-                Boolean(
-                    settings.lowStockAlerts
-                );
+            // Directors retain their existing business settings.
+            if (user.role !== "director") {
+                throw new Error("Your account cannot access these settings.");
+            }
 
-            saleAlerts.checked =
-                Boolean(
-                    settings.saleAlerts
-                );
+            const data = await apiRequest("/api/settings");
 
-            theme.value =
-                settings.theme || "light";
+            if (!data.success || !data.settings) {
+                throw new Error("Settings could not be loaded.");
+            }
 
-            language.value =
-                settings.language ||
-                "English";
+            const settings = data.settings;
 
-            applyTheme(
-                settings.theme
-            );
+            notifications.checked = Boolean(settings.notifications);
+            emailNotifications.checked = Boolean(settings.emailNotifications);
+            lowStockAlerts.checked = Boolean(settings.lowStockAlerts);
+            saleAlerts.checked = Boolean(settings.saleAlerts);
+
+            theme.value = settings.theme || "light";
+            language.value = settings.language || "English";
+
+            applyTheme(theme.value);
 
         } catch (error) {
-
-            console.error(
-                "Settings loading error:",
-                error
-            );
-
-            showMessage(
-                error.message,
-                "error"
-            );
+            console.error("Settings loading error:", error);
+            showMessage(error.message, "error");
         }
     }
-
 
     /* =========================================
        SAVE SETTINGS
        ========================================= */
 
     async function saveSettings() {
-
-        saveSettingsButton.disabled =
-            true;
-
-        saveSettingsButton.textContent =
-            "Saving...";
-
+        saveSettingsButton.disabled = true;
+        saveSettingsButton.textContent = "Saving...";
         clearMessage();
 
         try {
+            let data;
 
-            const payload = {
-                notifications:
-                    notifications.checked,
+            // Managers save only their personal theme.
+            if (currentUser?.role === "manager") {
+                data = await apiRequest("/api/settings/theme", {
+                    method: "PUT",
+                    body: JSON.stringify({
+                        theme: theme.value
+                    })
+                });
 
-                emailNotifications:
-                    emailNotifications.checked,
+                if (!data.success) {
+                    throw new Error(data.message || "Unable to save your theme.");
+                }
 
-                lowStockAlerts:
-                    lowStockAlerts.checked,
+                applyTheme(data.theme || theme.value);
 
-                saleAlerts:
-                    saleAlerts.checked,
+            } else if (currentUser?.role === "director") {
 
-                theme:
-                    theme.value,
+                const payload = {
+                    notifications: notifications.checked,
+                    emailNotifications: emailNotifications.checked,
+                    lowStockAlerts: lowStockAlerts.checked,
+                    saleAlerts: saleAlerts.checked,
+                    theme: theme.value,
+                    language: language.value
+                };
 
-                language:
-                    language.value
-            };
+                data = await apiRequest("/api/settings", {
+                    method: "PUT",
+                    body: JSON.stringify(payload)
+                });
 
-            const data =
-                await apiRequest(
-                    "/api/settings",
-                    {
-                        method: "PUT",
-                        body:
-                            JSON.stringify(
-                                payload
-                            )
-                    }
-                );
+                if (!data.success) {
+                    throw new Error(data.message || "Unable to save settings.");
+                }
 
-            if (!data.success) {
-                throw new Error(
-                    data.message ||
-                    "Unable to save settings."
-                );
+                applyTheme(data.settings.theme);
+
+            } else {
+                throw new Error("Your account cannot save these settings.");
             }
 
-            applyTheme(
-                data.settings.theme
-            );
-
             showMessage(
-                data.message ||
-                "Settings updated successfully.",
+                data.message || "Settings updated successfully.",
                 "success"
             );
 
         } catch (error) {
-
-            console.error(
-                "Save settings error:",
-                error
-            );
-
-            showMessage(
-                error.message,
-                "error"
-            );
+            console.error("Save settings error:", error);
+            showMessage(error.message, "error");
 
         } finally {
-
-            saveSettingsButton.disabled =
-                false;
-
-            saveSettingsButton.textContent =
-                "Save Changes";
+            saveSettingsButton.disabled = false;
+            saveSettingsButton.textContent = "Save Changes";
         }
     }
-
 
     /* =========================================
        THEME
@@ -509,17 +472,36 @@ document.addEventListener("DOMContentLoaded", () => {
        INITIALIZE
        ========================================= */
 
-    loadUserProfile();
-    loadSettings();
+    (async () => {
+        const user = await loadUserProfile();
+        await loadSettings(user);
+    })();
 
 });
 
 // =========================================
 // BUSINESS BRANDING
 // =========================================
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
     const form = document.getElementById("businessBrandingForm");
     if (!form) return;
+
+    // Only directors may load or use business branding.
+    try {
+        const response = await fetch("/api/auth/me", {
+            credentials: "include",
+            headers: { "Accept": "application/json" }
+        });
+
+        const data = await response.json();
+
+        if (!response.ok || !data.success || data.user?.role !== "director") {
+            return;
+        }
+    } catch (error) {
+        console.error("Branding access check failed:", error);
+        return;
+    }
 
     const nameInput = document.getElementById("businessName");
     const addressInput = document.getElementById("businessAddress");

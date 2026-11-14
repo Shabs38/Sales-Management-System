@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expenses | MAI-KIFI-COMM</title>
+    <link rel="stylesheet" href="../css/expenses.css">
+    <link rel="stylesheet" href="../css/theme.css">
+    <script src="../js/theme.js" defer></script>
+    <script src="../js/role-navigation.js" defer></script>
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="brand">
+            <h2>MAI-KIFI-COMM</h2>
+            <small>Management System</small>
+        </div>
+
+        <nav>
+            <a href="director-dashboard.html" id="dashboardLink">Dashboard</a>
+            <a href="sales.html">Sales</a>
+            <a href="expenses.html" class="active">Expenses</a>
+            <a href="director-product.html" id="productsLink">Products</a>
+            <a href="customer.html">Customers</a>
+            <a href="report.html">Reports</a>
+            <a href="settings.html" id="settingsLink">Settings</a>
+            <a href="profile.html">Profile</a>
+        </nav>
+    </aside>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <main class="main-content">
+        <header class="topbar">
+<button type="button" class="menu-button" id="menuButton" aria-label="Open navigation">☰</button>
+            <div>
+                <h1>Expenses</h1>
+                <p>Record and monitor your business expenses.</p>
+            </div>
+            <button id="logoutButton" class="logout-button">Logout</button>
+        </header>
+
+        <section class="page-content">
+            <div id="messageBox" class="message-box" hidden></div>
+
+            <section class="summary-grid">
+                <article class="summary-card">
+                    <span>Total recorded expenses</span>
+                    <strong id="totalExpenses">0</strong>
+                </article>
+                <article class="summary-card">
+                    <span>Total amount</span>
+                    <strong id="totalExpenseAmount">₦0.00</strong>
+                </article>
+            </section>
+
+            <section class="panel">
+                <div class="panel-heading">
+                    <div>
+                        <h2>Record an expense</h2>
+                        <p>Enter the details of a business expense.</p>
+                    </div>
+                </div>
+
+                <form id="expenseForm">
+                    <div class="form-grid">
+                        <label>
+                            Category *
+                            <select id="expenseCategory" required>
+                                <option value="">Select category</option>
+                                <option value="transport">Transport</option>
+                                <option value="electricity">Electricity</option>
+                                <option value="rent">Rent</option>
+                                <option value="salaries">Salaries</option>
+                                <option value="maintenance">Maintenance</option>
+                                <option value="utilities">Utilities</option>
+                                <option value="supplies">Supplies</option>
+                                <option value="marketing">Marketing</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </label>
+
+                        <label>
+                            Amount (₦) *
+                            <input type="number" id="expenseAmount"
+                                   min="0.01" step="0.01" required>
+                        </label>
+
+                        <label>
+                            Expense date *
+                            <input type="date" id="expenseDate" required>
+                        </label>
+
+                        <label class="full-width">
+                            Description
+                            <textarea id="expenseDescription"
+                                      rows="3"
+                                      placeholder="What was this expense for?"></textarea>
+                        </label>
+                    </div>
+
+                    <button type="submit" id="saveExpenseButton"
+                            class="primary-button">Save expense</button>
+                </form>
+            </section>
+
+            <section class="panel">
+                <div class="panel-heading">
+                    <div>
+                        <h2>Expense history</h2>
+                        <p>View and filter recorded expenses.</p>
+                    </div>
+                    <div class="filters">
+                        <select id="categoryFilter">
+                            <option value="">All categories</option>
+                            <option value="transport">Transport</option>
+                            <option value="electricity">Electricity</option>
+                            <option value="rent">Rent</option>
+                            <option value="salaries">Salaries</option>
+                            <option value="maintenance">Maintenance</option>
+                            <option value="utilities">Utilities</option>
+                            <option value="supplies">Supplies</option>
+                            <option value="marketing">Marketing</option>
+                            <option value="other">Other</option>
+                        </select>
+                        <input type="search" id="expenseSearch"
+                               placeholder="Search expenses">
+                    </div>
+                </div>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Category</th>
+                                <th>Description</th>
+                                <th>Recorded by</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody id="expenseHistory">
+                            <tr>
+                                <td colspan="5">Loading expenses...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </section>
+    </main>
+
+    <script src="../js/expenses.js"></script>
+</body>
+</html>

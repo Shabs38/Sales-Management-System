@@ -187,7 +187,95 @@ async function updateSettings(req, res) {
     }
 }
 
+
+// GET PERSONAL USER THEME
+async function getUserTheme(req, res) {
+    try {
+        const userId = req.session?.user?.id;
+        const businessId = getBusinessId(req);
+
+        if (!userId || !businessId || req.session?.user?.is_platform_admin) {
+            return res.status(403).json({
+                success: false,
+                message: "A valid business membership is required."
+            });
+        }
+
+        const result = await pool.query(
+            `INSERT INTO user_settings (user_id)
+             VALUES ($1)
+             ON CONFLICT (user_id) DO NOTHING`,
+            [userId]
+        );
+
+        const settings = await pool.query(
+            `SELECT theme
+             FROM user_settings
+             WHERE user_id = $1`,
+            [userId]
+        );
+
+        return res.json({
+            success: true,
+            theme: settings.rows[0]?.theme || "light"
+        });
+    } catch (error) {
+        console.error("Get user theme error:", error);
+        return res.status(500).json({
+            success: false,
+            message: "Unable to load your theme preference."
+        });
+    }
+}
+
+// UPDATE PERSONAL USER THEME
+async function updateUserTheme(req, res) {
+    try {
+        const userId = req.session?.user?.id;
+        const businessId = getBusinessId(req);
+        const { theme } = req.body || {};
+
+        if (!userId || !businessId || req.session?.user?.is_platform_admin) {
+            return res.status(403).json({
+                success: false,
+                message: "A valid business membership is required."
+            });
+        }
+
+        if (!["light", "dark"].includes(theme)) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid theme selected."
+            });
+        }
+
+        await pool.query(
+            `INSERT INTO user_settings (user_id, theme, updated_at)
+             VALUES ($1, $2, CURRENT_TIMESTAMP)
+             ON CONFLICT (user_id)
+             DO UPDATE SET
+                 theme = EXCLUDED.theme,
+                 updated_at = CURRENT_TIMESTAMP`,
+            [userId, theme]
+        );
+
+        return res.json({
+            success: true,
+            message: "Theme preference saved successfully.",
+            theme
+        });
+    } catch (error) {
+        console.error("Update user theme error:", error);
+        return res.status(500).json({
+            success: false,
+            message: "Unable to save your theme preference."
+        });
+    }
+}
+
 module.exports = {
     getSettings,
-    updateSettings
+    updateSettings,
+    getUserTheme,
+    updateUserTheme
 };

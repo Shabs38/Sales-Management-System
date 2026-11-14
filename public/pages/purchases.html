@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purchases | MAI-KIFI-COMM</title>
+    <link rel="stylesheet" href="../css/purchases.css">
+    <link rel="stylesheet" href="../css/theme.css">
+    <script src="../js/theme.js" defer></script>
+    <script src="../js/role-navigation.js" defer></script>
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="brand">
+            <h2>MAI-KIFI-COMM</h2>
+            <small>Management System</small>
+        </div>
+
+        <nav>
+            <a href="director-dashboard.html">Dashboard</a>
+            <a href="sales.html">Sales</a>
+            <a href="purchases.html" class="active">Purchases</a>
+            <a href="expenses.html">Expenses</a>
+            <a href="director-product.html">Products</a>
+            <a href="customer.html">Customers</a>
+            <a href="managers.html">Managers</a>
+            <a href="report.html">Reports</a>
+            <a href="settings.html">Settings</a>
+            <a href="profile.html">Profile</a>
+        </nav>
+    </aside>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <main class="main-content">
+        <header class="topbar">
+<button type="button" class="menu-button" id="menuButton" aria-label="Open navigation">☰</button>
+            <div>
+                <h1>Purchases</h1>
+                <p>Record purchases and manage incoming stock.</p>
+            </div>
+            <button id="logoutButton" class="logout-button">Logout</button>
+        </header>
+
+        <section class="page-content">
+            <div id="messageBox" class="message-box" hidden></div>
+
+            <section class="summary-grid">
+                <article class="summary-card">
+                    <span>Total purchases</span>
+                    <strong id="totalPurchases">0</strong>
+                </article>
+                <article class="summary-card">
+                    <span>Total purchase value</span>
+                    <strong id="totalPurchaseValue">₦0.00</strong>
+                </article>
+                <article class="summary-card">
+                    <span>Outstanding payments</span>
+                    <strong id="outstandingPayments">₦0.00</strong>
+                </article>
+            </section>
+
+            <section class="panel">
+                <div class="panel-heading">
+                    <div>
+                        <h2>Record a purchase</h2>
+                        <p>Add purchased goods and update your stock.</p>
+                    </div>
+                </div>
+
+                <form id="purchaseForm">
+                    <div class="form-grid">
+                        <label>
+                            Supplier name *
+                            <input type="text" id="supplierName"
+                                   autocomplete="off" required>
+                            <div id="supplierSuggestions"
+                                 class="suggestions"></div>
+                        </label>
+
+                        <label>
+                            Supplier contact
+                            <input type="text" id="supplierContact">
+                        </label>
+
+                        <label>
+                            Invoice number
+                            <input type="text" id="invoiceNumber">
+                        </label>
+
+                        <label>
+                            Purchase date *
+                            <input type="date" id="purchaseDate" required>
+                        </label>
+                    </div>
+
+                    <div class="items-heading">
+                        <h3>Purchased items</h3>
+                        <button type="button" id="addItemButton"
+                                class="secondary-button">+ Add item</button>
+                    </div>
+
+                    <div id="purchaseItems"></div>
+
+                    <div class="form-grid payment-grid">
+                        <label>
+                            Amount paid (₦)
+                            <input type="number" id="amountPaid"
+                                   min="0" step="0.01" value="0">
+                        </label>
+
+                        <label>
+                            Payment method
+                            <select id="paymentMethod">
+                                <option value="">Select method</option>
+                                <option value="cash">Cash</option>
+                                <option value="transfer">Transfer</option>
+                                <option value="pos">POS</option>
+                                <option value="credit">Credit</option>
+                            </select>
+                        </label>
+
+                        <label class="full-width">
+                            Notes
+                            <textarea id="purchaseNotes" rows="3"></textarea>
+                        </label>
+                    </div>
+
+                    <div class="purchase-total">
+                        <span>Purchase total</span>
+                        <strong id="purchaseTotal">₦0.00</strong>
+                    </div>
+
+                    <button type="submit" id="savePurchaseButton"
+                            class="primary-button">Save purchase</button>
+                </form>
+            </section>
+
+            <section class="panel">
+                <div class="panel-heading">
+                    <div>
+                        <h2>Purchase history</h2>
+                        <p>Review previous purchases and payment balances.</p>
+                    </div>
+                    <input type="search" id="purchaseSearch"
+                           placeholder="Search supplier or invoice">
+                </div>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Supplier</th>
+                                <th>Invoice</th>
+                                <th>Items</th>
+                                <th>Total</th>
+                                <th>Paid</th>
+                                <th>Balance</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="purchaseHistory">
+                            <tr>
+                                <td colspan="9">Loading purchases...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </section>
+    </main>
+
+    <div id="purchaseDetailsModal" class="modal" hidden>
+        <div class="modal-content">
+            <button type="button" id="closeDetailsButton"
+                    class="close-button">×</button>
+            <h2>Purchase details</h2>
+            <div id="purchaseDetails"></div>
+            <button type="button" id="printPurchaseButton"
+                    class="secondary-button">Print</button>
+        </div>
+    </div>
+
+    <script src="../js/purchases.js"></script>
+</body>
+</html>

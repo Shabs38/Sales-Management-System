@@ -1,0 +1,258 @@
+/* =========================================
+   APPLICATION-WIDE PERSONAL DARK THEME
+   ========================================= */
+
+body.dark-theme {
+    color-scheme: dark;
+
+    --background: #111827;
+    --white: #1f2937;
+    --card: #1f2937;
+    --surface: #273449;
+    --text: #f3f4f6;
+    --muted: #9ca3af;
+    --border: #374151;
+    --input-bg: #111827;
+}
+
+/* Main page surfaces */
+body.dark-theme,
+body.dark-theme .main-content,
+body.dark-theme .page-content,
+body.dark-theme .dashboard-content,
+body.dark-theme .customers-content,
+body.dark-theme .products-content,
+body.dark-theme .sales-content,
+body.dark-theme .view-customer-content {
+    background-color: var(--background);
+    color: var(--text);
+}
+
+/* Navigation and header */
+body.dark-theme .sidebar,
+body.dark-theme .topbar,
+body.dark-theme .sidebar-brand,
+body.dark-theme .sidebar-header {
+    background-color: var(--card);
+    border-color: var(--border);
+    color: var(--text);
+}
+
+body.dark-theme .sidebar h1,
+body.dark-theme .sidebar h2,
+body.dark-theme .sidebar h3,
+body.dark-theme .topbar h1,
+body.dark-theme .topbar h2,
+body.dark-theme .topbar-title,
+body.dark-theme .topbar-title h1,
+body.dark-theme .profile-info strong,
+body.dark-theme .topbar-user {
+    color: var(--text);
+}
+
+body.dark-theme .topbar p,
+body.dark-theme .topbar-title p,
+body.dark-theme .profile-info span {
+    color: var(--muted);
+}
+
+body.dark-theme .nav-link {
+    color: #cbd5e1;
+}
+
+body.dark-theme .nav-link:hover {
+    background-color: #263445;
+    color: #5eead4;
+}
+
+body.dark-theme .nav-link.active {
+    background-color: #123c43;
+    color: #5eead4;
+}
+
+body.dark-theme .sidebar-bottom,
+body.dark-theme .sidebar-brand {
+    border-color: var(--border);
+}
+
+/* Cards, panels and containers */
+body.dark-theme :is(
+    .stat-card,
+    .dashboard-card,
+    .settings-card,
+    .customers-card,
+    .products-card,
+    .sales-card,
+    .transactions-card,
+    .summary-card,
+    .profile-card,
+    .profile-header-card,
+    .report-card,
+    .report-filter-card,
+    .report-stat-card,
+    .panel,
+    .table-container,
+    .table-wrapper
+) {
+    background-color: var(--card);
+    border-color: var(--border);
+    color: var(--text);
+}
+
+/* Card headings and supporting text */
+body.dark-theme .card-header,
+body.dark-theme .panel-heading,
+body.dark-theme .products-card-header,
+body.dark-theme .sales-card-header {
+    border-color: var(--border);
+    color: var(--text);
+}
+
+body.dark-theme :is(
+    .card-header h2,
+    .card-header h3,
+    .panel-heading h2,
+    .panel-heading h3,
+    .stat-card h3,
+    .dashboard-card h3
+) {
+    color: var(--text);
+}
+
+body.dark-theme :is(
+    .card-header p,
+    .panel-heading p,
+    .stat-card p,
+    .dashboard-card p
+) {
+    color: var(--muted);
+}
+
+/* Tables */
+body.dark-theme table {
+    color: var(--text);
+}
+
+body.dark-theme thead,
+body.dark-theme th {
+    background-color: #273449;
+    color: #e5e7eb;
+    border-color: var(--border);
+}
+
+body.dark-theme td,
+body.dark-theme th,
+body.dark-theme tr {
+    border-color: var(--border);
+}
+
+body.dark-theme tbody tr {
+    background-color: var(--card);
+}
+
+body.dark-theme tbody tr:hover {
+    background-color: #273449;
+}
+
+/* Forms and input controls */
+body.dark-theme input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+body.dark-theme select,
+body.dark-theme textarea {
+    background-color: var(--input-bg);
+    color: var(--text);
+    border-color: var(--border);
+}
+
+body.dark-theme input::placeholder,
+body.dark-theme textarea::placeholder {
+    color: #9ca3af;
+}
+
+body.dark-theme label,
+body.dark-theme .form-group label {
+    color: #e5e7eb;
+}
+
+body.dark-theme option {
+    background-color: var(--card);
+    color: var(--text);
+}
+
+/* Modals and overlays */
+body.dark-theme :is(
+    .modal,
+    .customer-modal,
+    .product-modal,
+    .sale-modal,
+    .sale-details-modal
+) {
+    color: var(--text);
+}
+
+body.dark-theme :is(
+    .modal-content,
+    .customer-modal-content,
+    .product-modal-content,
+    .sale-modal-content,
+    .sale-details-content
+) {
+    background-color: var(--card);
+    border-color: var(--border);
+    color: var(--text);
+}
+
+body.dark-theme :is(
+    .modal-header,
+    .product-modal-header,
+    .sale-modal-header
+) {
+    border-color: var(--border);
+    color: var(--text);
+}
+
+/* Notification panels */
+body.dark-theme .notification-panel {
+    background-color: var(--card);
+    border-color: var(--border);
+    color: var(--text);
+}
+
+body.dark-theme .notification-header {
+    border-color: var(--border);
+}
+
+body.dark-theme .notification-header h3,
+body.dark-theme .notification-body {
+    color: var(--text);
+}
+
+/* Secondary text */
+body.dark-theme .muted,
+body.dark-theme .text-muted,
+body.dark-theme .form-help {
+    color: var(--muted);
+}
+
+/* Preserve readable links */
+body.dark-theme a:not(.nav-link) {
+    color: #5eead4;
+}
+
+/* Preserve semantic button colours; only adjust neutral controls */
+body.dark-theme button:not(
+    .nav-link
+):not(
+    .logout-button
+):not(
+    .notification-button
+) {
+    border-color: var(--border);
+}
+
+/* Horizontal separators */
+body.dark-theme hr {
+    border-color: var(--border);
+}
+
+/* Settings page already has dedicated dark rules.
+   These shared rules extend the theme to other pages. */

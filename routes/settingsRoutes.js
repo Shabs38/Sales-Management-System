@@ -2,7 +2,9 @@ const express = require("express");
 
 const {
     getSettings,
-    updateSettings
+    updateSettings,
+    getUserTheme,
+    updateUserTheme
 } = require("../controllers/settingsController");
 
 const {
@@ -13,6 +15,11 @@ const {
 
 const router = express.Router();
 
+// Personal theme settings: managers and directors
+router.get("/theme", requireAuth, requireBusiness, getUserTheme);
+router.put("/theme", requireAuth, requireBusiness, updateUserTheme);
+
+// Business settings: directors only
 router.get("/", requireAuth, requireBusiness, requireDirector, getSettings);
 router.put("/", requireAuth, requireBusiness, requireDirector, updateSettings);
 

@@ -91,6 +91,18 @@ document.addEventListener("DOMContentLoaded", function () {
     const saleTotal =
         document.getElementById("saleTotal");
 
+    const saleSubtotal =
+        document.getElementById("saleSubtotal");
+
+    const saleDiscountAmount =
+        document.getElementById("saleDiscountAmount");
+
+    const discountType =
+        document.getElementById("discountType");
+
+    const discountValue =
+        document.getElementById("discountValue");
+
     const paymentMethod =
         document.getElementById("paymentMethod");
 
@@ -1194,93 +1206,71 @@ await window.appDialog.alert(
 
     function calculateSaleTotal() {
 
-        if (
-            !saleItems ||
-            !saleTotal
-        ) {
+        if (!saleItems || !saleTotal) return;
 
-            return;
+        let subtotal = 0;
 
+        const items = saleItems.querySelectorAll(".sale-item");
+
+        items.forEach(function (item) {
+
+            const productSelect = item.querySelector(".sale-product");
+            const quantityInput = item.querySelector(".sale-quantity");
+
+            if (!productSelect || !quantityInput) return;
+
+            const selectedOption =
+                productSelect.options[productSelect.selectedIndex];
+
+            if (!selectedOption || !selectedOption.value) return;
+
+            const price = Number(selectedOption.dataset.price) || 0;
+            const quantity = Number(quantityInput.value) || 0;
+
+            subtotal += price * quantity;
+        });
+
+        const type = discountType ? discountType.value : "fixed";
+        const value = discountValue ? Number(discountValue.value) : 0;
+
+        let discount = 0;
+
+        if (Number.isFinite(value) && value > 0) {
+            discount = type === "percentage"
+                ? subtotal * Math.min(value, 100) / 100
+                : value;
         }
 
+        discount = Math.min(discount, subtotal);
 
-        let total = 0;
+        const finalTotal = Math.max(0, subtotal - discount);
 
+        const formatMoney = amount =>
+            "₦" + amount.toLocaleString("en-NG", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
 
-        const items =
-            saleItems.querySelectorAll(
-                ".sale-item"
-            );
+        saleTotal.textContent = formatMoney(finalTotal);
 
+        if (saleSubtotal) {
+            saleSubtotal.textContent = formatMoney(subtotal);
+        }
 
-        items.forEach(
-            function (item) {
-
-                const productSelect =
-                    item.querySelector(
-                        ".sale-product"
-                    );
-
-
-                const quantityInput =
-                    item.querySelector(
-                        ".sale-quantity"
-                    );
-
-
-                if (
-                    !productSelect ||
-                    !quantityInput
-                ) {
-
-                    return;
-
-                }
-
-
-                const selectedOption =
-                    productSelect.options[
-                        productSelect.selectedIndex
-                    ];
-
-
-                if (
-                    !selectedOption ||
-                    !selectedOption.value
-                ) {
-
-                    return;
-
-                }
-
-
-                const price =
-                    Number(
-                        selectedOption.dataset.price
-                    ) || 0;
-
-
-                const quantity =
-                    Number(
-                        quantityInput.value
-                    ) || 0;
-
-
-                total +=
-                    price * quantity;
-
-            }
-        );
-
-
-        saleTotal.textContent =
-            "₦" +
-            total.toLocaleString(
-                "en-NG"
-            );
-
+        if (saleDiscountAmount) {
+            saleDiscountAmount.textContent = formatMoney(discount);
+        }
     }
 
+
+
+    if (discountType) {
+        discountType.addEventListener("change", calculateSaleTotal);
+    }
+
+    if (discountValue) {
+        discountValue.addEventListener("input", calculateSaleTotal);
+    }
 
     // =========================================
     // UPDATE PRODUCT STOCK LIMIT
@@ -1815,10 +1805,11 @@ if (saleItems) {
 
                   items: items,
 
-                    // Discount is disabled
-                    // in the current UI.
-                    discount:
-                        0,
+                    discount_type:
+                        discountType ? discountType.value : "fixed",
+
+                    discount_value:
+                        discountValue ? Number(discountValue.value) : 0,
 
                     payment_method:
                         paymentMethod.value,

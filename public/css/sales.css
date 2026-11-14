@@ -1298,3 +1298,343 @@ tr:hover {
     }
 
 }
+
+/* =========================================
+   SALES PAGE - PROFESSIONAL DARK MODE
+========================================= */
+
+body.dark-theme .sale-modal-content,
+body.dark-theme .sale-details-content {
+    background: #1f2937;
+    color: #f3f4f6;
+    border: 1px solid #374151;
+}
+
+body.dark-theme .sale-modal-header h2,
+body.dark-theme .sale-details-header h2,
+body.dark-theme .sale-details-products h3 {
+    color: #f9fafb;
+}
+
+body.dark-theme .sale-modal-header p,
+body.dark-theme .sale-details-header p {
+    color: #9ca3af;
+}
+
+body.dark-theme .close-sale-modal,
+body.dark-theme .close-details-button {
+    background: #374151;
+    color: #e5e7eb;
+    border: 1px solid #4b5563;
+}
+
+body.dark-theme .form-group label {
+    color: #e5e7eb;
+}
+
+body.dark-theme .form-group input,
+body.dark-theme .form-group select,
+body.dark-theme .sale-product-search,
+body.dark-theme .new-customer-form input {
+    background: #111827;
+    color: #f3f4f6;
+    border: 1px solid #4b5563;
+}
+
+body.dark-theme .form-group input::placeholder,
+body.dark-theme .sale-product-search::placeholder {
+    color: #9ca3af;
+}
+
+body.dark-theme .sale-item {
+    background: #273449;
+    border-color: #374151;
+}
+
+body.dark-theme .sale-total,
+body.dark-theme .sale-details-info,
+body.dark-theme .details-total {
+    background: #273449;
+    border: 1px solid #374151;
+}
+
+body.dark-theme .sale-total span,
+body.dark-theme .sale-details-info span,
+body.dark-theme .details-total span,
+body.dark-theme .details-product-row span {
+    color: #cbd5e1;
+}
+
+body.dark-theme .sale-total strong,
+body.dark-theme .details-total strong {
+    color: #5eead4;
+}
+
+body.dark-theme .sale-details-info strong,
+body.dark-theme .details-product-row strong {
+    color: #f9fafb;
+}
+
+body.dark-theme .details-product-row {
+    border-bottom-color: #374151;
+}
+
+body.dark-theme .cancel-sale-button {
+    background: #374151;
+    color: #f3f4f6;
+    border: 1px solid #4b5563;
+}
+
+body.dark-theme .customer-suggestions,
+body.dark-theme .sale-product-suggestions {
+    background: #1f2937;
+    border-color: #4b5563;
+}
+
+body.dark-theme .customer-suggestion,
+body.dark-theme .sale-product-suggestion {
+    background: #1f2937;
+    color: #f3f4f6;
+    border-bottom-color: #374151;
+}
+
+body.dark-theme .customer-suggestion:hover,
+body.dark-theme .sale-product-suggestion:hover,
+body.dark-theme .sale-product-suggestion:focus {
+    background: #374151;
+}
+
+body.dark-theme .sale-product-suggestion-details,
+body.dark-theme .sale-product-no-results {
+    color: #9ca3af;
+}
+
+body.dark-theme .sale-items-header h3,
+body.dark-theme .sale-items-section h3 {
+    color: #f3f4f6;
+}
+
+body.dark-theme .remove-item-button {
+    background: #542d35;
+    color: #fca5a5;
+}
+
+body.dark-theme .remove-item-button:hover {
+    background: #b91c1c;
+    color: #ffffff;
+}
+
+/* =========================================
+   SALES MODAL - COMPLETE DARK MODE POLISH
+   ========================================= */
+
+body.dark-theme .sale-modal {
+    background: rgba(3, 7, 18, 0.82);
+    backdrop-filter: blur(5px);
+}
+
+body.dark-theme .sale-modal-content {
+    background: #1f2937;
+    color: #f3f4f6;
+    border: 1px solid #374151;
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.45);
+}
+
+body.dark-theme .sale-modal-header {
+    border-bottom-color: #374151;
+}
+
+body.dark-theme .sale-modal-header h2,
+body.dark-theme .sale-items-header h3,
+body.dark-theme .new-customer-form h3 {
+    color: #f9fafb;
+}
+
+body.dark-theme .sale-modal-header p {
+    color: #9ca3af;
+}
+
+/* Labels and form controls */
+body.dark-theme .sale-modal-content .form-group label {
+    color: #dbe4ee;
+}
+
+body.dark-theme .sale-modal-content input,
+body.dark-theme .sale-modal-content select,
+body.dark-theme .sale-modal-content textarea {
+    background: #111827;
+    color: #f3f4f6;
+    border: 1px solid #4b5563;
+    border-radius: 8px;
+}
+
+body.dark-theme .sale-modal-content input::placeholder,
+body.dark-theme .sale-modal-content textarea::placeholder {
+    color: #8492a6;
+}
+
+body.dark-theme .sale-modal-content input:focus,
+body.dark-theme .sale-modal-content select:focus,
+body.dark-theme .sale-modal-content textarea:focus {
+    border-color: #32ad93;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(50, 173, 147, 0.16);
+}
+
+body.dark-theme .sale-modal-content select option {
+    background: #1f2937;
+    color: #f3f4f6;
+}
+
+/* New customer panel */
+body.dark-theme .new-customer-form {
+    background: #273449;
+    border: 1px solid #3b4a5e;
+    border-radius: 10px;
+}
+
+body.dark-theme .new-customer-form h3 {
+    border-bottom: 1px solid #3b4a5e;
+    padding-bottom: 12px;
+}
+
+/* Customer suggestions */
+body.dark-theme .customer-suggestions {
+    background: #1f2937;
+    border: 1px solid #4b5563;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+}
+
+body.dark-theme .customer-suggestion {
+    background: #1f2937;
+    color: #f3f4f6;
+    border-bottom: 1px solid #374151;
+}
+
+body.dark-theme .customer-suggestion strong {
+    color: #f9fafb;
+}
+
+body.dark-theme .customer-suggestion span,
+body.dark-theme .no-customer {
+    color: #aab7c7;
+}
+
+body.dark-theme .customer-suggestion:hover {
+    background: #334155;
+}
+
+/* Secondary and add-item buttons */
+body.dark-theme .secondary-button,
+body.dark-theme .cancel-sale-button {
+    background: #374151;
+    color: #e5e7eb;
+    border: 1px solid #4b5563;
+}
+
+body.dark-theme .secondary-button:hover,
+body.dark-theme .cancel-sale-button:hover {
+    background: #475569;
+    border-color: #64748b;
+    color: #ffffff;
+}
+
+body.dark-theme #addCustomerButton {
+    background: #08717d;
+    color: #ffffff;
+    border: 1px solid #0b8791;
+}
+
+body.dark-theme #addCustomerButton:hover {
+    background: #075967;
+}
+
+body.dark-theme .add-item-button {
+    background: #168b79;
+    color: #ffffff;
+    border: 1px solid #32ad93;
+}
+
+body.dark-theme .add-item-button:hover {
+    background: #08717d;
+}
+
+/* Primary action */
+body.dark-theme .sale-modal-content .primary-button {
+    background: #08717d;
+    color: #ffffff;
+    border: 1px solid #15949c;
+}
+
+body.dark-theme .sale-modal-content .primary-button:hover {
+    background: #075967;
+}
+
+/* Sale item rows */
+body.dark-theme .sale-item {
+    background: #273449;
+    border: 1px solid #3b4a5e;
+}
+
+body.dark-theme .sale-item label {
+    color: #dbe4ee;
+}
+
+body.dark-theme .remove-item-button {
+    background: #542d35;
+    color: #fca5a5;
+    border: 1px solid #713b46;
+}
+
+body.dark-theme .remove-item-button:hover {
+    background: #b91c1c;
+    color: #ffffff;
+}
+
+/* Discount and totals */
+body.dark-theme .sale-total {
+    background: #172b36;
+    border: 1px solid #28606a;
+    border-radius: 10px;
+}
+
+body.dark-theme .sale-total p {
+    color: #cbd5e1;
+}
+
+body.dark-theme .sale-total p strong {
+    color: #e2e8f0;
+    font-size: 15px;
+}
+
+body.dark-theme .sale-total > span {
+    color: #d1fae5;
+}
+
+body.dark-theme .sale-total > strong {
+    color: #5eead4;
+    font-size: 24px;
+}
+
+/* Close button and disabled controls */
+body.dark-theme .close-sale-modal {
+    background: #374151;
+    color: #e5e7eb;
+    border: 1px solid #4b5563;
+}
+
+body.dark-theme .close-sale-modal:hover {
+    background: #7f1d1d;
+    color: #ffffff;
+}
+
+body.dark-theme .sale-modal-content button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Consistent modal separators */
+body.dark-theme .sale-modal-content hr {
+    border-color: #374151;
+}

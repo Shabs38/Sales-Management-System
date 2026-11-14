@@ -2,7 +2,25 @@
 // REPORT PAGE
 // =====================================
 
+
 document.addEventListener("DOMContentLoaded", () => {
+    // MOBILE SIDEBAR
+    const sidebar = document.getElementById("sidebar");
+    const menuButton = document.getElementById("menuButton");
+    const sidebarOverlay = document.getElementById("sidebarOverlay");
+
+    if (sidebar && menuButton && sidebarOverlay) {
+        menuButton.addEventListener("click", () => {
+            sidebar.classList.add("active");
+            sidebarOverlay.classList.add("active");
+        });
+
+        sidebarOverlay.addEventListener("click", () => {
+            sidebar.classList.remove("active");
+            sidebarOverlay.classList.remove("active");
+        });
+    }
+
 
     // =====================================
     // DOM ELEMENTS
