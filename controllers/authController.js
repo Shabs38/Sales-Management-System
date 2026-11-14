@@ -14,57 +14,6 @@ async function login(req, res) {
       });
     }
 
-const host = new URL(process.env.DATABASE_URL).hostname;
-
-const columns = await pool.query(`
-  SELECT column_name
-  FROM information_schema.columns
-  WHERE table_name = 'users'
-  ORDER BY ordinal_position
-`);
-
-console.error('[CONNECTED_HOST]', host);
-console.error('[USERS_COLUMNS]', columns.rows);
-
-
- const dbCheck = await pool.query(`
-    SELECT
-        current_database() AS database_name,
-        current_schema() AS schema_name,
-        current_setting('search_path') AS search_path,
-        to_regclass('public.users') AS users_table,
-        EXISTS (
-            SELECT 1
-            FROM information_schema.columns
-            WHERE table_schema = 'public'
-              AND table_name = 'users'
-              AND column_name = 'business_id'
-        ) AS has_business_id
-`);
-
-let databaseHost = 'DATABASE_URL not configured';
-
-try {
-    if (process.env.DATABASE_URL) {
-        databaseHost = new URL(process.env.DATABASE_URL).hostname;
-    }
-} catch {
-    databaseHost = 'Unable to parse database hostname';
-}
-
-console.error(
-  "[DATABASE_URL_CHECK]",
-  process.env.DATABASE_URL?.replace(/:\/\/.*@/, "://***@")
-);
-
-
-console.error('[DATABASE_HOST_DIAGNOSTIC]', databaseHost);
-
-console.error(
-    '[LOGIN_DB_DIAGNOSTIC]',
-    JSON.stringify(dbCheck.rows[0])
-);
-
 
     const result = await pool.query(
       `SELECT id, full_name, username, email, password_hash, role,
