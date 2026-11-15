@@ -15,14 +15,52 @@ async function login(req, res) {
     }
 
 
-    const result = await pool.query(
-      `SELECT id, full_name, username, email, password_hash, role,
-                    is_active, business_id, is_platform_admin
-             FROM users
-             WHERE username = $1 OR email = $1
-             LIMIT 1`,
-      [username],
-    );
+    let client;
+    let result;
+
+    try {
+      client = await pool.connect();
+
+      const diagnostic = await client.query(`
+        SELECT
+          current_database() AS database_name,
+          current_user AS database_user,
+          current_schema() AS current_schema,
+          current_setting('search_path') AS search_path,
+          inet_server_addr()::text AS server_address,
+          to_regclass('users')::text AS resolved_users_table,
+          to_regclass('public.users')::text AS public_users_table,
+          (
+            SELECT COALESCE(
+              json_agg(a.attname ORDER BY a.attnum),
+              '[]'::json
+            )
+            FROM pg_catalog.pg_attribute a
+            WHERE a.attrelid = to_regclass('public.users')
+              AND a.attnum > 0
+              AND NOT a.attisdropped
+          ) AS physical_users_columns
+      `);
+
+      console.log(
+        "LOGIN CONNECTION DIAGNOSTIC:",
+        JSON.stringify(diagnostic.rows[0])
+      );
+
+      result = await client.query(
+        `SELECT id, full_name, username, email, password_hash, role,
+                is_active, business_id, is_platform_admin
+         FROM users
+         WHERE username = $1 OR email = $1
+         LIMIT 1`,
+        [username]
+      );
+
+    } finally {
+      if (client) {
+        client.release();
+      }
+    }
 
     if (result.rows.length === 0) {
       return res.status(401).json({
