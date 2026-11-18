@@ -25,6 +25,27 @@ const poolConfig = process.env.DATABASE_URL
           idleTimeoutMillis: 30000
       };
 
+
+const connectionSource = process.env.DATABASE_URL
+    ? "DATABASE_URL"
+    : "DB_HOST";
+
+let databaseHost = "unavailable";
+
+try {
+    databaseHost = process.env.DATABASE_URL
+        ? new URL(process.env.DATABASE_URL).hostname
+        : (process.env.DB_HOST || "unavailable");
+} catch {
+    databaseHost = "invalid connection URL";
+}
+
+console.log("DATABASE ENDPOINT DIAGNOSTIC:", JSON.stringify({
+    connection_source: connectionSource,
+    database_host: databaseHost,
+    environment: process.env.NODE_ENV || "not set"
+}));
+
 const pool = new Pool(poolConfig);
 
 pool.on("connect", () => {
